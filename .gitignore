@@ -1,23 +1,75 @@
-# Compiled class file
-*.class
+HELP.md
 
-# Log file
-*.log
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# BlueJ files
-*.ctxt
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/
 
-# Mobile Tools for Java (J2ME)
+### VS Code ###
+.vscode/
+
+##############################
+## Java
+##############################
 .mtj.tmp/
-
-# Package Files #
+*.class
 *.jar
 *.war
-*.nar
 *.ear
+*.nar
+hs_err_pid*
+
 *.zip
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+*.log
+
+*.ctxt
+
+context.xml
+
+fam/
+##############################
+## Maven
+##############################
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+pom.xml.bak
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+#####
+application.properties
+email.properties
+#####
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+out/
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+
+##############################
+## Docker
+##############################
+Dockerfile
+111docker-compose.yml
