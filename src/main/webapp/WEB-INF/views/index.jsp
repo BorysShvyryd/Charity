@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="fragments/header.jsp" flush="true"/>
 
@@ -59,48 +59,40 @@
         <h2>O nas</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas vitae animi rem pariatur incidunt libero
             optio esse quisquam illo omnis.</p>
-        <img src="<c:url value="../../resources/images/signature.svg"/>" class="about-us--text-signature" alt="Signature"/>
+        <img src="<c:url value="../../resources/images/signature.svg"/>" class="about-us--text-signature"
+             alt="Signature"/>
     </div>
-    <div class="about-us--image"><img src="<c:url value="../../resources/images/about-us.jpg"/>" alt="People in circle"/>
+    <div class="about-us--image"><img src="<c:url value="../../resources/images/about-us.jpg"/>"
+                                      alt="People in circle"/>
     </div>
 </section>
 
-<section class="help">
-    <h2>Komu pomagamy?</h2>
+<c:if test="${institutions.size()>0}">
+    <section class="help">
+        <h2>Komu pomagamy?</h2>
 
-    <!-- SLIDE 1 -->
-    <div class="help--slides active" data-id="1">
-        <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy.
-            Możesz sprawdzić czym się zajmują.</p>
+        <!-- SLIDE 1 -->
+        <div class="help--slides active" data-id="1">
+            <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy.
+                Możesz sprawdzić czym się zajmują.
+            </p>
 
-        <ul class="help--slides-items">
-            <li>
-                <div class="col">
-                    <div class="title">Fundacja "Dbam o Zdrowie"</div>
-                    <div class="subtitle">Cel i misja: Pomoc dzieciom z ubogich rodzin.</div>
-                </div>
+            <ul class="help--slides-items">
+                <c:forEach begin="0" end="${institutions.size()}" step="2" var="sample">
+                    <li>
+                        <c:forEach var="institution" items="${institutions}" begin="${sample}" end="${sample + 1}">
+                            <div class="col">
+                                <div class="title">${institution.name}</div>
+                                <div class="subtitle">${institution.description}</div>
+                            </div>
+                        </c:forEach>
+                    </li>
+                </c:forEach>
+            </ul>
 
-                <div class="col">
-                    <div class="title">Fundacja "A kogo"</div>
-                    <div class="subtitle">Cel i misja: Pomoc wybudzaniu dzieci ze śpiączki.</div>
-                </div>
-            </li>
+        </div>
 
-            <li>
-                <div class="col">
-                    <div class="title">Fundacja “Dla dzieci"</div>
-                    <div class="subtitle">Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji życiowej.</div>
-                </div>
-                <div class="col">
-                    <div class="title">Fundacja “Bez domu”</div>
-                    <div class="subtitle">Cel i misja: Pomoc dla osób nie posiadających miejsca zamieszkania</div>
-                </div>
-
-            </li>
-
-        </ul>
-    </div>
-
-</section>
+    </section>
+</c:if>
 
 <jsp:include page="fragments/footer.jsp" flush="true"/>
