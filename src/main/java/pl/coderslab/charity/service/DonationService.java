@@ -23,4 +23,8 @@ public class DonationService {
     public Long count() {
         return donationRepository.count();
     }
+
+    public void save(Donation donation) {
+        donationRepository.save(donation);
+    }
 }

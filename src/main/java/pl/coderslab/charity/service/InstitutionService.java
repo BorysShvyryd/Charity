@@ -23,4 +23,8 @@ public class InstitutionService {
                 .limit(4)
                 .collect(Collectors.toList());
     }
+
+    public List<Institution> findAll() {
+        return institutionRepository.findAll();
+    }
 }
