@@ -4,7 +4,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <footer>
-    <div class="contact">
+    <div class="contact" id="contact">
         <h2>Skontaktuj się z nami</h2>
         <h3>Formularz kontaktowy</h3>
         <form class="form--contact">
@@ -17,7 +17,7 @@
         </form>
     </div>
     <div class="bottom-line">
-        <span class="bottom-line--copy">Copyright &copy; 2018</span>
+        <span class="bottom-line--copy">Copyright &copy; 2021</span>
         <div class="bottom-line--icons">
             <a href="#" class="btn btn--small"><img src="<c:url value="../../../resources/images/icon-facebook.svg"/>"/></a>
             <a href="#" class="btn btn--small"><img src="<c:url value="../../../resources/images/icon-instagram.svg"/>"/></a>

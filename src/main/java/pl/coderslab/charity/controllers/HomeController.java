@@ -18,7 +18,6 @@ public class HomeController {
         this.donationService = donationService;
     }
 
-
     @RequestMapping("/")
     public String homeAction(Model model){
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
