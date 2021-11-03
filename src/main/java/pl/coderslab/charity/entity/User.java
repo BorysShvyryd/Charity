@@ -16,12 +16,13 @@ import java.util.Set;
 public class User implements UserDetails, Serializable, CredentialsContainer {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Email
     @NotBlank
     @Size(max = 128)
-    @Column(length = 128)
+    @Column(nullable = false, unique = true, length = 128)
     private String name;
 
     @NotBlank(message = "{javax.validation.constraints.NotBlank.message}")

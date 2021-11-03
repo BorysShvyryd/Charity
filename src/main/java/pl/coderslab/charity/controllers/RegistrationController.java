@@ -6,16 +6,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.charity.entity.User;
-import pl.coderslab.charity.service.UserService;
+import pl.coderslab.charity.service.UserServiceImpl;
 
 import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public RegistrationController(UserService userService) {
+    public RegistrationController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
