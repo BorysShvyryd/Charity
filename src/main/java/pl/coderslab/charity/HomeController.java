@@ -23,7 +23,7 @@ public class HomeController {
     public String homeAction(Model model){
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
         model.addAttribute("allBagsReturned", donationService.sumOfAllBagsReturned());
-        model.addAttribute("allBagsReturned", donationService.());
+        model.addAttribute("countDonations", donationService.count());
         return "index";
     }
 }
