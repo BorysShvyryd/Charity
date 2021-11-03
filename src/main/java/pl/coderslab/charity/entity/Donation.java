@@ -29,14 +29,17 @@ public class Donation {
 
     @NotBlank
     @Size(max = 128)
+    @Column(length = 128)
     private String street;
 
     @NotBlank
     @Size(max = 128)
+    @Column(length = 128)
     private String city;
 
     @NotBlank
     @Size(max = 8)
+    @Column(length = 8)
     private String zipCode;
 
     @NotBlank

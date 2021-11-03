@@ -1,9 +1,6 @@
 package pl.coderslab.charity.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -16,6 +13,7 @@ public class Institution {
 
     @NotBlank
     @Size(max = 128)
+    @Column(length = 128)
     private String name;
 
     private String description;
