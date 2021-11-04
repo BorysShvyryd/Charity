@@ -10,4 +10,9 @@ public class LoginController {
     public String loginForm() {
         return "login";
     }
+
+    @GetMapping("/login/403")
+    public String error403() {
+        return "403";
+    }
 }
