@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,15 +17,15 @@ public class Donation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private int quantity;
+    @NotNull
+    private Integer quantity;
 
     @ManyToMany
-    @NotBlank
+    @NotNull
     private List<Category> categories;
 
     @OneToOne
-    @NotBlank
+    @NotNull
     private Institution institution;
 
     @NotBlank
@@ -43,10 +44,13 @@ public class Donation {
     private String zipCode;
 
     @NotBlank
+    private String phone;
+
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
 
-    @NotBlank
+    @NotNull
     private LocalTime pickUpTime;
 
     private String pickUpComment;
@@ -105,6 +109,14 @@ public class Donation {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public LocalDate getPickUpDate() {
