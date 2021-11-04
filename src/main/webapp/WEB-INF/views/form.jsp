@@ -104,7 +104,7 @@
                             <input type="radio" name="institution" value="${institution.id}" id="input-organization"/>
                             <span class="checkbox radio"></span>
                             <span class="description">
-                            <div class="title" id="input-organization-name">
+                            <div class="title" id="input-organization-name${institution.id}">
                                     ${institution.name}
                             </div>
                             <div class="subtitle">
@@ -220,8 +220,17 @@
 
                     function summaryForm() {
 
+                        let index = document.querySelectorAll('input[name="institution"]');
+                        let selectedValue;
+                        for (const i of index) {
+                            if (i.checked) {
+                                selectedValue = i.value;
+                                break;
+                            }
+                        }
+
                         let input_number_bags = document.getElementById("input-number-bags");
-                        let input_organization = document.getElementById("input-organization-name");
+                        let input_organization = document.getElementById("input-organization-name" + selectedValue);
                         let input_address = document.getElementById("input-address");
                         let input_city = document.getElementById("input-city");
                         let input_postcode = document.getElementById("input-postcode");
