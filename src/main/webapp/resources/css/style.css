@@ -649,7 +649,7 @@ form .form-group--checkbox .description .title {
 form .form-group--checkbox .description .subtitle {
   font-family: 'Merriweather', serif;
   font-weight: 300;
-  font-style: light;
+  font-style: normal;/* ligth */
   font-size: 1.2rem;
 }
 
@@ -1475,7 +1475,7 @@ header nav ul li:last-of-type {
 .help--slides-items .col .subtitle {
   font-family: 'Merriweather', serif;
   font-weight: 300;
-  font-style: light;
+  font-style: normal; /* ligth */
   font-size: 1.2rem;
 }
 

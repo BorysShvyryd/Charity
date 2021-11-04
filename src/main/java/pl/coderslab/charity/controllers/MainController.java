@@ -37,4 +37,14 @@ public class MainController {
         donationService.save(donation);
         return "form-confirmation";
     }
+
+    @GetMapping("/403")
+    public String error403() {
+        return "403";
+    }
+
+    @GetMapping("/main")
+    public String test() {
+        return "403";
+    }
 }

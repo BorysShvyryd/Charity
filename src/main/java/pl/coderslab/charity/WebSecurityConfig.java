@@ -29,15 +29,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/register/**", "/login/**", "/charity/**").not().fullyAuthenticated()
+                .antMatchers("/register/**", "/login/**", "/charity").not().fullyAuthenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/main/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/", "/resources/**", "/login/**").permitAll()
+                .antMatchers("/", "/charity", "/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/main")
+                .defaultSuccessUrl("/main", true)
                 .permitAll()
                 .and()
                 .logout()
@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/login/403");
+                .accessDeniedPage("/403");
     }
 
     @Override
