@@ -51,7 +51,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><button>Dodaj</button></td>
+            <td><button onclick="document.location='/admin/category/add'">Dodaj</button></td>
         </tr>
         </tbody>
     </table>
