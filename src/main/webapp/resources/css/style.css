@@ -529,6 +529,45 @@ form .form-group {
   margin-bottom: 20px;
 }
 
+/* line ??, scss/modules/_forms.scss */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  /*max-height: 10px;*/
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #858796;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #e3e6f0;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #e3e6f0;
+  background: lightgrey;
+  color: black;
+}
+
+.table tbody + tbody {
+  border-top: 2px solid #e3e6f0;
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive > .table-bordered {
+  border: 0;
+}
+
 /* line 10, scss/modules/_forms.scss */
 form .form-group input:not([type="checkbox"]):not([type="radio"]),
 form .form-group textarea {

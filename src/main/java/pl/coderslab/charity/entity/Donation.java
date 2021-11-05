@@ -55,6 +55,10 @@ public class Donation {
 
     private String pickUpComment;
 
+    @NotNull
+    @ManyToOne
+    private User user;
+
     public Long getId() {
         return id;
     }
@@ -141,5 +145,17 @@ public class Donation {
 
     public void setPickUpComment(String pickUpComment) {
         this.pickUpComment = pickUpComment;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

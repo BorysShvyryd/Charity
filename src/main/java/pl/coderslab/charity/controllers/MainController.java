@@ -41,8 +41,12 @@ public class MainController {
     @PostMapping("/charity")
     public String charitySubmit(Donation donation, Principal principal, Model model) {
 
-        donationService.save(donation);
         if (principal != null) {
+
+            User user = userService.findByUserName(principal.getName());
+            donation.setUser(user);
+            donationService.save(donation);
+
             emailService.SendEmail(principal.getName(), "Service CHARITY"
                     ,"\t\tPodsumowanie Twojej darowizny\n"
             + "\t Oddajesz:\n"
@@ -55,7 +59,7 @@ public class MainController {
             + "\t\t" + donation.getPhone() + "\n");
         }
 
-        model.addAttribute("errorText"
+        model.addAttribute("textMessage"
                 , "<p>Dziękujemy za przesłanie formularza.</p>" +
                         "<p>Na maila prześlemy wszelkie informacje o odbiorze.</p>");
 
@@ -90,9 +94,19 @@ public class MainController {
         currentUser.setPassword(user.getPassword());
         userService.save(currentUser);
 
-        model.addAttribute("errorText", "Hasło zostało pomyślnie zmienione.");
+        model.addAttribute("textMessage", "Hasło zostało pomyślnie zmienione.");
 
         return "form-confirmation";
+    }
+
+    @GetMapping("/charity/list-bag")
+    public String listBagsForm(Model model, Principal principal) {
+
+        if (principal != null) {
+            User user = userService.findByUserName(principal.getName());
+            model.addAttribute("donationsList", donationService.findAllByUser(user));
+        }
+        return "list-bags-form";
     }
 
     @GetMapping("/main")

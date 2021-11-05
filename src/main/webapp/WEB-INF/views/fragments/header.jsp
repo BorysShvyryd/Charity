@@ -10,5 +10,6 @@
     <title>Charity</title>
 
     <link rel="stylesheet" href="<c:url value="../../../resources/css/style.css"/>" type="text/css"/>
+<%--    <link rel="stylesheet" href="<c:url value="../../../resources/css/sb-admin-2.css"/>" type="text/css"/>--%>
 </head>
 <body>

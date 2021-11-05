@@ -2,7 +2,10 @@ package pl.coderslab.charity.service;
 
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.entity.Donation;
+import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.repository.DonationRepository;
+
+import java.util.List;
 
 @Service
 public class DonationService {
@@ -26,5 +29,13 @@ public class DonationService {
 
     public void save(Donation donation) {
         donationRepository.save(donation);
+    }
+
+    public List<Donation> findAll() {
+        return donationRepository.findAll();
+    }
+
+    public List<Donation> findAllByUser(User user) {
+        return donationRepository.findAllByUser(user);
     }
 }

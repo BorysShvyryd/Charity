@@ -7,7 +7,7 @@
 
     <div class="slogan container container--90">
         <h2>
-            ${errorText}
+            ${textMessage}
         </h2>
     </div>
 </header>
