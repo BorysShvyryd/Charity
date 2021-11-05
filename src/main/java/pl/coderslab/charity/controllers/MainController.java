@@ -30,8 +30,8 @@ public class MainController {
     @GetMapping("/charity")
     public String charity(Model model) {
 
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("institutions", institutionService.findAll());
+        model.addAttribute("categories", categoryService.findAllActive());
+        model.addAttribute("institutions", institutionService.findAllActive());
         model.addAttribute("donation", new Donation());
         return "form";
     }

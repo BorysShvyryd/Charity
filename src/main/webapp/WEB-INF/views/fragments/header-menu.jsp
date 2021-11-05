@@ -32,7 +32,7 @@
             <li><a href="/#contact" class="btn btn--without-border">Kontakt</a></li>
         </sec:authorize>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <li><a href="#" class="btn btn--without-border">Lista kategorii</a></li>
+            <li><a href="/admin/category-list" class="btn btn--without-border">Lista kategorii</a></li>
             <li><a href="#" class="btn btn--without-border">Lista fundacji</a></li>
             <li><a href="#" class="btn btn--without-border">Lista użytkowników</a></li>
             <li><a href="#" class="btn btn--without-border">Lista darów</a></li>

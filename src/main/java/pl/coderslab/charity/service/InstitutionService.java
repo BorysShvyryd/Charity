@@ -27,4 +27,8 @@ public class InstitutionService {
     public List<Institution> findAll() {
         return institutionRepository.findAll();
     }
+
+    public List<Institution> findAllActive() {
+        return institutionRepository.findAllByStatusOrderByStatus(true);
+    }
 }

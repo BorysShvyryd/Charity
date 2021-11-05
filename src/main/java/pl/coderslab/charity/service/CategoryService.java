@@ -18,4 +18,16 @@ public class CategoryService {
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    public List<Category> findAllActive() {
+        return categoryRepository.findAllByStatusOrderByStatus(true);
+    }
+
+    public Category getById(Long id) {
+        return categoryRepository.getById(id);
+    }
+
+    public void save(Category category) {
+        categoryRepository.save(category);
+    }
 }

@@ -16,6 +16,8 @@ public class Category {
     @Column(length = 64)
     private String name;
 
+    private Boolean status;
+
     public Long getId() {
         return id;
     }
@@ -30,5 +32,13 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

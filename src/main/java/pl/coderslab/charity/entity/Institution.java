@@ -18,6 +18,8 @@ public class Institution {
 
     private String description;
 
+    private Boolean status;
+
     public Long getId() {
         return id;
     }
@@ -40,5 +42,13 @@ public class Institution {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }
