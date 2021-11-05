@@ -10,6 +10,7 @@ import pl.coderslab.charity.repository.UserRepository;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -31,6 +32,11 @@ public class UserServiceImpl implements UserService{
         user.setEnabled(1);
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoleSet(new HashSet<Role>(Arrays.asList(userRole)));
+        if (userRepository.count() == 0) {
+            Set<Role> roles = user.getRoleSet();
+            roles.add(roleRepository.findByName("ROLE_ADMIN"));
+            user.setRoleSet(roles);
+        }
         userRepository.save(user);
     }
 

@@ -2,14 +2,12 @@ package pl.coderslab.charity.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.charity.entity.Donation;
 import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -107,10 +105,5 @@ public class MainController {
             model.addAttribute("donationsList", donationService.findAllByUser(user));
         }
         return "list-bags-form";
-    }
-
-    @GetMapping("/main")
-    public String test() {
-        return "403";
     }
 }
