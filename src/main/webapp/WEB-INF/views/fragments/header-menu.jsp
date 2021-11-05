@@ -23,6 +23,7 @@
             <li><a href="/profile" class="btn btn--without-border">Mój profil</a></li>
         </sec:authorize>
         <sec:authorize access="!isAuthenticated()">
+            <li><a href="/" class="btn btn--without-border">Główna</a></li>
             <li><a href="/#steps" class="btn btn--without-border">O co chodzi?</a></li>
             <li><a href="/#about-us" class="btn btn--without-border">O nas</a></li>
             <li><a href="/#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
