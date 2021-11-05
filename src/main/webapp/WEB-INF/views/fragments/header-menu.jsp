@@ -11,7 +11,7 @@
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
         <ul class="nav--actions">
-            <li><a href="#">${pageContext.request.userPrincipal.name}</a></li>
+            <li><a href="/profile">${pageContext.request.userPrincipal.name}</a></li>
             <li class="highlighted"><a href="/logout">Wyloguj</a></li>
         </ul>
     </sec:authorize>
