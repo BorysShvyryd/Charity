@@ -33,7 +33,9 @@
         <c:forEach var="donation" items="${donationsList}">
             <tr>
                 <td><c:out value="${donation.id}"/></td>
-                <td><c:out value="${donation.categories}"/></td>
+                <td><c:forEach var="category" items="${donation.categories}">
+                    <c:out value="${category.name}, "/>
+                </c:forEach></td>
                 <td><c:out value="${donation.quantity}"/></td>
                 <td><c:out value="${donation.institution.name}"/></td>
                 <td><c:out value="${donation.street}"/></td>
@@ -51,22 +53,6 @@
         </tbody>
     </table>
     </div>
-    <%--    <form method="post">--%>
-    <%--        <div class="form-group">--%>
-    <%--            <input type="email" name="username" placeholder="Email" />--%>
-    <%--        </div>--%>
-    <%--        <div class="form-group">--%>
-    <%--            <input type="password" name="password" placeholder="Hasło" />--%>
-    <%--            <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>--%>
-    <%--        </div>--%>
-    <%----%>
-    <%--        <div class="form-group form-group--buttons">--%>
-    <%--            <a href="/register" class="btn btn--without-border">Załóż konto</a>--%>
-    <%--            <button class="btn" type="submit">Zaloguj się</button>--%>
-    <%--        </div>--%>
-    <%----%>
-    <%--        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
-    <%--    </form>--%>
 </section>
 
 <jsp:include page="fragments/footer.jsp" flush="true"/>
