@@ -21,13 +21,22 @@
         <sec:authorize access="isAuthenticated()">
             <li><a href="/charity" class="btn btn--without-border active">Start</a></li>
             <li><a href="/charity/list-bag" class="btn btn--without-border">Lista moich darów</a></li>
-            <li><a href="/profile" class="btn btn--without-border">Mój profil</a></li>
+            <sec:authorize access="!hasRole('ROLE_ADMIN')">
+                <li><a href="/profile" class="btn btn--without-border">Mój profil</a></li>
+            </sec:authorize>
         </sec:authorize>
         <sec:authorize access="!isAuthenticated()">
             <li><a href="/#steps" class="btn btn--without-border">O co chodzi?</a></li>
             <li><a href="/#about-us" class="btn btn--without-border">O nas</a></li>
             <li><a href="/#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
             <li><a href="/#contact" class="btn btn--without-border">Kontakt</a></li>
+        </sec:authorize>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <li><a href="#" class="btn btn--without-border">Lista kategorii</a></li>
+            <li><a href="#" class="btn btn--without-border">Lista fundacji</a></li>
+            <li><a href="#" class="btn btn--without-border">Lista użytkowników</a></li>
+            <li><a href="#" class="btn btn--without-border">Lista darów</a></li>
+            <li><a href="#" class="btn btn--without-border">Lista wiadomości</a></li>
         </sec:authorize>
     </ul>
 </nav>
