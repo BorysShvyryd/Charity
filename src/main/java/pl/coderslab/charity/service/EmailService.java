@@ -10,11 +10,15 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.*;
 import java.util.Properties;
+import java.util.UUID;
 
 @Service
 public class EmailService {
 
     private final static String PROPERTIES_FILE = "src/main/resources/email.properties";
+    private static final String AlphaString = "0123456789"
+            + "QWERTYUIOPASDFGHJKLZXCVBNM"
+            + "qwertyuiopasdfghjklzxcvbnm";
 
     private Message message        = null;
     protected  static  String   SMTP_AUTH_USER = null;
@@ -105,5 +109,20 @@ public class EmailService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public String getToken() {
+
+        StringBuilder sb = new StringBuilder(64);
+
+        for (int i = 0; i < 64; i++) {
+            int index = (int) (AlphaString.length() * Math.random());
+            sb.append(AlphaString.charAt(index));
+        }
+        return sb.toString();
+    }
+
+    public String getUUID() {
+        return UUID.randomUUID().toString();
     }
 }
