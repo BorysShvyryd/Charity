@@ -36,6 +36,7 @@
                 </c:choose>
                 <td>
                     <button onclick="document.location='/admin/category/edit?id=${category.id}'">Edytuj</button>
+                    <button onclick="document.location='/admin/category/delete?id=${category.id}'">Usuń</button>
                     <c:choose>
                         <c:when test="${category.status}">
                             <button onclick="document.location='/admin/category/status?id=${category.id}'">Deaktywuj</button>
