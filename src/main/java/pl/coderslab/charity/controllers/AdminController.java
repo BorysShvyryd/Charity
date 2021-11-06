@@ -1,6 +1,5 @@
 package pl.coderslab.charity.controllers;
 
-import org.hibernate.type.LocalDateTimeType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,14 +27,16 @@ public class AdminController {
     private final UserService userService;
     private final CharityMessageService charityMessageService;
     private final RoleRepository roleRepository;
+    private final EmailService emailService;
 
-    public AdminController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository) {
+    public AdminController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository, EmailService emailService) {
         this.categoryService = categoryService;
         this.institutionService = institutionService;
         this.donationService = donationService;
         this.userService = userService;
         this.charityMessageService = charityMessageService;
         this.roleRepository = roleRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping("/category/list")
@@ -321,16 +322,25 @@ public class AdminController {
         donation.setStatus((byte) 1);
         donation.setDateTimeReceived(LocalDateTime.now());
         donationService.save(donation);
+        emailService.SendEmail(donation.getUser().getName(),
+                "Service CHARITY",
+                "Twój prezent został odebrany: " + donation.getDateTimeReceived()
+                        + "\nDziękuję, że nie jesteś obojętny.");
         return "redirect:/admin/donations/list";
     }
 
     @GetMapping("/donations/transfer")
-    public String transferSave(@RequestParam Long id, Model model) {
+    public String transferSave(@RequestParam Long id) {
 
         Donation donation = donationService.getById(id);
         donation.setStatus((byte) 2);
         donation.setDateTimeTransmitted(LocalDateTime.now());
         donationService.save(donation);
+        emailService.SendEmail(donation.getUser().getName(),
+                "Service CHARITY",
+                "Twój prezent został dostarczony do " + donation.getInstitution().getName()
+                        + ": " + donation.getDateTimeTransmitted()
+                        + "\nDziękuję, że nie jesteś obojętny.");
         return "redirect:/admin/donations/list";
     }
 
