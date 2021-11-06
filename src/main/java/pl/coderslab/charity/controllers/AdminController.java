@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.entity.Category;
 import pl.coderslab.charity.entity.Institution;
+import pl.coderslab.charity.entity.Role;
 import pl.coderslab.charity.entity.User;
+import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.service.CategoryService;
 import pl.coderslab.charity.service.CharityMessageService;
 import pl.coderslab.charity.service.InstitutionService;
@@ -17,7 +19,10 @@ import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -27,12 +32,14 @@ public class AdminController {
     private final InstitutionService institutionService;
     private final UserService userService;
     private final CharityMessageService charityMessageService;
+    private final RoleRepository roleRepository;
 
-    public AdminController(CategoryService categoryService, InstitutionService institutionService, UserService userService, CharityMessageService charityMessageService) {
+    public AdminController(CategoryService categoryService, InstitutionService institutionService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository) {
         this.categoryService = categoryService;
         this.institutionService = institutionService;
         this.userService = userService;
         this.charityMessageService = charityMessageService;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping("/category/list")
@@ -234,5 +241,30 @@ public class AdminController {
                     "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
             return "form-confirmation";
         }
+    }
+
+    @GetMapping("/users/role")
+    public String changeAdminRole(@RequestParam Long id, Model model) {
+
+        User user = userService.findById(id);
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        Set<Role> roleSet = user.getRoleSet();
+
+        if (roleSet.contains(adminRole)) {
+            if (userService.countAdmin() <= 1) {
+                model.addAttribute("textMessage", "<p>Jesteś jedynym administratorem.</p>" +
+                        "<p>To nie jest dla Ciebie dostępne.</p>" +
+                        "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+                return "form-confirmation";
+            } else {
+                roleSet.remove(adminRole);
+            }
+        } else {
+            roleSet.add(adminRole);
+        }
+
+        user.setRoleSet(roleSet);
+        userService.update(user);
+        return "redirect:/admin/users/list";
     }
 }

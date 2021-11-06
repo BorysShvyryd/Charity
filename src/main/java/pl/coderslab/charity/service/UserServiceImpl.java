@@ -28,11 +28,11 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(1);
         Role userRole = roleRepository.findByName("ROLE_USER");
-        user.setRoleSet(new HashSet<Role>(Arrays.asList(userRole)));
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(userRole);
         if (userRepository.count() == 0) {
-            Set<Role> roles = user.getRoleSet();
-            roles.add(roleRepository.findByName("ROLE_ADMIN"));
-            user.setRoleSet(roles);
+            roleSet.add(roleRepository.findByName("ROLE_ADMIN"));
+            user.setRoleSet(roleSet);
         }
         userRepository.save(user);
     }
@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public void delete(User user) {
         userRepository.delete(user);
+    }
+
+    @Override
+    public int countAdmin() {
+        return userRepository.countAllByRoleSetContaining(roleRepository.findByName("ROLE_ADMIN"));
     }
 
     @Override
