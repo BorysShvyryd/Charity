@@ -35,7 +35,7 @@
                     </c:otherwise>
                 </c:choose>
                 <td>
-                    <button>Edytuj</button>
+                    <button onclick="document.location='/admin/category/edit?id=${category.id}'">Edytuj</button>
                     <c:choose>
                         <c:when test="${category.status}">
                             <button onclick="document.location='/admin/category/status?id=${category.id}'">Deaktywuj</button>

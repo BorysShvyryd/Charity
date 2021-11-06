@@ -11,7 +11,7 @@
 </header>
 
 <section class="login-page">
-    <h2>Dodaj kategorii</h2>
+    <h2>${title_form}</h2>
     <form:form modelAttribute="category" method="post">
 
         <form:hidden path="id"/>

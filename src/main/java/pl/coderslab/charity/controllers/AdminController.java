@@ -11,7 +11,6 @@ import pl.coderslab.charity.entity.Category;
 import pl.coderslab.charity.service.CategoryService;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -46,6 +45,7 @@ public class AdminController {
 
         Category category = new Category();
         model.addAttribute("category", category);
+        model.addAttribute("title_form", "Dodaj kategorii");
         return "category-add-form";
     }
 
@@ -56,6 +56,26 @@ public class AdminController {
             return "redirect:/admin/category/add";
         }
         category.setStatus(true);
+        categoryService.save(category);
+
+        return "redirect:/admin/category-list";
+    }
+
+    @GetMapping("/category/edit")
+    public String categoryEditForm(@RequestParam Long id, Model model) {
+
+        Category category = categoryService.getById(id);
+        model.addAttribute("category", category);
+        model.addAttribute("title_form", "Edytuj kategorii");
+        return "category-add-form";
+    }
+
+    @PostMapping("/category/edit")
+    public String categoryEditSubmit(@Valid Category category, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/admin/category/edit";
+        }
         categoryService.save(category);
 
         return "redirect:/admin/category-list";
