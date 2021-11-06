@@ -18,7 +18,7 @@
             <th>ID</th>
             <th>NAZWA</th>
             <th>STATUS</th>
-            <th>ROLA</th>
+            <th>ROLA<a href="/admin/users/list-admin"> (❎</a> admin<a href="/admin/users/list"> ❌</a>)</th>
             <th>AKCJE</th>
         </tr>
         </thead>

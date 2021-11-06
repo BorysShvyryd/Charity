@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import pl.coderslab.charity.entity.Role;
 import pl.coderslab.charity.entity.User;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,6 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u where u.name = :userEmail")
     Optional<User> findByUsername(@Param("userEmail") String userEmail);
+
+    List<User> findAllByRoleSetContains(Role role);
 
     int countAllByRoleSetContaining(Role role);
 }

@@ -12,6 +12,8 @@ public interface UserService {
 
     List<User> findAll();
 
+    List<User> findAllAdmins();
+
     User findById(Long id);
 
     void save(User user);

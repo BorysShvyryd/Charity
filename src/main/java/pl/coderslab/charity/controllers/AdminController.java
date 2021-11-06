@@ -197,6 +197,14 @@ public class AdminController {
         return "admin-users-list";
     }
 
+    @GetMapping("/users/list-admin")
+    public String adminListForm(Model model) {
+
+        List<User> users = userService.findAllAdmins();
+        model.addAttribute("users", users);
+        return "admin-users-list";
+    }
+
     @GetMapping("/users/status")
     public String statusUserChange(@RequestParam Long id, Principal principal, Model model) {
 
