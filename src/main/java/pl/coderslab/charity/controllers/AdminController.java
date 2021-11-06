@@ -214,60 +214,25 @@ public class AdminController {
         return "redirect:/admin/users/list";
     }
 
-//    @GetMapping("/institution/add")
-//    public String institutionAddForm(Model model) {
-//
-//        Institution institution = new Institution();
-//        model.addAttribute("institution", institution);
-//        model.addAttribute("title_form", "Dodaj fundacji");
-//        return "institution-add-form";
-//    }
-//
-//    @PostMapping("/institution/add")
-//    public String institutionAddSubmit(@Valid Institution institution, BindingResult bindingResult) {
-//
-//        if (bindingResult.hasErrors()) {
-//            return "redirect:/admin/institution/add";
-//        }
-//        institution.setStatus(true);
-//        institutionService.save(institution);
-//
-//        return "redirect:/admin/institution/list";
-//    }
-//
-//    @GetMapping("/institution/edit")
-//    public String institutionEditForm(@RequestParam Long id, Model model) {
-//
-//        Institution institution = institutionService.getById(id);
-//        model.addAttribute("institution", institution);
-//        model.addAttribute("title_form", "Edytuj fundacji");
-//        return "institution-add-form";
-//    }
-//
-//    @PostMapping("/institution/edit")
-//    public String institutionEditSubmit(@Valid Institution institution, BindingResult bindingResult) {
-//
-//        if (bindingResult.hasErrors()) {
-//            return "redirect:/admin/institution/edit";
-//        }
-//        institutionService.save(institution);
-//
-//        return "redirect:/admin/institution/list";
-//    }
-//
-//    @GetMapping("/institution/delete")
-//    public String institutionDeleteForm(@RequestParam Long id, Model model) {
-//
-//        Institution institution = institutionService.getById(id);
-//
-//        try {
-//            institutionService.delete(institution);
-//            return "redirect:/admin/institution/list";
-//        } catch (RuntimeException ex) {
-//            model.addAttribute("textMessage", "<p>Ta fundacja zawiera powiązane wpisy.</p>" +
-//                    "<p>Można go dezaktywować.</p>" +
-//                    "<p><a href=\"/admin/institution/list\" class=\"btn btn--without-border\">Powrót</a></p>");
-//            return "form-confirmation";
-//        }
-//    }
+    @GetMapping("/users/delete")
+    public String userDeleteForm(@RequestParam Long id, Model model, Principal principal) {
+
+        User user = userService.findById(id);
+        User currentUser = userService.findByUserName(principal.getName());
+
+        if (user.getId().equals(currentUser.getId())) {
+            model.addAttribute("textMessage", "<p>Nie możesz usunąć swojego profilu.</p>" +
+                    "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+            return "form-confirmation";
+        }
+
+        try {
+            userService.delete(user);
+            return "redirect:/admin/users/list";
+        } catch (RuntimeException ex) {
+            model.addAttribute("textMessage", "<p>Ten użytkownik ma powiązane wpisy.</p>" +
+                    "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+            return "form-confirmation";
+        }
+    }
 }

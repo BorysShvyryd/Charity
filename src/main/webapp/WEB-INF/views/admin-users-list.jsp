@@ -41,7 +41,6 @@
                     </c:forEach>
                 </td>
                 <td>
-                    <button onclick="document.location='/admin/users/edit?id=${user.id}'">Edytuj</button>
                     <button onclick="document.location='/admin/users/delete?id=${user.id}'">Usuń</button>
                     <c:choose>
                         <c:when test="${user.enabled}">
