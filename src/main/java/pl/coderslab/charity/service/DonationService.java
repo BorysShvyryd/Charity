@@ -38,4 +38,8 @@ public class DonationService {
     public List<Donation> findAllByUser(User user) {
         return donationRepository.findAllByUser(user);
     }
+
+    public Donation getById(Long id) {
+        return donationRepository.getById(id);
+    }
 }

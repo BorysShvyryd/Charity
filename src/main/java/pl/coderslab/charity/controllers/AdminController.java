@@ -1,5 +1,6 @@
 package pl.coderslab.charity.controllers;
 
+import org.hibernate.type.LocalDateTimeType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,15 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.entity.*;
 import pl.coderslab.charity.repository.RoleRepository;
-import pl.coderslab.charity.service.CategoryService;
-import pl.coderslab.charity.service.CharityMessageService;
-import pl.coderslab.charity.service.InstitutionService;
-import pl.coderslab.charity.service.UserService;
+import pl.coderslab.charity.service.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -27,13 +24,15 @@ public class AdminController {
 
     private final CategoryService categoryService;
     private final InstitutionService institutionService;
+    private final DonationService donationService;
     private final UserService userService;
     private final CharityMessageService charityMessageService;
     private final RoleRepository roleRepository;
 
-    public AdminController(CategoryService categoryService, InstitutionService institutionService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository) {
+    public AdminController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository) {
         this.categoryService = categoryService;
         this.institutionService = institutionService;
+        this.donationService = donationService;
         this.userService = userService;
         this.charityMessageService = charityMessageService;
         this.roleRepository = roleRepository;
@@ -112,7 +111,8 @@ public class AdminController {
             return "form-confirmation";
         }
     }
-   //***************************************
+
+    //***************************************
     @GetMapping("/institution/list")
     public String institutionListForm(Model model) {
 
@@ -304,4 +304,34 @@ public class AdminController {
             return "form-confirmation";
         }
     }
+
+    //***************************************
+    @GetMapping("/donations/list")
+    public String donationsListForm(Model model) {
+
+        List<Donation> donations = donationService.findAll();
+        model.addAttribute("donations", donations);
+        return "admin-donations-list";
+    }
+
+    @GetMapping("/donations/devoted")
+    public String devotedSave(@RequestParam Long id) {
+
+        Donation donation = donationService.getById(id);
+        donation.setStatus((byte) 1);
+        donation.setDateTimeReceived(LocalDateTime.now());
+        donationService.save(donation);
+        return "redirect:/admin/donations/list";
+    }
+
+    @GetMapping("/donations/transfer")
+    public String transferSave(@RequestParam Long id, Model model) {
+
+        Donation donation = donationService.getById(id);
+        donation.setStatus((byte) 2);
+        donation.setDateTimeTransmitted(LocalDateTime.now());
+        donationService.save(donation);
+        return "redirect:/admin/donations/list";
+    }
+
 }

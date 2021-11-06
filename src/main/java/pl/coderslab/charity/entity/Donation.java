@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -58,6 +59,12 @@ public class Donation {
     @NotNull
     @ManyToOne
     private User user;
+
+    private byte status;
+
+    private LocalDateTime dateTimeReceived;
+
+    private LocalDateTime dateTimeTransmitted;
 
     public Long getId() {
         return id;
@@ -157,5 +164,29 @@ public class Donation {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(byte status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getDateTimeReceived() {
+        return dateTimeReceived;
+    }
+
+    public void setDateTimeReceived(LocalDateTime dateTimeReceived) {
+        this.dateTimeReceived = dateTimeReceived;
+    }
+
+    public LocalDateTime getDateTimeTransmitted() {
+        return dateTimeTransmitted;
+    }
+
+    public void setDateTimeTransmitted(LocalDateTime dateTimeTransmitted) {
+        this.dateTimeTransmitted = dateTimeTransmitted;
     }
 }

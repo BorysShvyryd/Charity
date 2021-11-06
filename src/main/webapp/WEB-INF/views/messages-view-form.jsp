@@ -22,7 +22,7 @@
         <div class="form-group">
             <form:textarea path="message" title="Wiadomość" disabled="true"/>
         </div>
-<%--        onclick="document.location='/admin/messages/list'"--%>
+
         <div class="form-group form-group--buttons">
             <button class="btn" type="submit" >Powrót</button>
         </div>
