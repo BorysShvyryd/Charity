@@ -12,17 +12,20 @@
 
 <section class="login-page">
     <h2>${title_form}</h2>
-    <form:form modelAttribute="category" method="post">
+    <form:form modelAttribute="institution" method="post">
 
         <form:hidden path="id"/>
         <form:hidden path="status"/>
 
         <div class="form-group">
-            <form:input path="name" title="Nazwa kategorii"/>
+            <form:input path="name" title="Nazwa fundacji"/>
+        </div>
+        <div class="form-group">
+            <form:input path="description" title="Opis fundacji"/>
         </div>
 
         <div class="form-group form-group--buttons">
-            <a href="/admin/category/list" class="btn btn--without-border">Powrót</a>
+            <a href="/admin/institution/list" class="btn btn--without-border">Powrót</a>
             <button class="btn" type="submit">Zapisz</button>
         </div>
     </form:form>
