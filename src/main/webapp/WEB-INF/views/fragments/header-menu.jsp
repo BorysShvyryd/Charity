@@ -34,7 +34,7 @@
         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <li><a href="/admin/category/list" class="btn btn--without-border">Lista kategorii</a></li>
             <li><a href="/admin/institution/list" class="btn btn--without-border">Lista fundacji</a></li>
-            <li><a href="#" class="btn btn--without-border">Lista użytkowników</a></li>
+            <li><a href="/admin/users/list" class="btn btn--without-border">Lista użytkowników</a></li>
             <li><a href="#" class="btn btn--without-border">Lista darów</a></li>
             <li><a href="#" class="btn btn--without-border">Lista wiadomości</a></li>
         </sec:authorize>

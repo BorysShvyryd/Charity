@@ -7,10 +7,7 @@ import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.repository.UserRepository;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -41,8 +38,28 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void update(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
+
+    @Override
     public User findByUserName(String email) {
         Optional<User> userOptional = userRepository.findByUsername(email);
         return userOptional.orElse(null);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findById(Long id) {
+        return userRepository.getById(id);
     }
 }
