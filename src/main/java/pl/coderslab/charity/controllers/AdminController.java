@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.coderslab.charity.entity.Category;
-import pl.coderslab.charity.entity.Institution;
-import pl.coderslab.charity.entity.Role;
-import pl.coderslab.charity.entity.User;
+import pl.coderslab.charity.entity.*;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.service.CategoryService;
 import pl.coderslab.charity.service.CharityMessageService;
@@ -267,4 +264,79 @@ public class AdminController {
         userService.update(user);
         return "redirect:/admin/users/list";
     }
+
+    //***************************************
+    @GetMapping("/messages/list")
+    public String messagesListForm(Model model) {
+
+        List<CharityMessage> charityMessages = charityMessageService.findAll();
+        model.addAttribute("messages", charityMessages);
+        return "admin-messages-list";
+    }
+
+//    @GetMapping("/institution/status")
+//    public String statusInstitutionChange(@RequestParam Long id) {
+//
+//        Institution institution = institutionService.getById(id);
+//        institution.setStatus(!institution.getStatus());
+//        institutionService.save(institution);
+//        return "redirect:/admin/institution/list";
+//    }
+//
+//    @GetMapping("/institution/add")
+//    public String institutionAddForm(Model model) {
+//
+//        Institution institution = new Institution();
+//        model.addAttribute("institution", institution);
+//        model.addAttribute("title_form", "Dodaj fundacji");
+//        return "institution-add-form";
+//    }
+//
+//    @PostMapping("/institution/add")
+//    public String institutionAddSubmit(@Valid Institution institution, BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "redirect:/admin/institution/add";
+//        }
+//        institution.setStatus(true);
+//        institutionService.save(institution);
+//
+//        return "redirect:/admin/institution/list";
+//    }
+
+    @GetMapping("/messages/view")
+    public String messagesViewForm(@RequestParam Long id, Model model) {
+
+        CharityMessage charityMessage = charityMessageService.getById(id);
+        model.addAttribute("institution", institution);
+        model.addAttribute("title_form", "Edytuj fundacji");
+        return "institution-add-form";
+    }
+
+//    @PostMapping("/institution/edit")
+//    public String institutionEditSubmit(@Valid Institution institution, BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "redirect:/admin/institution/edit";
+//        }
+//        institutionService.save(institution);
+//
+//        return "redirect:/admin/institution/list";
+//    }
+//
+//    @GetMapping("/institution/delete")
+//    public String institutionDeleteForm(@RequestParam Long id, Model model) {
+//
+//        Institution institution = institutionService.getById(id);
+//
+//        try {
+//            institutionService.delete(institution);
+//            return "redirect:/admin/institution/list";
+//        } catch (RuntimeException ex) {
+//            model.addAttribute("textMessage", "<p>Ta fundacja zawiera powiązane wpisy.</p>" +
+//                    "<p>Można go dezaktywować.</p>" +
+//                    "<p><a href=\"/admin/institution/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+//            return "form-confirmation";
+//        }
+//    }
 }
