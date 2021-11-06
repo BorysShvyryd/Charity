@@ -9,7 +9,7 @@
 </header>
 
 <section class="login-page">
-    <h2>Lista kategorii</h2>
+    <h2>Lista wiadomości</h2>
 
     <div class="table-responsive">
         <table class="table">
@@ -23,7 +23,15 @@
             </thead>
             <tbody>
             <c:forEach var="message" items="${messages}">
-                <tr>
+                <c:choose>
+                    <c:when test="${message.read}">
+                        <tr>
+                    </c:when>
+                    <c:otherwise>
+                        <tr style="font-weight: bold; font-style: italic; color: black">
+                    </c:otherwise>
+                </c:choose>
+<%--                <tr>--%>
                     <td><c:out value="${message.id}"/></td>
                     <td><c:out value="${message.name}"/></td>
                     <td><c:out value="${message.surname}"/></td>

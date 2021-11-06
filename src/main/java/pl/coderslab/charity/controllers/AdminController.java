@@ -307,10 +307,16 @@ public class AdminController {
     @GetMapping("/messages/view")
     public String messagesViewForm(@RequestParam Long id, Model model) {
 
-        CharityMessage charityMessage = charityMessageService.getById(id);
-        model.addAttribute("institution", institution);
-        model.addAttribute("title_form", "Edytuj fundacji");
-        return "institution-add-form";
+        CharityMessage message = charityMessageService.getById(id);
+        model.addAttribute("message", message);
+        message.setRead(true);
+        charityMessageService.save(message);
+        return "messages-view-form";
+    }
+
+    @PostMapping("/messages/view")
+    public String messagesViewSubmit() {
+        return "redirect:/admin/messages/list";
     }
 
 //    @PostMapping("/institution/edit")
