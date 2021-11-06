@@ -102,7 +102,7 @@ public class AdminController {
         } catch (RuntimeException ex) {
             model.addAttribute("textMessage", "<p>Ta kategoria zawiera powiązane wpisy.</p>" +
                     "<p>Można go dezaktywować.</p>" +
-                    "<p><a href=\"/admin/category-list\" class=\"btn btn--without-border\">Powrót</a></p>");
+                    "<p><a href=\"/admin/category/list\" class=\"btn btn--without-border\">Powrót</a></p>");
             return "form-confirmation";
         }
     }
@@ -165,19 +165,19 @@ public class AdminController {
         return "redirect:/admin/institution/list";
     }
 
-//    @GetMapping("/category/delete")
-//    public String categoryDeleteForm(@RequestParam Long id, Model model) {
-//
-//        Category category = categoryService.getById(id);
-//
-//        try {
-//            categoryService.delete(category);
-//            return "redirect:/admin/category-list";
-//        } catch (RuntimeException ex) {
-//            model.addAttribute("textMessage", "<p>Ta kategoria zawiera powiązane wpisy.</p>" +
-//                    "<p>Można go dezaktywować.</p>" +
-//                    "<p><a href=\"/admin/category-list\" class=\"btn btn--without-border\">Powrót</a></p>");
-//            return "form-confirmation";
-//        }
-//    }
+    @GetMapping("/institution/delete")
+    public String institutionDeleteForm(@RequestParam Long id, Model model) {
+
+        Institution institution = institutionService.getById(id);
+
+        try {
+            institutionService.delete(institution);
+            return "redirect:/admin/institution/list";
+        } catch (RuntimeException ex) {
+            model.addAttribute("textMessage", "<p>Ta fundacja zawiera powiązane wpisy.</p>" +
+                    "<p>Można go dezaktywować.</p>" +
+                    "<p><a href=\"/admin/institution/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+            return "form-confirmation";
+        }
+    }
 }

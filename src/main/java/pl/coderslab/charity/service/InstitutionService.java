@@ -39,4 +39,8 @@ public class InstitutionService {
     public Institution save(Institution institution) {
         return institutionRepository.save(institution);
     }
+
+    public void delete(Institution institution) {
+        institutionRepository.delete(institution);
+    }
 }
