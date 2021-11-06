@@ -9,7 +9,7 @@
 </header>
 
 <section class="login-page">
-    <h2>Lista kategorii</h2>
+    <h2>Lista fundacji</h2>
 
     <div class="table-responsive">
     <table class="table">

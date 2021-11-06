@@ -145,26 +145,26 @@ public class AdminController {
         return "redirect:/admin/institution/list";
     }
 
-//    @GetMapping("/category/edit")
-//    public String categoryEditForm(@RequestParam Long id, Model model) {
-//
-//        Category category = categoryService.getById(id);
-//        model.addAttribute("category", category);
-//        model.addAttribute("title_form", "Edytuj kategorii");
-//        return "category-add-form";
-//    }
-//
-//    @PostMapping("/category/edit")
-//    public String categoryEditSubmit(@Valid Category category, BindingResult bindingResult) {
-//
-//        if (bindingResult.hasErrors()) {
-//            return "redirect:/admin/category/edit";
-//        }
-//        categoryService.save(category);
-//
-//        return "redirect:/admin/category-list";
-//    }
-//
+    @GetMapping("/institution/edit")
+    public String institutionEditForm(@RequestParam Long id, Model model) {
+
+        Institution institution = institutionService.getById(id);
+        model.addAttribute("institution", institution);
+        model.addAttribute("title_form", "Edytuj fundacji");
+        return "institution-add-form";
+    }
+
+    @PostMapping("/institution/edit")
+    public String institutionEditSubmit(@Valid Institution institution, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/admin/institution/edit";
+        }
+        institutionService.save(institution);
+
+        return "redirect:/admin/institution/list";
+    }
+
 //    @GetMapping("/category/delete")
 //    public String categoryDeleteForm(@RequestParam Long id, Model model) {
 //
