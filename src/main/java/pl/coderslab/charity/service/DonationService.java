@@ -5,7 +5,9 @@ import pl.coderslab.charity.entity.Donation;
 import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.repository.DonationRepository;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DonationService {
@@ -37,6 +39,12 @@ public class DonationService {
 
     public List<Donation> findAllByUser(User user) {
         return donationRepository.findAllByUser(user);
+    }
+
+    public List<Donation> findAllSortByStatus() {
+        return donationRepository.findAll().stream()
+                .sorted(Comparator.comparingInt(Donation::getStatus))
+                .collect(Collectors.toList());
     }
 
     public Donation getById(Long id) {

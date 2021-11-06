@@ -310,7 +310,7 @@ public class AdminController {
     @GetMapping("/donations/list")
     public String donationsListForm(Model model) {
 
-        List<Donation> donations = donationService.findAll();
+        List<Donation> donations = donationService.findAllSortByStatus();
         model.addAttribute("donations", donations);
         return "admin-donations-list";
     }
