@@ -31,4 +31,12 @@ public class InstitutionService {
     public List<Institution> findAllActive() {
         return institutionRepository.findAllByStatusOrderByStatus(true);
     }
+
+    public Institution getById(Long id) {
+        return institutionRepository.getById(id);
+    }
+
+    public Institution save(Institution institution) {
+        return institutionRepository.save(institution);
+    }
 }
