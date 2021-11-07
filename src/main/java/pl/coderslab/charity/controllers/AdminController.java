@@ -3,10 +3,7 @@ package pl.coderslab.charity.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.entity.*;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.service.*;
@@ -16,6 +13,8 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/admin")
@@ -197,10 +196,33 @@ public class AdminController {
         return "admin-users-list";
     }
 
-    @GetMapping("/users/list-admin")
-    public String adminListForm(Model model) {
+    @GetMapping("/users/list/{stream_change}")
+    public String usersListForm(Model model, @PathVariable String stream_change) {
 
-        List<User> users = userService.findAllAdmins();
+        String[] operations = stream_change.split(";");
+
+        Stream<User> userStream = userService.findAll().stream();
+
+        for (String operation : operations) {
+            switch (operation.split("=")[0]) {
+                case "filter":
+                    switch (operation.split("=")[1]) {
+                        case "admin":
+                            Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
+                            userStream = userStream.filter(o -> o.getRoleSet().contains(roleAdmin));
+                            break;
+                        case "user" :
+                            Role roleUser = roleRepository.findByName("ROLE_USER");
+                            userStream = userStream.filter(o -> o.getRoleSet().contains(roleUser));
+                    }
+                    break;
+                case "sort":
+                    userStream = userStream.sorted((o1, o2) -> (int) (o2.getId() - o1.getId()));
+            }
+        }
+
+        List<User> users = userStream.collect(Collectors.toList());
+
         model.addAttribute("users", users);
         return "admin-users-list";
     }

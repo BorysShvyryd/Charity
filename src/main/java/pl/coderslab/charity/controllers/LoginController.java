@@ -87,7 +87,6 @@ public class LoginController {
     public String forgotPassSubmit(Model model, User user,
                                    HttpSession httpSession) {
 
-        System.out.println(httpSession.getAttribute("token"));
         if (!user.getPassword().equals(user.getPassword2())) {
             model.addAttribute("textMessage", "<p>Hasła nie pasują do siebie.</p>"
                     + "<p><a href=\"/login/forgot/" + httpSession.getAttribute("token") +
