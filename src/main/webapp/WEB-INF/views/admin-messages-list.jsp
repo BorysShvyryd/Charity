@@ -32,7 +32,6 @@
                         <tr style="font-weight: bold; font-style: italic; color: black">
                     </c:otherwise>
                 </c:choose>
-<%--                <tr>--%>
                     <td><c:out value="${message.id}"/></td>
                     <td><c:out value="${message.name}"/></td>
                     <td><c:out value="${message.surname}"/></td>

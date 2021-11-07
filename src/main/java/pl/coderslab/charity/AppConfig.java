@@ -10,8 +10,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import pl.coderslab.charity.service.UserDetailsServiceImpl;
+
+import java.util.Locale;
 
 @Configuration
 @ComponentScan("pl.coderslab.charity")
@@ -24,10 +28,17 @@ public class AppConfig implements WebMvcConfigurer {
         return new UserDetailsServiceImpl();
     }
 
+    @Bean(name = "localeResolver")
+    public LocaleContextResolver getLocaleContextResolver() {
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        localeResolver.setDefaultLocale(new Locale("pl", "PL"));
+        return localeResolver;
+    }
+
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasenames("classpath:validationMessages");
+        messageSource.setBasenames("classpath:validationMessages", "classpath:/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
