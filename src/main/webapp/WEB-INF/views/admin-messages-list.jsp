@@ -18,6 +18,7 @@
                 <th>ID</th>
                 <th>IMIĘ</th>
                 <th>NAZWISKO</th>
+                <th>WIADOMOŚĆ</th>
                 <th>AKCJE</th>
             </tr>
             </thead>
@@ -35,6 +36,7 @@
                     <td><c:out value="${message.id}"/></td>
                     <td><c:out value="${message.name}"/></td>
                     <td><c:out value="${message.surname}"/></td>
+                    <td><c:out value="${message.message}"/></td>
                     <td>
                         <button onclick="document.location='/admin/messages/view?id=${message.id}'">Czytać</button>
                         <button onclick="document.location='/admin/messages/delete?id=${message.id}'">Usuń</button>
