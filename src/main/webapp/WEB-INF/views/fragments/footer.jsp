@@ -16,8 +16,8 @@
                     <div class="form-group form-group--50">
                         <input type="text" name="surname" placeholder="<spring:message code="footer.placeholder.surname"/>"/>
                     </div>
-
-                    <div class="form-group"><textarea name="message" placeholder="Wiadomość" rows="1"></textarea></div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="<spring:message code="footer.placeholder.message"/>" rows="1"></textarea></div>
                     <button class="btn" type="submit"><spring:message code="footer.btn.submit.title"/></button>
                 </form>
             </c:if>
