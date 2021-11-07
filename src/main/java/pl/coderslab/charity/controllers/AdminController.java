@@ -11,6 +11,7 @@ import pl.coderslab.charity.service.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -211,13 +212,29 @@ public class AdminController {
                             Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
                             userStream = userStream.filter(o -> o.getRoleSet().contains(roleAdmin));
                             break;
-                        case "user" :
-                            Role roleUser = roleRepository.findByName("ROLE_USER");
-                            userStream = userStream.filter(o -> o.getRoleSet().contains(roleUser));
+                        case "status_1":
+                            userStream = userStream.filter(o -> o.getEnabled() == 1);
+                            break;
+                        case "status_0":
+                            userStream = userStream.filter(o -> o.getEnabled() == 0);
+                            break;
                     }
                     break;
                 case "sort":
-                    userStream = userStream.sorted((o1, o2) -> (int) (o2.getId() - o1.getId()));
+                    switch (operation.split("=")[1]) {
+                        case "id_up":
+                            userStream = userStream.sorted((o1, o2) -> (int) (o1.getId() - o2.getId()));
+                            break;
+                        case "id_down":
+                            userStream = userStream.sorted((o1, o2) -> (int) (o2.getId() - o1.getId()));
+                            break;
+                        case "name_up":
+                            userStream = userStream.sorted(Comparator.comparing(User::getName));
+                            break;
+                        case "name_down":
+                            userStream = userStream.sorted((o1, o2) -> (o2.getName().compareTo(o1.getName())));
+                            break;
+                    }
             }
         }
 
