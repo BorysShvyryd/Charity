@@ -66,7 +66,7 @@
                 </td>
                 <td>
                     <c:if test="${donation.status == 2}">
-                        <button onclick="document.location='#'">ZARCHIWIZOWANO</button>
+                        <c:out value="ZARCHIWIZOWANO"/>
                     </c:if>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <c:if test="${donation.status == 1}">

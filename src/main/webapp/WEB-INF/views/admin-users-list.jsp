@@ -50,6 +50,7 @@
                 </td>
                 <td>
                     <button onclick="document.location='/admin/users/delete?id=${user.id}'">Usuń</button>
+                    <button onclick="document.location='/admin/users/forgot?email=${user.name}'">Odzyskiwanie hasła</button>
                     <button onclick="document.location='/admin/users/role?id=${user.id}'">Zmień rolę admin</button>
                     <c:choose>
                         <c:when test="${user.enabled}">

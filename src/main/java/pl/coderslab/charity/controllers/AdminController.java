@@ -8,6 +8,7 @@ import pl.coderslab.charity.entity.*;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.service.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -314,6 +315,30 @@ public class AdminController {
         user.setRoleSet(roleSet);
         userService.update(user);
         emailService.SendEmail(user.getName(), "Service CHARITY", emailMessage);
+        return "redirect:/admin/users/list";
+    }
+
+    //***************************************
+    @GetMapping("/users/forgot")
+    public String forgotPassSendMail(@RequestParam String email, Model model, HttpServletRequest request) {
+
+        User restoreUser = userService.findByUserName(email);
+
+        String tokenEmail = emailService.getToken();
+
+        model.addAttribute("token", tokenEmail);
+        model.addAttribute("email", email);
+
+        model.addAttribute("sendEmail",
+                emailService.SendEmail(restoreUser.getName(),
+                        "Odzyskiwanie hasła",
+                        "Aby zresetować hasło, kliknij link: "
+                                + "192.168.1.112:8080/login/forgot"
+//                                request.getHeader("referer")
+                                + "/"
+                                + tokenEmail)
+        );
+
         return "redirect:/admin/users/list";
     }
 
