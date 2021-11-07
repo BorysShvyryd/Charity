@@ -320,6 +320,7 @@ public class AdminController {
 
         List<Donation> donations = donationService.findAllSortByStatus();
         model.addAttribute("donations", donations);
+        model.addAttribute("title_page", "Lista darów");
         return "admin-donations-list";
     }
 

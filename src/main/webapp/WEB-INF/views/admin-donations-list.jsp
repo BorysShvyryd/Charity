@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="fragments/header.jsp" flush="true"/>
 
@@ -9,7 +10,7 @@
 </header>
 
 <section class="login-page">
-    <h2>Lista darów</h2>
+    <h2>${title_page}</h2>
 
     <div class="table-responsive">
         <table class="table">
@@ -57,18 +58,19 @@
                 <td><c:out value="${donation.dateTimeReceived}"/></td>
                 <td><c:out value="${donation.dateTimeTransmitted}"/></td>
                 <td>
-                <c:choose>
-                    <c:when test="${donation.status == 2}">
+                    <c:if test="${donation.status == 2}">
                         <button onclick="document.location='#'">ZARCHIWIZOWANO</button>
-                    </c:when>
-                    <c:when test="${donation.status == 1}">
-                        <button onclick="document.location='/admin/donations/transfer?id=${donation.id}'">ODDANY</button>
-                    </c:when>
-                    <c:otherwise>
-                        <button onclick="document.location='/admin/donations/devoted?id=${donation.id}'">ODEBRANE</button>
-<%--                        <button onclick="document.location='/admin/donations/transfer?id=${donation.id}'">ODDANY</button>--%>
-                    </c:otherwise>
-                </c:choose>
+                    </c:if>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <c:if test="${donation.status == 1}">
+                            <button onclick="document.location='/admin/donations/transfer?id=${donation.id}'">ODDANY
+                            </button>
+                        </c:if>
+                        <c:if test="${donation.status < 1}">
+                            <button onclick="document.location='/admin/donations/devoted?id=${donation.id}'">ODEBRANE
+                            </button>
+                        </c:if>
+                    </sec:authorize>
                 </td>
                 </tr>
             </c:forEach>

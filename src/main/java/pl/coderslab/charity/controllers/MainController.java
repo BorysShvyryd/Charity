@@ -9,6 +9,7 @@ import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -102,8 +103,11 @@ public class MainController {
 
         if (principal != null) {
             User user = userService.findByUserName(principal.getName());
-            model.addAttribute("donationsList", donationService.findAllByUser(user));
+            List<Donation> donations = donationService.findAllByUser(user);
+            model.addAttribute("donations", donations);
+            model.addAttribute("title_page", "Lista wszystkich moich darów");
         }
-        return "list-bags-form";
+
+        return "admin-donations-list";
     }
 }
