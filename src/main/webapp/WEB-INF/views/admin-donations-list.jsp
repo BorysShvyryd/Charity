@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="fragments/header.jsp" flush="true"/>
 
@@ -55,8 +56,14 @@
                     <c:out value="☎${donation.phone}"/>
                 </td>
                 <td><c:out value="${donation.user.name}"/></td>
-                <td><c:out value="${donation.dateTimeReceived}"/></td>
-                <td><c:out value="${donation.dateTimeTransmitted}"/></td>
+                <td>
+                    <fmt:parseDate value="${ donation.dateTimeReceived }" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
+                    <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" />
+                </td>
+                <td>
+                    <fmt:parseDate value="${ donation.dateTimeTransmitted }" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
+                    <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" />
+                </td>
                 <td>
                     <c:if test="${donation.status == 2}">
                         <button onclick="document.location='#'">ZARCHIWIZOWANO</button>
