@@ -11,8 +11,10 @@
                 <h2><spring:message code="footer.h2.message"/></h2>
                 <h3><spring:message code="footer.h3.message"/></h3>
                 <form class="form--contact" method="post">
-                    <div class="form-group form-group--50"><input type="text" name="name" placeholder="Imię"/></div>
-                    <div class="form-group form-group--50"><input type="text" name="surname" placeholder="Nazwisko"/>
+                    <div class="form-group form-group--50">
+                        <input type="text" name="name" placeholder="<spring:message code="footer.placeholder.name"/>"/></div>
+                    <div class="form-group form-group--50">
+                        <input type="text" name="surname" placeholder="<spring:message code="footer.placeholder.surname"/>"/>
                     </div>
 
                     <div class="form-group"><textarea name="message" placeholder="Wiadomość" rows="1"></textarea></div>
