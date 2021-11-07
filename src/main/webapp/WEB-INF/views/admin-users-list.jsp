@@ -17,18 +17,17 @@
         <tr>
             <th>ID<a href="/admin/users/list/sort=id_up"> ▲</a>
                 <a href="/admin/users/list/sort=id_down">▼</a>
-                <a href="/admin/users/list"> ❌</a>
             </th>
-            <th>NAZWA<a href="/admin/users/list/sort=name_up"> ▲</a>
+            <th>NAZWA
+<%--                <input name="find"/>--%>
+                <a href="/admin/users/list/sort=name_up"> ▲</a>
                 <a href="/admin/users/list/sort=name_down">▼</a>
-                <a href="/admin/users/list"> ❌</a>
             </th>
-            <th>STATUS<a href="/admin/users/list/filter=status_1"> (➕</a>
+            <th>STATUS<a href="/admin/users/list/filter=status_1"> ➕</a>
                 <a href="/admin/users/list/filter=status_0"> ➖</a>
-                <a href="/admin/users/list"> ❌</a>)
             </th>
-            <th>ROLA<a href="/admin/users/list/filter=admin"> (❎</a> admin<a href="/admin/users/list"> ❌</a>)</th>
-            <th>AKCJE</th>
+            <th>ROLA<a href="/admin/users/list/filter=admin"> (❎</a> admin)</th>
+            <th>AKCJE<a href="/admin/users/list"> (❌ zresetuj wszystkie filtry)</a></th>
         </tr>
         </thead>
         <tbody>

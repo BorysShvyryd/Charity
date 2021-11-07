@@ -452,6 +452,12 @@ h2:after {
   width: 90vw;
 }
 
+.container-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
 /* line 36, scss/modules/_base.scss */
 .uppercase {
   text-transform: uppercase;

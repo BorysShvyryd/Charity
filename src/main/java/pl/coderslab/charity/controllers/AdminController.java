@@ -289,11 +289,12 @@ public class AdminController {
     }
 
     @GetMapping("/users/role")
-    public String changeAdminRole(@RequestParam Long id, Model model) {
+    public String changeAdminRole(@RequestParam Long id, Model model, Principal principal) {
 
         User user = userService.findById(id);
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         Set<Role> roleSet = user.getRoleSet();
+        String emailMessage = "";
 
         if (roleSet.contains(adminRole)) {
             if (userService.countAdmin() <= 1) {
@@ -303,13 +304,16 @@ public class AdminController {
                 return "form-confirmation";
             } else {
                 roleSet.remove(adminRole);
+                emailMessage = "Rola administratora została dla Ciebie anulowana.";
             }
         } else {
             roleSet.add(adminRole);
+            emailMessage = principal.getName() + " mianował Cię administratorem Charity.";
         }
 
         user.setRoleSet(roleSet);
         userService.update(user);
+        emailService.SendEmail(user.getName(), "Service CHARITY", emailMessage);
         return "redirect:/admin/users/list";
     }
 
