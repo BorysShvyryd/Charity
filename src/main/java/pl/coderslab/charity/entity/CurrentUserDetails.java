@@ -6,55 +6,34 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 public class CurrentUserDetails implements UserDetails, Serializable, CredentialsContainer {
 
-    private final User user;
+    private String login;
+    private String password;
+    private Collection<? extends GrantedAuthority> grantedAuthorities;
 
-//    public CurrentUserDetails(User user) {
-//        this.user = user;
-//    }
-
-    public CurrentUserDetails(User user) {
-//        super(user.getEmail(), user.getPassword(), user.getRoleSet());
-        this.user = user;
-    }
-
-//    public static CurrentUserDetails fromUserToCurrentUserDetails(User user) {
-//        CurrentUserDetails currentUserDetails = new CurrentUserDetails(user);
-//        currentUserDetails.user = user;
-//        currentUserDetails.login = user.getEmail();
-//        currentUserDetails.password = user.getPassword();
-//        currentUserDetails.grantedAuthorities = user.getRoleSet();
-////        currentUserDetails.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRoleSet().getName()));
-//        return currentUserDetails;
-//    }
-
-
-    public User getUser() {
-        return user;
-    }
-
-    @Override
-    public void eraseCredentials() {
-
+    public static CurrentUserDetails currentUserToCurrentUserDetails(User currentUser) {
+        CurrentUserDetails currentUserDetails = new CurrentUserDetails();
+        currentUserDetails.login = currentUser.getEmail();
+        currentUserDetails.password = currentUser.getPassword();
+        currentUserDetails.grantedAuthorities = currentUser.getRoleSet();
+        return currentUserDetails;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoleSet();
+        return grantedAuthorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return login;
     }
 
     @Override
@@ -75,5 +54,10 @@ public class CurrentUserDetails implements UserDetails, Serializable, Credential
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public void eraseCredentials() {
+
     }
 }

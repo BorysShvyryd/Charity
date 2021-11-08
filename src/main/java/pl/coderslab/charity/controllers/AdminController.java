@@ -238,6 +238,12 @@ public class AdminController {
                         case "name_down":
                             userStream = userStream.sorted((o1, o2) -> (o2.getName().compareTo(o1.getName())));
                             break;
+                        case "surname_up":
+                            userStream = userStream.sorted(Comparator.comparing(User::getSurname));
+                            break;
+                        case "surname_down":
+                            userStream = userStream.sorted((o1, o2) -> (o2.getName().compareTo(o1.getSurname())));
+                            break;
                     }
             }
         }

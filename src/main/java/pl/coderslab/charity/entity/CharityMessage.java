@@ -28,6 +28,10 @@ public class CharityMessage {
     @NotNull
     private Boolean read;
 
+//***********************************************
+//   Getters & Setters
+//***********************************************
+
     public Long getId() {
         return id;
     }

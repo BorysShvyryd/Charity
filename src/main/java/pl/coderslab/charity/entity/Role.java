@@ -14,6 +14,10 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_name", length = 30, nullable = false)
     private String name;
 
+//***********************************************
+//   Getters & Setters
+//***********************************************
+
     public Integer getId() {
         return id;
     }

@@ -24,18 +24,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 
-        User user = userService.findByEmail(username);
+        User user = userService.findByEmail(login);
 
-        if (user == null) {throw new UsernameNotFoundException(username); }
+        if (user == null) {throw new UsernameNotFoundException(login); }
 
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-
-        user.getRoleSet().forEach(r ->
-                grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
-
-        return new CurrentUserDetails(user);
-
+        return CurrentUserDetails.currentUserToCurrentUserDetails(user);
     }
 }

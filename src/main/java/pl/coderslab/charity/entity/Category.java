@@ -18,6 +18,10 @@ public class Category {
 
     private Boolean status;
 
+//***********************************************
+//   Getters & Setters
+//***********************************************
+
     public Long getId() {
         return id;
     }

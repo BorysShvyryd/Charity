@@ -18,10 +18,15 @@
             <th>ID<a href="/admin/users/list/sort=id_up"> ▲</a>
                 <a href="/admin/users/list/sort=id_down">▼</a>
             </th>
-            <th>NAZWA
+            <th>IMIĘ
 <%--                <input name="find"/>--%>
                 <a href="/admin/users/list/sort=name_up"> ▲</a>
                 <a href="/admin/users/list/sort=name_down">▼</a>
+            </th>
+            <th>NAZWISKO
+<%--                <input name="find"/>--%>
+                <a href="/admin/users/list/sort=surname_up"> ▲</a>
+                <a href="/admin/users/list/sort=surname_down">▼</a>
             </th>
             <th>STATUS<a href="/admin/users/list/filter=status_1"> ➕</a>
                 <a href="/admin/users/list/filter=status_0"> ➖</a>
@@ -35,6 +40,7 @@
             <tr>
                 <td><c:out value="${user.id}"/></td>
                 <td><c:out value="${user.name}"/></td>
+                <td><c:out value="${user.surname}"/></td>
                 <c:choose>
                     <c:when test="${user.enabled == 1}">
                         <td>Odblokowany</td>

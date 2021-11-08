@@ -62,6 +62,10 @@ public class Donation {
 
     private byte status;
 
+//***********************************************
+//   Getters & Setters
+//***********************************************
+
     private LocalDateTime dateTimeReceived;
 
     private LocalDateTime dateTimeTransmitted;
