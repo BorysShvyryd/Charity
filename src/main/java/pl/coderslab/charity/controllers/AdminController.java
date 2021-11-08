@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.component.JwtProvider;
 import pl.coderslab.charity.entity.*;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.service.*;
@@ -29,8 +30,9 @@ public class AdminController {
     private final CharityMessageService charityMessageService;
     private final RoleRepository roleRepository;
     private final EmailService emailService;
+    private final JwtProvider jwtProvider;
 
-    public AdminController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository, EmailService emailService) {
+    public AdminController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository, EmailService emailService, JwtProvider jwtProvider) {
         this.categoryService = categoryService;
         this.institutionService = institutionService;
         this.donationService = donationService;
@@ -38,6 +40,7 @@ public class AdminController {
         this.charityMessageService = charityMessageService;
         this.roleRepository = roleRepository;
         this.emailService = emailService;
+        this.jwtProvider = jwtProvider;
     }
 
     @GetMapping("/category/list")
@@ -320,24 +323,16 @@ public class AdminController {
 
     //***************************************
     @GetMapping("/users/forgot")
-    public String forgotPassSendMail(@RequestParam String email, Model model, HttpServletRequest request) {
+    public String forgotPassSendMail(@RequestParam String email, HttpServletRequest request) {
 
-        User restoreUser = userService.findByUserName(email);
+        String tokenEmail = jwtProvider.generateToken(email);
 
-        String tokenEmail = emailService.getToken();
-
-        model.addAttribute("token", tokenEmail);
-        model.addAttribute("email", email);
-
-        model.addAttribute("sendEmail",
-                emailService.SendEmail(restoreUser.getName(),
-                        "Odzyskiwanie hasła",
-                        "Aby zresetować hasło, kliknij link: "
-                                + "192.168.1.112:8080/login/forgot"
-//                                request.getHeader("referer")
-                                + "/"
-                                + tokenEmail)
-        );
+        emailService.SendEmail(email,
+                "Odzyskiwanie hasła",
+                "Aby zresetować hasło, kliknij link: http://"
+                        + request.getHeader("host")
+                        + "/login/forgot/"
+                        + tokenEmail);
 
         return "redirect:/admin/users/list";
     }
