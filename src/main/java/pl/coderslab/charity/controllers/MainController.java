@@ -116,7 +116,7 @@ public class MainController {
 
         if (principal != null) {
             User user = userService.findByEmail(principal.getName());
-            List<Donation> donations = donationService.findAllByUser(user);
+            List<Donation> donations = donationService.findAllByUserSortByStatus(user);
             model.addAttribute("donations", donations);
             model.addAttribute("title_page", "Lista wszystkich moich darów");
         }

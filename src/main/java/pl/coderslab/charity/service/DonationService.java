@@ -37,8 +37,12 @@ public class DonationService {
         return donationRepository.findAll();
     }
 
-    public List<Donation> findAllByUser(User user) {
-        return donationRepository.findAllByUser(user);
+    public List<Donation> findAllByUserSortByStatus(User user) {
+        return donationRepository.findAllByUser(user).stream()
+                .sorted(Comparator.comparing(Donation::getDateTimeTransmitted, Comparator.nullsLast(Comparator.reverseOrder())))
+                .sorted(Comparator.comparing(Donation::getDateTimeReceived, Comparator.nullsLast(Comparator.reverseOrder())))
+                .sorted(Comparator.comparingInt(Donation::getStatus))
+                .collect(Collectors.toList());
     }
 
     public List<Donation> findAllSortByStatus() {

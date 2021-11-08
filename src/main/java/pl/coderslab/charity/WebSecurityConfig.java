@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,16 +37,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/register/**", "/login/**").not().fullyAuthenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/charity/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/resources/**", "/charity/**").permitAll()
+                .antMatchers("/charity/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/register/**", "/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/", true)
                 .permitAll()
-//                .usernameParameter("email")
-//                .passwordParameter("password")
                 .and()
                 .logout()
                 .permitAll()
@@ -57,24 +56,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth)
-//            throws Exception {
-//
-//        auth
-//                .userDetailsService(new UserDetailsServiceImpl())
-//                .passwordEncoder(bCryptPasswordEncoder());
-//
-//    }
-@Override
-protected void configure(AuthenticationManagerBuilder auth)
-        throws Exception {
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers("/resources/**", "/css/**", "/js/**", "/images/**");
+    }
 
-    auth
-            .userDetailsService(currentUserDetailsService())
-            .passwordEncoder(bCryptPasswordEncoder());
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth)
+            throws Exception {
 
-}
+        auth
+                .userDetailsService(currentUserDetailsService())
+                .passwordEncoder(bCryptPasswordEncoder());
+
+    }
 }
 
 
