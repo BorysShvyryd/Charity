@@ -1,30 +1,40 @@
 package pl.coderslab.charity.entity;
 
-import org.springframework.security.core.CredentialsContainer;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class User implements UserDetails, Serializable, CredentialsContainer {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(max = 64)
+    @Column(length = 64)
+    private String name;
+
+    @Size(max = 64)
+    @Column(length = 64)
+    private String surname;
+
+    @Size(max = 24)
+    @Column(length = 24)
+    private String phone;
+
+    @Size(max = 128)
+    @Column(length = 128)
+    private String address;
+
     @Email
     @NotBlank
     @Size(max = 128)
     @Column(nullable = false, unique = true, length = 128)
-    private String name;
+    private String email;
 
     @NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
     @Size(min = 8, max = 128)
@@ -40,13 +50,40 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roleSet;
 
-    public User() {
+    public String getSurname() {
+        return surname;
     }
 
-    public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        this.name = username;
-        this.password = password;
-        this.roleSet = new HashSet<Role>((Collection<? extends Role>) authorities);
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public Set<Role> getRoleSet() {
@@ -73,41 +110,6 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
         this.name = name;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roleSet;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return name;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled == 1;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -126,10 +128,5 @@ public class User implements UserDetails, Serializable, CredentialsContainer {
 
     public void setEnabled(int enabled) {
         this.enabled = enabled;
-    }
-
-    @Override
-    public void eraseCredentials() {
-
     }
 }

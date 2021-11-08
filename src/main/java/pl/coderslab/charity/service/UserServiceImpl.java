@@ -59,19 +59,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findByUserName(String email) {
-        Optional<User> userOptional = userRepository.findByUsername(email);
+    public User findByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
         return userOptional.orElse(null);
     }
 
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
-    }
-
-    @Override
-    public List<User> findAllAdmins() {
-        return userRepository.findAllByRoleSetContains(roleRepository.findByName("ROLE_ADMIN"));
     }
 
     @Override

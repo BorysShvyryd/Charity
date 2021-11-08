@@ -1,9 +1,11 @@
 package pl.coderslab.charity.controllers;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.component.JwtProvider;
+import pl.coderslab.charity.entity.CurrentUserDetails;
 import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.EmailService;
 import pl.coderslab.charity.service.UserService;
@@ -25,7 +27,11 @@ public class LoginController {
     }
 
     @GetMapping
-    public String loginForm() {
+    public String loginForm(@AuthenticationPrincipal CurrentUserDetails currentUserDetails, Model model) {
+//        System.out.println(currentUserDetails.getUsername());
+//        User user = currentUserDetails.getUser();
+//        model.addAttribute("currentUserName", user.getName());
+//        System.out.println(user.getName());
         return "login";
     }
 
@@ -37,7 +43,7 @@ public class LoginController {
     @PostMapping("/forgot")
     public String forgotPassSend(@RequestParam("email") String email, Model model, HttpServletRequest request) {
 
-        User restoreUser = userService.findByUserName(email);
+        User restoreUser = userService.findByEmail(email);
 
         if (restoreUser == null) {
             model.addAttribute("textMessage", "<p>Nie znaleziono użytkownika z tym adresem e-mail</p>"
@@ -75,7 +81,7 @@ public class LoginController {
             }
         }
 
-        User restoreUser = userService.findByUserName(jwtProvider.getLoginFromToken(token));
+        User restoreUser = userService.findByEmail(jwtProvider.getLoginFromToken(token));
         model.addAttribute("user", restoreUser);
 
         return "register-new-password";
@@ -98,7 +104,7 @@ public class LoginController {
             return "form-confirmation";
         }
 
-        User restoreUser = userService.findByUserName(jwtProvider.getLoginFromToken(token));
+        User restoreUser = userService.findByEmail(jwtProvider.getLoginFromToken(token));
         if (restoreUser != null) {
             restoreUser.setPassword(user.getPassword());
             userService.saveNewPassUser(restoreUser);

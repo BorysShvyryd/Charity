@@ -40,13 +40,13 @@ public class RegistrationController {
             return "register";
         }
 
-        if (userService.findByUserName(user.getName()) != null) {
+        if (userService.findByEmail(user.getName()) != null) {
             return "register";
         }
 
         userService.save(user);
 
-        emailService.SendEmail(user.getUsername()
+        emailService.SendEmail(user.getEmail()
                 , "Service CHARITY"
                 , "Dziękujemy za rejestrację na naszej stronie.");
 

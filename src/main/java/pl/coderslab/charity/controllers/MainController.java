@@ -42,7 +42,7 @@ public class MainController {
 
         if (principal != null) {
 
-            User user = userService.findByUserName(principal.getName());
+            User user = userService.findByEmail(principal.getName());
             donation.setUser(user);
             donationService.save(donation);
 
@@ -73,7 +73,7 @@ public class MainController {
     @GetMapping("/profile")
     public String profileForm(Principal principal, Model model) {
 
-        User user = userService.findByUserName(principal.getName());
+        User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
 
         return "profile";
@@ -89,7 +89,7 @@ public class MainController {
 
         if (!user.getPassword().equals(user.getPassword2())) return "change-pass-form";
 
-        User currentUser = userService.findByUserName(principal.getName());
+        User currentUser = userService.findByEmail(principal.getName());
         currentUser.setPassword(user.getPassword());
         userService.save(currentUser);
 
@@ -102,7 +102,7 @@ public class MainController {
     public String listBagsForm(Model model, Principal principal) {
 
         if (principal != null) {
-            User user = userService.findByUserName(principal.getName());
+            User user = userService.findByEmail(principal.getName());
             List<Donation> donations = donationService.findAllByUser(user);
             model.addAttribute("donations", donations);
             model.addAttribute("title_page", "Lista wszystkich moich darów");

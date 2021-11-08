@@ -252,7 +252,7 @@ public class AdminController {
     public String statusUserChange(@RequestParam Long id, Principal principal, Model model) {
 
         User user = userService.findById(id);
-        User currentUser = userService.findByUserName(principal.getName());
+        User currentUser = userService.findByEmail(principal.getName());
 
         if (user.getId().equals(currentUser.getId())) {
             model.addAttribute("textMessage", "<p>Nie możesz zablokować swojego profilu.</p>" +
@@ -274,7 +274,7 @@ public class AdminController {
     public String userDeleteForm(@RequestParam Long id, Model model, Principal principal) {
 
         User user = userService.findById(id);
-        User currentUser = userService.findByUserName(principal.getName());
+        User currentUser = userService.findByEmail(principal.getName());
 
         if (user.getId().equals(currentUser.getId())) {
             model.addAttribute("textMessage", "<p>Nie możesz usunąć swojego profilu.</p>" +
