@@ -1,11 +1,9 @@
 package pl.coderslab.charity.controllers;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.component.JwtProvider;
-import pl.coderslab.charity.entity.CurrentUserDetails;
 import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.EmailService;
 import pl.coderslab.charity.service.UserService;
@@ -27,11 +25,7 @@ public class LoginController {
     }
 
     @GetMapping
-    public String loginForm(@AuthenticationPrincipal CurrentUserDetails currentUserDetails, Model model) {
-//        System.out.println(currentUserDetails.getUsername());
-//        User user = currentUserDetails.getUser();
-//        model.addAttribute("currentUserName", user.getName());
-//        System.out.println(user.getName());
+    public String loginForm() {
         return "login";
     }
 

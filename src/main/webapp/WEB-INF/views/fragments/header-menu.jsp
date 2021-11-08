@@ -13,8 +13,7 @@
     <sec:authorize access="isAuthenticated()">
         <ul class="nav--actions">
             <li><a href="/profile"><spring:message code="header-menu.li.name.title"/>
-                <sec:authentication property="name"/>
-                    ${pageContext.request.userPrincipal.name} ⚙</a></li>
+                    ${currentUserName} ⚙</a></li>
             <li class="highlighted"><a href="/logout"><spring:message code="header-menu.li.logout.title"/></a></li>
         </ul>
     </sec:authorize>

@@ -55,7 +55,9 @@
                     <c:out value="${donation.zipCode}, "/>
                     <c:out value="☎${donation.phone}"/>
                 </td>
-                <td><c:out value="${donation.user.name}"/></td>
+                <td><c:out value="${donation.user.name}"/>
+                    <c:out value=" ${donation.user.surname}"/>
+                </td>
                 <td>
                     <fmt:parseDate value="${ donation.dateTimeReceived }" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
                     <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" />
