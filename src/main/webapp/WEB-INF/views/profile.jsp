@@ -13,13 +13,42 @@
 <section class="login-page">
     <h2>Mój profil</h2>
     <form:form modelAttribute="user" method="post">
+        <form:hidden path="id"/>
 
-        <div class="form-group">
-            <form:input path="name" disabled="true"/>
+        <div class="form-group form-group--50">
+            <label>
+                Email
+                <form:input path="email" disabled="true"/>
+            </label>
+        </div>
+        <div class="form-group form-group--50">
+            <label>
+                Imie
+                <form:input path="name"/>
+            </label>
+        </div>
+        <div class="form-group form-group--50">
+            <label>
+                Nazwisko
+                <form:input path="surname"/>
+            </label>
+        </div>
+        <div class="form-group form-group--50">
+            <label>
+                Adres
+                <form:input path="address"/>
+            </label>
+        </div>
+        <div class="form-group form-group--50">
+            <label>
+                Telefon
+                <form:input path="phone"/>
+            </label>
         </div>
 
         <div class="form-group form-group--buttons">
-            <a href="/change-pass" class="btn btn--without-border">Zmień hasło</a>
+            <a href="/charity/change-pass" class="btn btn--without-border">Zmień hasło</a>
+            <button class="btn" type="submit">Zapisać</button>
         </div>
     </form:form>
 </section>

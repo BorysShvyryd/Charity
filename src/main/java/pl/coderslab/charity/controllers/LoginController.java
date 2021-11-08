@@ -48,7 +48,7 @@ public class LoginController {
         String tokenEmail = jwtProvider.generateToken(email);
 
         model.addAttribute("sendEmail",
-                emailService.SendEmail(restoreUser.getName(),
+                emailService.SendEmail(restoreUser.getEmail(),
                         "Odzyskiwanie hasła",
                         "Aby zresetować hasło, kliknij link: "
                                 + request.getHeader("referer")

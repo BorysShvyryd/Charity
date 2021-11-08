@@ -15,7 +15,7 @@
     <form:form modelAttribute="user" method="post">
 
         <div class="form-group">
-            <form:input path="name" disabled="true"/>
+            <form:input path="email" disabled="true"/>
         </div>
         <div class="form-group">
             <input type="password" name="password" placeholder="Hasło"/>

@@ -70,7 +70,7 @@ public class MainController {
         return "403";
     }
 
-    @GetMapping("/profile")
+    @GetMapping("/charity/profile")
     public String profileForm(Principal principal, Model model) {
 
         User user = userService.findByEmail(principal.getName());
@@ -78,20 +78,33 @@ public class MainController {
 
         return "profile";
     }
+    @PostMapping("/charity/profile")
+    public String profileSubmit(User user) {
 
-    @GetMapping("/change-pass")
+        User changeUser = userService.findById(user.getId());
+        changeUser.setName(user.getName());
+        changeUser.setSurname(user.getSurname());
+        changeUser.setAddress(user.getAddress());
+        changeUser.setPhone(user.getPhone());
+
+        userService.update(changeUser);
+
+        return "redirect:/charity/profile";
+    }
+
+    @GetMapping("/charity/change-pass")
     public String changePassForm() {
         return "change-pass-form";
     }
 
-    @PostMapping("/change-pass")
+    @PostMapping("/charity/change-pass")
     public String changePassSubmit(User user, Principal principal, Model model) {
 
         if (!user.getPassword().equals(user.getPassword2())) return "change-pass-form";
 
         User currentUser = userService.findByEmail(principal.getName());
         currentUser.setPassword(user.getPassword());
-        userService.save(currentUser);
+        userService.saveNewPassUser(currentUser);
 
         model.addAttribute("textMessage", "Hasło zostało pomyślnie zmienione.");
 

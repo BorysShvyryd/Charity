@@ -12,7 +12,7 @@
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
         <ul class="nav--actions">
-            <li><a href="/profile"><spring:message code="header-menu.li.name.title"/>
+            <li><a href="/charity/profile"><spring:message code="header-menu.li.name.title"/>
                     ${currentUserName} ⚙</a></li>
             <li class="highlighted"><a href="/logout"><spring:message code="header-menu.li.logout.title"/></a></li>
         </ul>
@@ -26,7 +26,7 @@
             <li><a href="/charity/list-bag" class="btn btn--without-border">
                 <spring:message code="header-menu.li.menu.list-inst.title"/></a></li>
             <sec:authorize access="!hasRole('ROLE_ADMIN')">
-                <li><a href="/profile" class="btn btn--without-border">
+                <li><a href="/charity/profile" class="btn btn--without-border">
                     <spring:message code="header-menu.li.menu.profile.title"/></a></li>
             </sec:authorize>
         </sec:authorize>

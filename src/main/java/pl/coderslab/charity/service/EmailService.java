@@ -111,17 +111,6 @@ public class EmailService {
         }
     }
 
-    public String getToken() {
-
-        StringBuilder sb = new StringBuilder(64);
-
-        for (int i = 0; i < 64; i++) {
-            int index = (int) (AlphaString.length() * Math.random());
-            sb.append(AlphaString.charAt(index));
-        }
-        return sb.toString();
-    }
-
     public String getUUID() {
         return UUID.randomUUID().toString();
     }
