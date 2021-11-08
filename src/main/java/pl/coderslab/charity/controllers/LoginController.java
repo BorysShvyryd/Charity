@@ -3,24 +3,25 @@ package pl.coderslab.charity.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.component.JwtProvider;
 import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.EmailService;
 import pl.coderslab.charity.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/login")
-@SessionAttributes({"token", "email"})
 public class LoginController {
 
     private final UserService userService;
     private final EmailService emailService;
+    private final JwtProvider jwtProvider;
 
-    public LoginController(UserService userService, EmailService emailService) {
+    public LoginController(UserService userService, EmailService emailService, JwtProvider jwtProvider) {
         this.userService = userService;
         this.emailService = emailService;
+        this.jwtProvider = jwtProvider;
     }
 
     @GetMapping
@@ -44,10 +45,7 @@ public class LoginController {
             return "form-confirmation";
         }
 
-        String tokenEmail = emailService.getToken();
-
-        model.addAttribute("token", tokenEmail);
-        model.addAttribute("email", email);
+        String tokenEmail = jwtProvider.generateToken(email);
 
         model.addAttribute("sendEmail",
                 emailService.SendEmail(restoreUser.getName(),
@@ -65,44 +63,42 @@ public class LoginController {
     }
 
     @GetMapping("/forgot/{token}")
-    public String forgotPassForm(Model model, @PathVariable String token, HttpSession httpSession) {
+    public String forgotPassForm(Model model, @PathVariable String token) {
 
         if (token == null) {
             return "redirect:/login";
         } else {
-            if (!token.equals(httpSession.getAttribute("token"))) {
+            if (!jwtProvider.validateToken(token)) {
                 model.addAttribute("textMessage", "<p>Błąd linku lub link jest nieprawidłowy.</p>"
                         + "<p><a href=\"/login/forgot\" class=\"btn btn--without-border\">Powtarzać</a></p>");
                 return "form-confirmation";
             }
         }
 
-        User restoreUser = userService.findByUserName(httpSession.getAttribute("email").toString());
+        User restoreUser = userService.findByUserName(jwtProvider.getLoginFromToken(token));
         model.addAttribute("user", restoreUser);
 
         return "register-new-password";
     }
 
     @PostMapping("/forgot/{token}")
-    public String forgotPassSubmit(Model model, User user,
-                                   HttpSession httpSession) {
+    public String forgotPassSubmit(Model model, User user, @PathVariable String token) {
 
         if (!user.getPassword().equals(user.getPassword2())) {
             model.addAttribute("textMessage", "<p>Hasła nie pasują do siebie.</p>"
-                    + "<p><a href=\"/login/forgot/" + httpSession.getAttribute("token") +
+                    + "<p><a href=\"/login/forgot/" + token +
                     "\" class=\"btn btn--without-border\">Powtarzać</a></p>");
             return "form-confirmation";
         }
 
         if (user.getPassword().length() < 8) {
             model.addAttribute("textMessage", "<p>Złe hasło.</p>"
-                    + "<p><a href=\"/login/forgot/" + httpSession.getAttribute("token") +
+                    + "<p><a href=\"/login/forgot/" + token +
                     "\" class=\"btn btn--without-border\">Powtarzać</a></p>");
             return "form-confirmation";
         }
 
-        model.addAttribute("token", "");
-        User restoreUser = userService.findByUserName((String) httpSession.getAttribute("email"));
+        User restoreUser = userService.findByUserName(jwtProvider.getLoginFromToken(token));
         if (restoreUser != null) {
             restoreUser.setPassword(user.getPassword());
             userService.saveNewPassUser(restoreUser);
