@@ -1,7 +1,7 @@
 package pl.coderslab.charity.service;
 
 import org.springframework.stereotype.Service;
-import pl.coderslab.charity.entity.pojo.EmailAuthenticator;
+import pl.coderslab.charity.component.EmailAuthenticator;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

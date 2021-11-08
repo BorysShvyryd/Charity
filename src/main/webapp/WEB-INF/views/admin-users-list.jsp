@@ -36,7 +36,7 @@
                 <td><c:out value="${user.id}"/></td>
                 <td><c:out value="${user.name}"/></td>
                 <c:choose>
-                    <c:when test="${user.enabled}">
+                    <c:when test="${user.enabled == 1}">
                         <td>Odblokowany</td>
                     </c:when>
                     <c:otherwise>
@@ -53,7 +53,7 @@
                     <button onclick="document.location='/admin/users/forgot?email=${user.name}'">Odzyskiwanie hasła</button>
                     <button onclick="document.location='/admin/users/role?id=${user.id}'">Zmień rolę admin</button>
                     <c:choose>
-                        <c:when test="${user.enabled}">
+                        <c:when test="${user.enabled == 1}">
                             <button onclick="document.location='/admin/users/status?id=${user.id}'">Zablokuj</button>
                         </c:when>
                         <c:otherwise>

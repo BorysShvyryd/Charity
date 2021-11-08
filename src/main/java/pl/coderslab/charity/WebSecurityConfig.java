@@ -1,13 +1,11 @@
 package pl.coderslab.charity;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.coderslab.charity.service.UserDetailsServiceImpl;
 
@@ -16,7 +14,7 @@ import pl.coderslab.charity.service.UserDetailsServiceImpl;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
-    public UserDetailsServiceImpl customUserDetailsService() {
+    public UserDetailsServiceImpl currentUserDetailsService() {
         return new UserDetailsServiceImpl();
     }
 
@@ -53,17 +51,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/403");
+//                .and()
+//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth)
+//            throws Exception {
+//
+//        auth
+//                .userDetailsService(new UserDetailsServiceImpl())
+//                .passwordEncoder(bCryptPasswordEncoder());
+//
+//    }
+@Override
+protected void configure(AuthenticationManagerBuilder auth)
+        throws Exception {
 
-        auth
-                .userDetailsService(customUserDetailsService())
-                .passwordEncoder(bCryptPasswordEncoder());
+    auth
+            .userDetailsService(currentUserDetailsService())
+            .passwordEncoder(bCryptPasswordEncoder());
 
-    }
+}
 }
 
 

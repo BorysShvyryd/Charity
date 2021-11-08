@@ -1,4 +1,4 @@
-package pl.coderslab.charity.entity.pojo;
+package pl.coderslab.charity.component;
 
 import javax.mail.PasswordAuthentication;
 
