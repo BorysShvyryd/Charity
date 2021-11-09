@@ -442,6 +442,10 @@ h2:after {
   width: 70vw;
 }
 
+.container--50 {
+  width: 50vw;
+}
+
 /* line 30, scss/modules/_base.scss */
 .container--85 {
   width: 85vw;
@@ -622,6 +626,19 @@ form .form-group--inline label {
 /* line 43, scss/modules/_forms.scss */
 form .form-group--inline label input {
   margin-left: 15px;
+}
+
+form .form-group--profile label {
+  margin-left: 15px;
+  font-size: 1.8rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+form .form-group--profile label input {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* line 49, scss/modules/_forms.scss */

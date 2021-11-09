@@ -10,36 +10,36 @@
     <jsp:include page="fragments/header-menu.jsp" flush="true"/>
 </header>
 
-<section class="login-page">
+<section class="form-group container container--50">
     <h2>Mój profil</h2>
     <form:form modelAttribute="user" method="post">
         <form:hidden path="id"/>
 
-        <div class="form-group form-group--50">
+        <div class="form-group--50 form-group--profile">
             <label>
                 Email
                 <form:input path="email" disabled="true"/>
             </label>
         </div>
-        <div class="form-group form-group--50">
+        <div class="form-group--50 form-group--profile">
             <label>
                 Imie
                 <form:input path="name"/>
             </label>
         </div>
-        <div class="form-group form-group--50">
+        <div class="form-group--50 form-group--profile">
             <label>
                 Nazwisko
                 <form:input path="surname"/>
             </label>
         </div>
-        <div class="form-group form-group--50">
+        <div class="form-group--50 form-group--profile">
             <label>
                 Adres
                 <form:input path="address"/>
             </label>
         </div>
-        <div class="form-group form-group--50">
+        <div class="form-group--50 form-group--profile">
             <label>
                 Telefon
                 <form:input path="phone"/>

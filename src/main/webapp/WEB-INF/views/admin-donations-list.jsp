@@ -44,7 +44,7 @@
                 <th>DATA OTRZYMANIA</th>
                 <th>DATA PRZENIESIENIA</th>
                 <th>AKCJE
-                    <a href="/admin/donations/list"> (❌ zresetuj filtry)</a>
+                    <a href="/admin/donations/list"> (❌ filtr)</a>
                 </th>
             </tr>
             </thead>

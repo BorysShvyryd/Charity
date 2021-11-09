@@ -18,23 +18,22 @@ public class HomeController {
     private final InstitutionService institutionService;
     private final DonationService donationService;
     private final CharityMessageService charityMessageService;
-    private final UserService userService;
 
     public HomeController(InstitutionService institutionService,
                           DonationService donationService,
-                          CharityMessageService charityMessageService,
-                          UserService userService) {
+                          CharityMessageService charityMessageService) {
         this.institutionService = institutionService;
         this.donationService = donationService;
         this.charityMessageService = charityMessageService;
-        this.userService = userService;
     }
 
     @GetMapping("/")
     public String homeAction(Model model, @AuthenticationPrincipal CurrentUserDetails currentUser) {
-        User user = currentUser.getUser();
-        if (user != null)
+
+        if (currentUser != null) {
+            User user = currentUser.getUser();
             model.addAttribute("currentUserName", user.getName());
+        }
 
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
         model.addAttribute("allBagsReturned", donationService.sumOfAllBagsReturned());
