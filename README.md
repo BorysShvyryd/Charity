@@ -8,11 +8,13 @@ Project architect: [*Borys Shvyryd*](https://github.com/BorysShvyryd)
 
 * Spring Boot
 * Spring Data JPA
+* Spring MVC
 * Spring Security
 * Spring Form
 * Spring Mail
 * Spring JWT
 * Hibernate
 * JavaScript
+* Lombok
+* JPA
 * ...
-

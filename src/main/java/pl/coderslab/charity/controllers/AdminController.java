@@ -1,5 +1,6 @@
 package pl.coderslab.charity.controllers;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,11 +12,9 @@ import pl.coderslab.charity.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -256,10 +255,10 @@ public class AdminController {
     }
 
     @GetMapping("/users/status")
-    public String statusUserChange(@RequestParam Long id, Principal principal, Model model) {
+    public String statusUserChange(@RequestParam Long id, @AuthenticationPrincipal CurrentUserDetails currUser, Model model) {
 
         User user = userService.findById(id);
-        User currentUser = userService.findByEmail(principal.getName());
+        User currentUser = currUser.getUser();
 
         if (user.getId().equals(currentUser.getId())) {
             model.addAttribute("textMessage", "<p>Nie możesz zablokować swojego profilu.</p>" +
@@ -278,10 +277,10 @@ public class AdminController {
     }
 
     @GetMapping("/users/delete")
-    public String userDeleteForm(@RequestParam Long id, Model model, Principal principal) {
+    public String userDeleteForm(@RequestParam Long id, Model model,  @AuthenticationPrincipal CurrentUserDetails currUser) {
 
         User user = userService.findById(id);
-        User currentUser = userService.findByEmail(principal.getName());
+        User currentUser = currUser.getUser();
 
         if (user.getId().equals(currentUser.getId())) {
             model.addAttribute("textMessage", "<p>Nie możesz usunąć swojego profilu.</p>" +
@@ -300,7 +299,7 @@ public class AdminController {
     }
 
     @GetMapping("/users/role")
-    public String changeAdminRole(@RequestParam Long id, Model model, Principal principal) {
+    public String changeAdminRole(@RequestParam Long id, Model model,  @AuthenticationPrincipal CurrentUserDetails currUser) {
 
         User user = userService.findById(id);
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
@@ -319,7 +318,7 @@ public class AdminController {
             }
         } else {
             roleSet.add(adminRole);
-            emailMessage = principal.getName() + " mianował Cię administratorem Charity.";
+            emailMessage = currUser.getUsername() + " mianował Cię administratorem Charity.";
         }
 
         user.setRoleSet(roleSet);

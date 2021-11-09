@@ -129,7 +129,10 @@
                     <div class="form-section--column">
                         <h4>Adres odbioru</h4>
                         <div class="form-group form-group--inline">
-                            <label> Ulica <input type="text" name="street" id="input-address"/> </label>
+<%--                            <c:set var="user-street" value="${loggedUser.address}"/>--%>
+                            <label> Ulica
+                                <input type="text" name="street" id="input-address" value=""/>
+                            </label>
                         </div>
 
                         <div class="form-group form-group--inline">

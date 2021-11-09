@@ -9,6 +9,7 @@ import java.util.Collection;
 
 public class CurrentUserDetails implements UserDetails, Serializable, CredentialsContainer {
 
+    private User user;
     private String login;
     private String password;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
@@ -18,7 +19,12 @@ public class CurrentUserDetails implements UserDetails, Serializable, Credential
         currentUserDetails.login = currentUser.getEmail();
         currentUserDetails.password = currentUser.getPassword();
         currentUserDetails.grantedAuthorities = currentUser.getRoleSet();
+        currentUserDetails.user = currentUser;
         return currentUserDetails;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override

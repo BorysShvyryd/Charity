@@ -1,14 +1,15 @@
 package pl.coderslab.charity.controllers;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.coderslab.charity.entity.CurrentUserDetails;
 import pl.coderslab.charity.entity.Donation;
 import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -29,34 +30,32 @@ public class MainController {
     }
 
     @GetMapping("/charity")
-    public String charity(Model model) {
+    public String charity(@AuthenticationPrincipal CurrentUserDetails currentUser, Model model) {
 
         model.addAttribute("categories", categoryService.findAllActive());
         model.addAttribute("institutions", institutionService.findAllActive());
         model.addAttribute("donation", new Donation());
+        model.addAttribute("loggedUser", currentUser);
         return "form";
     }
 
     @PostMapping("/charity")
-    public String charitySubmit(Donation donation, Principal principal, Model model) {
+    public String charitySubmit(Donation donation, @AuthenticationPrincipal CurrentUserDetails currUser, Model model) {
 
-        if (principal != null) {
+        User user = currUser.getUser();
+        donation.setUser(user);
+        donationService.save(donation);
 
-            User user = userService.findByEmail(principal.getName());
-            donation.setUser(user);
-            donationService.save(donation);
-
-            emailService.SendEmail(principal.getName(), "Service CHARITY"
-                    ,"\t\tPodsumowanie Twojej darowizny\n"
-            + "\t Oddajesz:\n"
-            + "\t\t" + donation.getQuantity() + " worki ubrań w dobrym stanie dla dzieci\n"
-            + "\t\t" + donation.getInstitution().getName() + "\n"
-            + "\t\t" + "Adres odbioru:\t\tTermin odbioru:\n"
-            + "\t\t" + donation.getStreet() + "\t\t\t" + donation.getPickUpDate() + "\n"
-            + "\t\t" + donation.getCity() + "\t\t\t" + donation.getPickUpTime() + "\n"
-            + "\t\t" + donation.getZipCode() + "\t\t\t" + donation.getPickUpComment() + "\n"
-            + "\t\t" + donation.getPhone() + "\n");
-        }
+        emailService.SendEmail(currUser.getUsername(), "Service CHARITY"
+                , "\t\tPodsumowanie Twojej darowizny\n"
+                        + "\t Oddajesz:\n"
+                        + "\t\t" + donation.getQuantity() + " worki ubrań w dobrym stanie dla dzieci\n"
+                        + "\t\t" + donation.getInstitution().getName() + "\n"
+                        + "\t\t" + "Adres odbioru:\t\tTermin odbioru:\n"
+                        + "\t\t" + donation.getStreet() + "\t\t\t" + donation.getPickUpDate() + "\n"
+                        + "\t\t" + donation.getCity() + "\t\t\t" + donation.getPickUpTime() + "\n"
+                        + "\t\t" + donation.getZipCode() + "\t\t\t" + donation.getPickUpComment() + "\n"
+                        + "\t\t" + donation.getPhone() + "\n");
 
         model.addAttribute("textMessage"
                 , "<p>Dziękujemy za przesłanie formularza.</p>" +
@@ -71,13 +70,13 @@ public class MainController {
     }
 
     @GetMapping("/charity/profile")
-    public String profileForm(Principal principal, Model model) {
+    public String profileForm(@AuthenticationPrincipal CurrentUserDetails currentUser, Model model) {
 
-        User user = userService.findByEmail(principal.getName());
-        model.addAttribute("user", user);
+        model.addAttribute("user", currentUser.getUser());
 
         return "profile";
     }
+
     @PostMapping("/charity/profile")
     public String profileSubmit(User user) {
 
@@ -98,11 +97,11 @@ public class MainController {
     }
 
     @PostMapping("/charity/change-pass")
-    public String changePassSubmit(User user, Principal principal, Model model) {
+    public String changePassSubmit(User user, @AuthenticationPrincipal CurrentUserDetails currUser, Model model) {
 
         if (!user.getPassword().equals(user.getPassword2())) return "change-pass-form";
 
-        User currentUser = userService.findByEmail(principal.getName());
+        User currentUser = currUser.getUser();
         currentUser.setPassword(user.getPassword());
         userService.saveNewPassUser(currentUser);
 
@@ -112,14 +111,12 @@ public class MainController {
     }
 
     @GetMapping("/charity/list-bag")
-    public String listBagsForm(Model model, Principal principal) {
+    public String listBagsForm(Model model, @AuthenticationPrincipal CurrentUserDetails currUser) {
 
-        if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
-            List<Donation> donations = donationService.findAllByUserSortByStatus(user);
-            model.addAttribute("donations", donations);
-            model.addAttribute("title_page", "Lista wszystkich moich darów");
-        }
+        User user = currUser.getUser();
+        List<Donation> donations = donationService.findAllByUserSortByStatus(user);
+        model.addAttribute("donations", donations);
+        model.addAttribute("title_page", "Lista wszystkich moich darów");
 
         return "admin-donations-list";
     }
