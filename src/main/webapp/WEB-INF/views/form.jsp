@@ -124,14 +124,13 @@
             <!-- STEP 4 -->
             <div data-step="4">
                 <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
-
+<input value="${loggedUser}" type="hidden" id="hidden-value">
                 <div class="form-section form-section--columns">
                     <div class="form-section--column">
                         <h4>Adres odbioru</h4>
                         <div class="form-group form-group--inline">
                             <label> Ulica
-<%--                                ${loggedUser.address}"--%>
-                                <input type="text" name="street" id="input-address" value=""/>
+                                <input type="text" name="street" id="input-address"/>
                             </label>
                         </div>
 
@@ -172,7 +171,7 @@
                 </div>
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
-                    <button type="button" class="btn next-step" onclick="summaryForm()">Dalej</button>
+                    <button type="button" class="btn next-step">Dalej</button>
                 </div>
             </div>
 
@@ -218,45 +217,6 @@
                         </div>
                     </div>
                 </div>
-
-                <script type="text/javascript">
-
-                    function summaryForm() {
-
-                        let index = document.querySelectorAll('input[name="institution"]');
-                        let selectedValue;
-                        for (const i of index) {
-                            if (i.checked) {
-                                selectedValue = i.value;
-                                break;
-                            }
-                        }
-
-                        let input_number_bags = document.getElementById("input-number-bags");
-                        let input_organization = document.getElementById("input-organization-name" + selectedValue);
-                        let input_address = document.getElementById("input-address");
-                        let input_city = document.getElementById("input-city");
-                        let input_postcode = document.getElementById("input-postcode");
-                        let input_phone = document.getElementById("input-phone");
-                        let input_date = document.getElementById("input-date");
-                        let input_time = document.getElementById("input-time");
-                        let textarea_more_info = document.getElementById("textarea-more-info");
-
-                        document.getElementById("span-count-bags").innerText = input_number_bags.value + ' worki ubrań w dobrym stanie dla dzieci';
-                        document.getElementById("span-institution").innerText = input_organization.innerText;
-                        document.getElementById("li-address").innerText = input_address.value;
-                        document.getElementById("li-city").innerText = input_city.value;
-                        document.getElementById("li-postcode").innerText = input_postcode.value;
-                        document.getElementById("li-phone").innerText = input_phone.value;
-                        document.getElementById("li-date").innerText = input_date.value;
-                        document.getElementById("li-time").innerText = input_time.value;
-                        if (textarea_more_info.value === '') {
-                            document.getElementById("li-more-info").innerText = 'Brak uwag';
-                        } else {
-                            document.getElementById("li-more-info").innerText = textarea_more_info.value;
-                        }
-                    }
-                </script>
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
