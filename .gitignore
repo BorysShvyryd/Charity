@@ -55,8 +55,8 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 #####
-application.properties
-email.properties
+#application.properties
+#email.properties
 #####
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
