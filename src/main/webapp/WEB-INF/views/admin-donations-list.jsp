@@ -20,12 +20,32 @@
                 <th>ID</th>
                 <th>KATEGORII</th>
                 <th>LICZBĘ WORKÓW</th>
-                <th>FUNDACJI</th>
-                <th>ADRES</th>
-                <th>UŻYTKOWNIK</th>
+                <th>FUNDACJI
+                    <a href="/admin/donations/list/sort=institution_up"> ▲</a>
+                    <a href="/admin/donations/list/sort=institution_down">▼</a><br>
+                    <form method="post" action="/admin/donations/list/filter=institution" style="margin-top: 0">
+                        <input type="text" name="querySearch" id="query-fund" placeholder="Search"/>
+                    </form>
+                </th>
+                <th>ADRES
+                    <a href="/admin/donations/list/sort=address_up"> ▲</a>
+                    <a href="/admin/donations/list/sort=address_down">▼</a><br>
+                    <form method="post" action="/admin/donations/list/filter=address" style="margin-top: 0">
+                        <input type="text" name="querySearch" id="query-address" placeholder="Search"/>
+                    </form>
+                </th>
+                <th>UŻYTKOWNIK
+                    <a href="/admin/donations/list/sort=username_up"> ▲</a>
+                    <a href="/admin/donations/list/sort=username_down">▼</a><br>
+                    <form method="post" action="/admin/donations/list/filter=username" style="margin-top: 0">
+                        <input type="text" name="querySearch" id="query-user" placeholder="Search"/>
+                    </form>
+                </th>
                 <th>DATA OTRZYMANIA</th>
                 <th>DATA PRZENIESIENIA</th>
-                <th>AKCJE</th>
+                <th>AKCJE
+                    <a href="/admin/donations/list"> (❌ zresetuj filtry)</a>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -59,12 +79,14 @@
                     <c:out value=" ${donation.user.surname}"/>
                 </td>
                 <td>
-                    <fmt:parseDate value="${ donation.dateTimeReceived }" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
-                    <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" />
+                    <fmt:parseDate value="${ donation.dateTimeReceived }" pattern="yyyy-MM-dd'T'HH:mm:ss"
+                                   var="parsedDateTime" type="both"/>
+                    <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}"/>
                 </td>
                 <td>
-                    <fmt:parseDate value="${ donation.dateTimeTransmitted }" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
-                    <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" />
+                    <fmt:parseDate value="${ donation.dateTimeTransmitted }" pattern="yyyy-MM-dd'T'HH:mm:ss"
+                                   var="parsedDateTime" type="both"/>
+                    <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}"/>
                 </td>
                 <td>
                     <c:if test="${donation.status == 2}">

@@ -11,6 +11,7 @@ Project architect: [*Borys Shvyryd*](https://github.com/BorysShvyryd)
 * Spring Security
 * Spring Form
 * Spring Mail
+* Spring JWT
 * Hibernate
 * JavaScript
 * ...

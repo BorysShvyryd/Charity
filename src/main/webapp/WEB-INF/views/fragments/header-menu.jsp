@@ -2,7 +2,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<nav class="container container--70">
+<nav class="container container--85">
 
     <sec:authorize access="!isAuthenticated()">
         <ul class="nav--actions">
