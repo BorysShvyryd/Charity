@@ -35,7 +35,7 @@ public class MainController {
         model.addAttribute("categories", categoryService.findAllActive());
         model.addAttribute("institutions", institutionService.findAllActive());
         model.addAttribute("donation", new Donation());
-        model.addAttribute("loggedUser", currentUser);
+        model.addAttribute("loggedUser", currentUser.getUser());
         return "form";
     }
 
