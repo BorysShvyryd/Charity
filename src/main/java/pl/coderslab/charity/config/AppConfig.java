@@ -1,4 +1,4 @@
-package pl.coderslab.charity;
+package pl.coderslab.charity.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
