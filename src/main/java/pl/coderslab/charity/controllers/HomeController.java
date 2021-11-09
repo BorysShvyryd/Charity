@@ -1,16 +1,15 @@
 package pl.coderslab.charity.controllers;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.entity.CurrentUserDetails;
 import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.CharityMessageService;
 import pl.coderslab.charity.service.UserService;
-
-import java.security.Principal;
-
 
 @Controller
 @SessionAttributes("currentUserName")
@@ -32,12 +31,11 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String homeAction(Model model, Principal principal) {
-        if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
-            if (user != null)
-                model.addAttribute("currentUserName", user.getName());
-        }
+    public String homeAction(Model model, @AuthenticationPrincipal CurrentUserDetails currentUser) {
+        User user = currentUser.getUser();
+        if (user != null)
+            model.addAttribute("currentUserName", user.getName());
+
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
         model.addAttribute("allBagsReturned", donationService.sumOfAllBagsReturned());
         model.addAttribute("countDonations", donationService.count());
