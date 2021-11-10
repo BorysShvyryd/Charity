@@ -23,9 +23,9 @@
         <sec:authorize access="isAuthenticated()">
             <li><a href="/charity" class="btn btn--without-border active">
                 <spring:message code="header-menu.li.menu.start.title"/></a></li>
-            <li><a href="/charity/list-bag" class="btn btn--without-border">
-                <spring:message code="header-menu.li.menu.list-inst.title"/></a></li>
             <sec:authorize access="!hasRole('ROLE_ADMIN')">
+                <li><a href="/charity/list-bag" class="btn btn--without-border">
+                    <spring:message code="header-menu.li.menu.list-inst.title"/></a></li>
                 <li><a href="/charity/profile" class="btn btn--without-border">
                     <spring:message code="header-menu.li.menu.profile.title"/></a></li>
             </sec:authorize>

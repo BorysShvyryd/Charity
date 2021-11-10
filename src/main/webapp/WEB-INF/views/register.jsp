@@ -22,6 +22,7 @@
         <div class="form-group">
             <input type="email" name="name" placeholder="Email"/>
         </div>
+    <c:if test="pre_registration"
         <div class="form-group">
             <input type="password" name="password" placeholder="Hasło"/>
         </div>
