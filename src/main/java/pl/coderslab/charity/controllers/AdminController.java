@@ -307,23 +307,25 @@ public class AdminController {
         Set<Role> roleSet = user.getRoleSet();
         String emailMessage = "";
 
-        if (roleSet.contains(adminRole)) {
-            if (userService.countAdmin() <= 1) {
-                model.addAttribute("textMessage", "<p>Jesteś jedynym administratorem.</p>" +
-                        "<p>To nie jest dla Ciebie dostępne.</p>" +
-                        "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
-                return "form-confirmation";
-            } else {
-                roleSet.remove(adminRole);
-                emailMessage = "Rola administratora została dla Ciebie anulowana.";
-            }
-        } else {
-            roleSet.add(adminRole);
-            roleSet.add(userRole);
-            System.out.println(roleRepository.count());
-            System.out.println(userRole.getName());
-            emailMessage = currUser.getUsername() + " mianował Cię administratorem Charity.";
-        }
+//        if (roleSet.contains(adminRole)) {
+//            if (userService.countAdmin() <= 1) {
+//                model.addAttribute("textMessage", "<p>Jesteś jedynym administratorem.</p>" +
+//                        "<p>To nie jest dla Ciebie dostępne.</p>" +
+//                        "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+//                return "form-confirmation";
+//            } else {
+//                roleSet.remove(adminRole);
+//                emailMessage = "Rola administratora została dla Ciebie anulowana.";
+//            }
+//        } else {
+//            roleSet.add(adminRole);
+//            roleSet.add(userRole);
+//            System.out.println(roleRepository.count());
+//            System.out.println(userRole.getName());
+//            emailMessage = currUser.getUsername() + " mianował Cię administratorem Charity.";
+//        }
+
+        roleSet.add(userRole);
 
         user.setRoleSet(roleSet);
         userService.update(user);
