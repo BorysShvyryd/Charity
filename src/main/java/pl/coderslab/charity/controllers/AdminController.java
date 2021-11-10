@@ -323,7 +323,7 @@ public class AdminController {
 
         user.setRoleSet(roleSet);
         userService.update(user);
-        emailService.SendEmail(user.getName(), "Service CHARITY", emailMessage);
+        emailService.SendEmail(user.getEmail(), "Service CHARITY", emailMessage);
         return "redirect:/admin/users/list";
     }
 
