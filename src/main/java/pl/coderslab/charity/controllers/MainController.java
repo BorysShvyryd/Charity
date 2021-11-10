@@ -3,6 +3,7 @@ package pl.coderslab.charity.controllers;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.charity.entity.CurrentUserDetails;
@@ -10,6 +11,7 @@ import pl.coderslab.charity.entity.Donation;
 import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -78,15 +80,22 @@ public class MainController {
     }
 
     @PostMapping("/charity/profile")
-    public String profileSubmit(User user) {
+    public String profileSubmit(@AuthenticationPrincipal CurrentUserDetails currentUser,
+                                @Valid User user,
+                                BindingResult bindingResult) {
 
-        User changeUser = userService.findById(user.getId());
-        changeUser.setName(user.getName());
-        changeUser.setSurname(user.getSurname());
-        changeUser.setAddress(user.getAddress());
-        changeUser.setPhone(user.getPhone());
+        if (!bindingResult.hasErrors()) {
+            User changeUser = userService.findById(user.getId());
+            changeUser.setName(user.getName());
+            changeUser.setSurname(user.getSurname());
+            changeUser.setAddress(user.getAddress());
+            changeUser.setCity(user.getCity());
+            changeUser.setZipcode(user.getZipcode());
+            changeUser.setPhone(user.getPhone());
 
-        userService.update(changeUser);
+            userService.update(changeUser);
+            currentUser.setUser(changeUser);
+        }
 
         return "redirect:/charity/profile";
     }

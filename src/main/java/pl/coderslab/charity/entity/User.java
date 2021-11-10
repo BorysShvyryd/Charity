@@ -30,6 +30,14 @@ public class User {
     @Column(length = 128)
     private String address;
 
+    @Size(max = 64)
+    @Column(length = 64)
+    private String city;
+
+    @Size(max = 8)
+    @Column(length = 8)
+    private String zipcode;
+
     @Email
     @NotBlank
     @Size(max = 128)
@@ -76,6 +84,22 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     public String getEmail() {
