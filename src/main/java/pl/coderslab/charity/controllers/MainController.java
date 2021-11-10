@@ -92,7 +92,6 @@ public class MainController {
             changeUser.setCity(user.getCity());
             changeUser.setZipcode(user.getZipcode());
             changeUser.setPhone(user.getPhone());
-
             userService.update(changeUser);
             currentUser.setUser(changeUser);
         }
