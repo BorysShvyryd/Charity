@@ -307,7 +307,7 @@ public class AdminController {
         Set<Role> roleSet = user.getRoleSet();
         String emailMessage = "";
 
-        roleRepository.save(userRole);
+//        roleRepository.save(userRole);
         model.addAttribute("textMessage", roleRepository.count() +
                         "<p>To nie jest dla Ciebie dostępne.</p>" +
                         "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
