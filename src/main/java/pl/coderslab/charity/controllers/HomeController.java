@@ -26,7 +26,7 @@ public class HomeController {
         this.charityMessageService = charityMessageService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String homeAction(Model model, @AuthenticationPrincipal CurrentUserDetails currentUser) {
 
         if (currentUser != null) {
@@ -40,7 +40,7 @@ public class HomeController {
         return "index";
     }
 
-    @PostMapping("/")
+    @PostMapping
     public String sendMessageSubmit(Model model,
                                     @RequestParam String name,
                                     @RequestParam String surname,
