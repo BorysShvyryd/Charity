@@ -2,18 +2,15 @@ package pl.coderslab.charity.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.component.JwtProvider;
 import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.EmailService;
 import pl.coderslab.charity.service.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
@@ -116,5 +113,4 @@ public class RegistrationController {
 
         return "redirect:/email";
     }
-
 }
