@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.charity.component.JwtProvider;
+import pl.coderslab.charity.entity.Role;
 import pl.coderslab.charity.entity.User;
+import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.service.EmailService;
 import pl.coderslab.charity.service.UserServiceImpl;
 
@@ -18,11 +20,13 @@ public class RegistrationController {
     private final UserServiceImpl userService;
     private final EmailService emailService;
     private final JwtProvider jwtProvider;
+    private final RoleRepository roleRepository;
 
-    public RegistrationController(UserServiceImpl userService, EmailService emailService, JwtProvider jwtProvider) {
+    public RegistrationController(UserServiceImpl userService, EmailService emailService, JwtProvider jwtProvider, RoleRepository roleRepository) {
         this.userService = userService;
         this.emailService = emailService;
         this.jwtProvider = jwtProvider;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping("/register")
@@ -74,11 +78,23 @@ public class RegistrationController {
             return "form-confirmation";
         }
 
+        if (roleRepository.count() == 0)
+            initializationRole();
+
         User registersUser = new User();
         registersUser.setEmail(jwtProvider.getLoginFromToken(token));
         model.addAttribute("user", registersUser);
         model.addAttribute("pre_registration", false);
         return "register";
+    }
+
+    private void initializationRole() {
+
+        Role role = new Role();
+        role.setName("ROLE_USER");
+        roleRepository.save(role);
+        role.setName("ROLE_ADMIN");
+        roleRepository.save(role);
     }
 
     @PostMapping("/register/{token}")
