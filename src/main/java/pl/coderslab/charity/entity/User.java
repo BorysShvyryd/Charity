@@ -43,8 +43,6 @@ public class User {
     @Column(nullable = false, unique = true, length = 128)
     private String email;
 
-    @NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
-    @Size(min = 8, max = 128)
     @Column(length = 128)
     private String password;
 
