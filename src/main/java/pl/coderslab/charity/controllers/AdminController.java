@@ -303,6 +303,7 @@ public class AdminController {
 
         User user = userService.findById(id);
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        Role userRole = roleRepository.findByName("ROLE_USER");
         Set<Role> roleSet = user.getRoleSet();
         String emailMessage = "";
 
@@ -318,6 +319,7 @@ public class AdminController {
             }
         } else {
             roleSet.add(adminRole);
+            roleSet.add(userRole);
             emailMessage = currUser.getUsername() + " mianował Cię administratorem Charity.";
         }
 
