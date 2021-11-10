@@ -515,4 +515,20 @@ public class AdminController {
         return "redirect:/admin/donations/list";
     }
 
+    @GetMapping("/add-user-role")
+    @ResponseBody
+    private String serv() {
+        Role userRole = new Role();
+        userRole.setName("ROLE_USER");
+        roleRepository.save(userRole);
+        return "ok";
+    }
+    @GetMapping("/count-user-role")
+    @ResponseBody
+    private String countRole() {
+
+        return "" + roleRepository.count();
+    }
+
+
 }
