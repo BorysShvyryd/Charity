@@ -127,6 +127,6 @@ public class RegistrationController {
                 , "Service CHARITY"
                 , "Dziękujemy za rejestrację na naszej stronie.");
 
-        return "redirect:/email";
+        return "redirect:/login";
     }
 }

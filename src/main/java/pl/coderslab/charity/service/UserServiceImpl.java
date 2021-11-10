@@ -10,7 +10,7 @@ import pl.coderslab.charity.repository.UserRepository;
 import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -25,15 +25,18 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void save(User user) {
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(1);
-        Role userRole = roleRepository.findByName("ROLE_USER");
         Set<Role> roleSet = new HashSet<>();
-        roleSet.add(userRole);
+        roleSet.add(roleRepository.findByName("ROLE_USER"));
+
         if (userRepository.count() == 0) {
             roleSet.add(roleRepository.findByName("ROLE_ADMIN"));
-            user.setRoleSet(roleSet);
         }
+
+        user.setRoleSet(roleSet);
+
         userRepository.save(user);
     }
 
