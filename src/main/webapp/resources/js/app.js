@@ -166,8 +166,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             if (category.checked) return true;
                         return false;
                     }
-                    case 2:
-                        return document.getElementById("input-number-bags").value > 0;
+                    case 2: {
+                        let input_number_bags = document.getElementById("input-number-bags");
+                        input_number_bags.style.borderColor = "black";
+                        if (input_number_bags.value > 0) return true;
+                        input_number_bags.style.borderColor = "red";
+                        return false;
+                    }
                     case 3: {
                         let index = document.querySelectorAll('input[name="institution"]');
                         for (const i of index) {
@@ -178,14 +183,44 @@ document.addEventListener("DOMContentLoaded", function () {
                         return false;
                     }
                     case 4: {
-                        if (document.getElementById("input-address").value !== ""
-                            && document.getElementById("input-city").value !== ""
-                            && document.getElementById("input-postcode").value !== ""
-                            && document.getElementById("input-phone").value !== ""
-                            && document.getElementById("input-date").value !== ""
-                            && document.getElementById("input-time").value !== "")
-                            return true;
-                        return false;
+                        let result = true;
+                        let input_address = document.getElementById("input-address");
+                        input_address.style.borderColor = "black";
+                        if (input_address.value === "") {
+                            input_address.style.borderColor = "red";
+                            result = false;
+                        }
+                        let input_city = document.getElementById("input-city");
+                        input_city.style.borderColor = "black";
+                        if (input_city.value === "") {
+                            input_city.style.borderColor = "red";
+                            result = false;
+                        }
+                        let input_postcode = document.getElementById("input-postcode");
+                        input_postcode.style.borderColor = "black";
+                        if (input_postcode.value === "") {
+                            input_postcode.style.borderColor = "red";
+                            result = false;
+                        }
+                        let input_phone = document.getElementById("input-phone");
+                        input_phone.style.borderColor = "black";
+                        if (input_phone.value === "") {
+                            input_phone.style.borderColor = "red";
+                            result = false;
+                        }
+                        let input_date = document.getElementById("input-date");
+                        input_date.style.borderColor = "black";
+                        if (input_date.value === "") {
+                            input_date.style.borderColor = "red";
+                            result = false;
+                        }
+                        let input_time = document.getElementById("input-time");
+                        input_time.style.borderColor = "black";
+                        if (input_time.value === "") {
+                            input_time.style.borderColor = "red";
+                            result = false;
+                        }
+                        return result;
                     }
                     default:
                         return true;
