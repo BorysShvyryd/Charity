@@ -15,12 +15,12 @@
     <form:form modelAttribute="message" method="post">
 
         <div class="form-group">
-            <div><form:input path="name" title="IMIĘ" disabled="true"/></div>
-            <div><form:input path="surname" title="NAZWISKO" disabled="true"/></div>
+            <div><form:input path="name" title="IMIĘ" readonly="true"/></div>
+            <div><form:input path="surname" title="NAZWISKO" readonly="true"/></div>
         </div>
 
         <div class="form-group">
-            <form:textarea path="message" title="Wiadomość" disabled="true"/>
+            <form:textarea path="message" title="Wiadomość" readonly="true"/>
         </div>
 
         <div class="form-group form-group--buttons">
