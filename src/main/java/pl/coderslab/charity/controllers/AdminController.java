@@ -320,6 +320,8 @@ public class AdminController {
         } else {
             roleSet.add(adminRole);
             roleSet.add(userRole);
+            System.out.println(roleRepository.count());
+            System.out.println(userRole.getName());
             emailMessage = currUser.getUsername() + " mianował Cię administratorem Charity.";
         }
 
