@@ -27,6 +27,10 @@ public class CurrentUserDetails implements UserDetails, Serializable, Credential
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return grantedAuthorities;
