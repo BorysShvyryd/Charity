@@ -15,7 +15,7 @@
     <form:form modelAttribute="user" method="post">
         <form:hidden path="id"/>
 
-        <div class="form-section form-section--columns">
+        <div class="form-section form-section--columns" style="margin-left: 25%">
             <div class="form-section--column">
                 <div class="form-group form-group--inline">
                     <label>
@@ -64,7 +64,8 @@
             </div>
         </div>
         <div class="form-group"></div>
-        <div class="form-section--columns form-group">
+        <div class="form-group"></div>
+        <div class="form-section--columns form-group" style="margin-left: 40%">
             <a href="/charity/change-pass" class="btn btn--without-border">Zmień hasło</a>
             <button class="btn" type="submit">Zapisać</button>
         </div>

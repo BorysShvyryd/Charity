@@ -14,8 +14,10 @@
     <h2>Załóż konto</h2>
     <form:form modelAttribute="user" method="post">
 
-        <div class="form-group">
+        <div class="form-group form-group--inline">
+            <label>Email
             <form:input path="email" readonly="${not pre_registration}"/>
+            </label>
         </div>
 
         <c:if test="${not pre_registration}">
