@@ -57,7 +57,7 @@ public class AdminController {
         Category category = categoryService.getById(id);
         category.setStatus(!category.getStatus());
         categoryService.save(category);
-        return "redirect:/admin/category-list";
+        return "redirect:/admin/category/list";
     }
 
     @GetMapping("/category/add")
@@ -78,7 +78,7 @@ public class AdminController {
         category.setStatus(true);
         categoryService.save(category);
 
-        return "redirect:/admin/category-list";
+        return "redirect:/admin/category/list";
     }
 
     @GetMapping("/category/edit")
@@ -98,7 +98,7 @@ public class AdminController {
         }
         categoryService.save(category);
 
-        return "redirect:/admin/category-list";
+        return "redirect:/admin/category/list";
     }
 
     @GetMapping("/category/delete")
@@ -108,7 +108,7 @@ public class AdminController {
 
         try {
             categoryService.delete(category);
-            return "redirect:/admin/category-list";
+            return "redirect:/admin/category/list";
         } catch (RuntimeException ex) {
             model.addAttribute("textMessage", "<p>Ta kategoria zawiera powiązane wpisy.</p>" +
                     "<p>Można go dezaktywować.</p>" +
