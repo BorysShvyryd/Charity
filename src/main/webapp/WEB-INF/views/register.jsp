@@ -12,29 +12,26 @@
 
 <section class="login-page">
     <h2>Załóż konto</h2>
-    <form modelAttribute="user" method="post">
+    <form:form modelAttribute="user" method="post">
 
-<%--        <form:errors path="password">--%>
-<%--            <div class="form-group">--%>
-<%--                kbkjbkjb--%>
-<%--            </div>--%>
-<%--        </form:errors>--%>
         <div class="form-group">
-            <input type="email" name="name" placeholder="Email"/>
+            <form:input path="email" readonly="${not pre_registration}"/>
         </div>
-    <c:if test="pre_registration"
-        <div class="form-group">
-            <input type="password" name="password" placeholder="Hasło"/>
-        </div>
-        <div class="form-group">
-            <input type="password" name="password2" placeholder="Powtórz hasło"/>
-        </div>
+
+        <c:if test="${not pre_registration}">
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Hasło"/>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password2" placeholder="Powtórz hasło"/>
+            </div>
+        </c:if>
 
         <div class="form-group form-group--buttons">
             <a href="/login" class="btn btn--without-border">Zaloguj się</a>
             <button class="btn" type="submit">Załóż konto</button>
         </div>
-    </form>
+    </form:form>
 </section>
 
 <jsp:include page="fragments/footer.jsp" flush="true"/>

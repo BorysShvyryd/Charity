@@ -327,7 +327,6 @@ public class AdminController {
         return "redirect:/admin/users/list";
     }
 
-    //***************************************
     @GetMapping("/users/forgot")
     public String forgotPassSendMail(@RequestParam String email, HttpServletRequest request) {
 
@@ -335,7 +334,7 @@ public class AdminController {
 
         emailService.SendEmail(email,
                 "Odzyskiwanie hasła",
-                "Aby zresetować hasło, kliknij link: http://"
+                "Aby zresetować hasło, kliknij link: https://"
                         + request.getHeader("host")
                         + "/login/forgot/"
                         + tokenEmail);

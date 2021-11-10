@@ -20,7 +20,7 @@
                 <div class="form-group form-group--inline">
                     <label>
                         Email
-                        <form:input path="email" disabled="true"/>
+                        <form:input path="email" readonly="true"/>
                     </label>
                 </div>
                 <div class="form-group form-group--inline">

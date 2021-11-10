@@ -9,7 +9,6 @@ import pl.coderslab.charity.entity.User;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.CharityMessageService;
-import pl.coderslab.charity.service.UserService;
 
 @Controller
 @SessionAttributes("currentUserName")
