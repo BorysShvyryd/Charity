@@ -265,6 +265,52 @@ public class AdminController {
         return "admin-users-list";
     }
 
+    @PostMapping("/users/list/{stream_change}")
+    public String usersListFiltr(Model model,
+                                     @PathVariable String stream_change,
+                                     @RequestParam String querySearch) {
+
+        String[] operations = stream_change.split(";");
+
+        Stream<User> usersStream = userService.findAll().stream();
+
+        if (querySearch.trim().equals("")) {
+            List<User> users = usersStream.collect(Collectors.toList());
+
+            model.addAttribute("users", users);
+            return "admin-users-list";
+        }
+
+        for (String operation : operations) {
+            if ("filter".equals(operation.split("=")[0])) {
+                switch (operation.split("=")[1]) {
+                    case "email":
+                        usersStream = usersStream.filter(o ->
+                                o.getEmail().toLowerCase()
+                                        .contains(querySearch.toLowerCase()));
+                        break;
+                    case "name":
+                        usersStream = usersStream.filter(o -> o.getName() != null)
+                                .filter(o ->
+                                o.getName().toLowerCase()
+                                        .contains(querySearch.toLowerCase()));
+                        break;
+                    case "surname":
+                        usersStream = usersStream.filter(o -> o.getSurname() != null)
+                                .filter(o ->
+                                o.getSurname().toLowerCase()
+                                        .contains(querySearch.toLowerCase()));
+                        break;
+                }
+            }
+        }
+
+        List<User> users = usersStream.collect(Collectors.toList());
+
+        model.addAttribute("users", users);
+        return "admin-users-list";
+    }
+
     @GetMapping("/users/status")
     public String statusUserChange(@RequestParam Long id, @AuthenticationPrincipal CurrentUserDetails currUser, Model model) {
 

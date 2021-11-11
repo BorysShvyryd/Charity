@@ -20,14 +20,23 @@
             </th>
             <th>Email<a href="/admin/users/list/sort=email_up"> ▲</a>
                 <a href="/admin/users/list/sort=email_down">▼</a>
+                <form method="post" action="/admin/users/list/filter=email" style="margin-top: 0">
+                    <input type="text" name="querySearch" id="query-email" placeholder="Search"/>
+                </form>
             </th>
             <th>IMIĘ
                 <a href="/admin/users/list/sort=name_up"> ▲</a>
                 <a href="/admin/users/list/sort=name_down">▼</a>
+                <form method="post" action="/admin/users/list/filter=name" style="margin-top: 0">
+                    <input type="text" name="querySearch" id="query-name" placeholder="Search"/>
+                </form>
             </th>
             <th>NAZWISKO
                 <a href="/admin/users/list/sort=surname_up"> ▲</a>
                 <a href="/admin/users/list/sort=surname_down">▼</a>
+                <form method="post" action="/admin/users/list/filter=surname" style="margin-top: 0">
+                    <input type="text" name="querySearch" id="query-surname" placeholder="Search"/>
+                </form>
             </th>
             <th>STATUS<a href="/admin/users/list/filter=status_1"> ➕</a>
                 <a href="/admin/users/list/filter=status_0"> ➖</a>
