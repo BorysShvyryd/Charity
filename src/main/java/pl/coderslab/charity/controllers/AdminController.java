@@ -43,6 +43,11 @@ public class AdminController {
         this.jwtProvider = jwtProvider;
     }
 
+    @GetMapping()
+    public String adminPage() {
+        return "redirect:/";
+    }
+
     @GetMapping("/category/list")
     public String mainPage(Model model) {
 
