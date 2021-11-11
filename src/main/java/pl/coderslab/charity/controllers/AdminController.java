@@ -237,6 +237,12 @@ public class AdminController {
                         case "id_down":
                             userStream = userStream.sorted((o1, o2) -> (int) (o2.getId() - o1.getId()));
                             break;
+                        case "email_up":
+                            userStream = userStream.sorted((o1, o2) -> (o2.getEmail().compareTo(o1.getEmail())));
+                            break;
+                        case "email_down":
+                            userStream = userStream.sorted(Comparator.comparing(User::getEmail));
+                            break;
                         case "name_up":
                             userStream = userStream.sorted(Comparator.comparing(User::getName));
                             break;
@@ -282,7 +288,7 @@ public class AdminController {
     }
 
     @GetMapping("/users/delete")
-    public String userDeleteForm(@RequestParam Long id, Model model,  @AuthenticationPrincipal CurrentUserDetails currUser) {
+    public String userDeleteForm(@RequestParam Long id, Model model, @AuthenticationPrincipal CurrentUserDetails currUser) {
 
         User user = userService.findById(id);
         User currentUser = currUser.getUser();
@@ -304,7 +310,7 @@ public class AdminController {
     }
 
     @GetMapping("/users/role")
-    public String changeAdminRole(@RequestParam Long id, Model model,  @AuthenticationPrincipal CurrentUserDetails currUser) {
+    public String changeAdminRole(@RequestParam Long id, Model model, @AuthenticationPrincipal CurrentUserDetails currUser) {
 
         User user = userService.findById(id);
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
@@ -399,7 +405,7 @@ public class AdminController {
 
     @GetMapping("/donations/list/{stream_change}")
     public String donationsListSort(Model model,
-                                     @PathVariable String stream_change) {
+                                    @PathVariable String stream_change) {
 
         String[] operations = stream_change.split(";");
 
@@ -528,6 +534,7 @@ public class AdminController {
         roleRepository.save(userRole);
         return "ok";
     }
+
     @GetMapping("/count-user-role")
     @ResponseBody
     private String countRole() {
