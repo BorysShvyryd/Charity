@@ -18,13 +18,14 @@
             <th>ID<a href="/admin/users/list/sort=id_up"> ▲</a>
                 <a href="/admin/users/list/sort=id_down">▼</a>
             </th>
+            <th>Email<a href="/admin/users/list/sort=email_up"> ▲</a>
+                <a href="/admin/users/list/sort=email_down">▼</a>
+            </th>
             <th>IMIĘ
-<%--                <input name="find"/>--%>
                 <a href="/admin/users/list/sort=name_up"> ▲</a>
                 <a href="/admin/users/list/sort=name_down">▼</a>
             </th>
             <th>NAZWISKO
-<%--                <input name="find"/>--%>
                 <a href="/admin/users/list/sort=surname_up"> ▲</a>
                 <a href="/admin/users/list/sort=surname_down">▼</a>
             </th>
@@ -39,6 +40,7 @@
         <c:forEach var="user" items="${users}">
             <tr>
                 <td><c:out value="${user.id}"/></td>
+                <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.name}"/></td>
                 <td><c:out value="${user.surname}"/></td>
                 <c:choose>
