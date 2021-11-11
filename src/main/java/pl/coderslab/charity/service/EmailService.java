@@ -1,5 +1,7 @@
 package pl.coderslab.charity.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.component.EmailAuthenticator;
@@ -32,6 +34,8 @@ public class EmailService {
 
     private Message message = null;
 
+    private static final Logger log = LogManager.getLogger(EmailService.class);
+
     public boolean SendEmail(String userEmail,
                              String emailTopic,
                              String emailText) {
@@ -41,10 +45,11 @@ public class EmailService {
         SendEmailCreate(userEmail, emailTopic);
 
         if (sendMessage(emailText)) {
-            System.out.println("Message sent");
+            log.info("Message sent");
+
             resultSend = true;
         } else {
-            System.out.println("Message not sent");
+            log.error("Message not sent");
         }
 
         return resultSend;
@@ -71,8 +76,11 @@ public class EmailService {
             message.setFrom(email_from);
             message.setRecipient(Message.RecipientType.TO, email_to);
             message.setSubject(thema);
+
+            log.info("Authentication SMTP-server: OK");
+
         } catch (MessagingException e) {
-            System.err.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -88,9 +96,12 @@ public class EmailService {
             message.setContent(mmp);
 
             Transport.send(message);
+
+            log.info("Transport message: OK");
+
             return true;
         } catch (MessagingException e) {
-            System.err.println(e.getMessage());
+            log.error(e.getMessage());
             e.printStackTrace();
             return false;
         }
