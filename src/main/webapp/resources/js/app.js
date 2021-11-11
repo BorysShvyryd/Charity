@@ -92,6 +92,36 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    let dates = {
+        convert: function (d) {
+            return (
+                d.constructor === Date ? d :
+                    d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+                        d.constructor === Number ? new Date(d) :
+                            d.constructor === String ? new Date(d) :
+                                typeof d === "object" ? new Date(d.year, d.month, d.day) :
+                                    NaN
+            );
+        },
+        compare: function (a, b) {
+            return (
+                isFinite(a = this.convert(a).valueOf()) &&
+                isFinite(b = this.convert(b).valueOf()) ?
+                    (a > b) - (a < b) :
+                    NaN
+            );
+        },
+        inRange: function (d, start, end) {
+            return (
+                isFinite(d = this.convert(d).valueOf()) &&
+                isFinite(start = this.convert(start).valueOf()) &&
+                isFinite(end = this.convert(end).valueOf()) ?
+                    start <= d && d <= end :
+                    NaN
+            );
+        }
+    }
+
     function summaryForm() {
 
         let index = document.querySelectorAll('input[name="institution"]');
@@ -213,12 +243,32 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (input_date.value === "") {
                             input_date.style.borderColor = "red";
                             result = false;
+                        } else {
+                            let newDate = new Date();
+                            newDate.setHours(0, 0, 0);
+                            if (dates.compare(dates.convert(input_date.value), newDate) < 0) {
+                                input_date.style.borderColor = "red";
+                                // alert("Niepoprawna data");
+                                result = false;
+                            }
                         }
                         let input_time = document.getElementById("input-time");
                         input_time.style.borderColor = "black";
                         if (input_time.value === "") {
                             input_time.style.borderColor = "red";
                             result = false;
+                        } else {
+                            let newTime = new Date();
+                            if (newTime.getHours() > input_time.valueAsDate.getUTCHours()) {
+                                input_time.style.borderColor = "red";
+                                result = false;
+                            }
+                            if (newTime.getHours() === input_time.valueAsDate.getUTCHours()) {
+                                if (newTime.getMinutes() > input_time.valueAsDate.getUTCMinutes()) {
+                                    input_time.style.borderColor = "red";
+                                    result = false;
+                                }
+                            }
                         }
                         return result;
                     }

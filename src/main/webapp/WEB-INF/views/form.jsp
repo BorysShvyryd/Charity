@@ -158,7 +158,8 @@
                         </div>
 
                         <div class="form-group form-group--inline">
-                            <label> Godzina <input type="time" name="pickUpTime" id="input-time"/> </label>
+                            <label> Godzina <input type="time" name="pickUpTime" id="input-time"
+                                                   min="09:00" max="21:00" required/> </label>
                         </div>
 
                         <div class="form-group form-group--inline">
