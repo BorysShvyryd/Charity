@@ -493,7 +493,7 @@ public class AdminController {
         donation.setStatus((byte) 1);
         donation.setDateTimeReceived(LocalDateTime.now());
         donationService.save(donation);
-        emailService.SendEmail(donation.getUser().getName(),
+        emailService.SendEmail(donation.getUser().getEmail(),
                 "Service CHARITY",
                 "Twój prezent został odebrany: " + donation.getDateTimeReceived()
                         + "\nDziękuję, że nie jesteś obojętny.");
@@ -507,7 +507,7 @@ public class AdminController {
         donation.setStatus((byte) 2);
         donation.setDateTimeTransmitted(LocalDateTime.now());
         donationService.save(donation);
-        emailService.SendEmail(donation.getUser().getName(),
+        emailService.SendEmail(donation.getUser().getEmail(),
                 "Service CHARITY",
                 "Twój prezent został dostarczony do " + donation.getInstitution().getName()
                         + ": " + donation.getDateTimeTransmitted()
