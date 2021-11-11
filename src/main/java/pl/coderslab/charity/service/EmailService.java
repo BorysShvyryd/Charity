@@ -1,5 +1,6 @@
 package pl.coderslab.charity.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.component.EmailAuthenticator;
 
@@ -8,24 +9,28 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.io.*;
 import java.util.Properties;
 import java.util.UUID;
 
 @Service
 public class EmailService {
 
-    private final static String PROPERTIES_FILE = "src/main/resources/email.properties";
-    private static final String AlphaString = "0123456789"
-            + "QWERTYUIOPASDFGHJKLZXCVBNM"
-            + "qwertyuiopasdfghjklzxcvbnm";
+    @Value("${email.smtp-server}")
+    private String SMTP_SERVER;
 
-    private Message message        = null;
-    protected  static  String   SMTP_AUTH_USER = null;
-    protected  static  String   SMTP_AUTH_PWD  = null;
-    protected  static  String   EMAIL_FROM     = null;
-    protected  static  String   SMTP_SERVER    = null;
-    protected  static  String   SMTP_Port      = null;
+    @Value("${email.smtp-port}")
+    private String SMTP_Port;
+
+    @Value("${email.email-from}")
+    private String EMAIL_FROM;
+
+    @Value("${email.smtp-auth-user}")
+    private String SMTP_AUTH_USER;
+
+    @Value("${email.smtp-auth-pwd}")
+    private String SMTP_AUTH_PWD;
+
+    private Message message = null;
 
     public boolean SendEmail(String userEmail,
                              String emailTopic,
@@ -33,45 +38,26 @@ public class EmailService {
 
         boolean resultSend = false;
 
-        try {
-            InputStream is = new FileInputStream(PROPERTIES_FILE);
-            if (is != null) {
-                Reader reader = new InputStreamReader(is, "UTF-8");
-                Properties props = new Properties();
-                props.load(reader);
-                SMTP_SERVER    = props.getProperty ("server" );
-                SMTP_Port      = props.getProperty ("port"   );
-                EMAIL_FROM     = props.getProperty ("from"   );
-                SMTP_AUTH_USER = props.getProperty ("user"   );
-                SMTP_AUTH_PWD  = props.getProperty ("pass"   );
+        SendEmailCreate(userEmail, emailTopic);
 
-                is.close();
-
-                SendEmailCreate(userEmail, emailTopic);
-
-                if (sendMessage(emailText)) {
-                    System.out.println("Message sent");
-                    resultSend =  true;
-                } else {
-                    System.out.println("Message not sent");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (sendMessage(emailText)) {
+            System.out.println("Message sent");
+            resultSend = true;
+        } else {
+            System.out.println("Message not sent");
         }
 
         return resultSend;
     }
 
-    private void SendEmailCreate(final String emailTo, final String thema)
-    {
+    private void SendEmailCreate(final String emailTo, final String thema) {
         Properties properties = new Properties();
-        properties.put("mail.smtp.host"               , SMTP_SERVER  );
-        properties.put("mail.smtp.port"               , SMTP_Port    );
-        properties.put("mail.smtp.auth"               , "true"       );
-        properties.put("mail.smtp.ssl.enable"         , "true"       );
-        properties.put("mail.smtp.socketFactory.port" , SMTP_Port	 );
-        properties.put("mail.smtp.ssl.protocols"	  , "TLSv1.2"	 );
+        properties.put("mail.smtp.host", SMTP_SERVER);
+        properties.put("mail.smtp.port", SMTP_Port);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.socketFactory.port", SMTP_Port);
+        properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
         try {
             Authenticator auth = new EmailAuthenticator(SMTP_AUTH_USER, SMTP_AUTH_PWD);
@@ -79,7 +65,7 @@ public class EmailService {
             session.setDebug(false);
 
             InternetAddress email_from = new InternetAddress(EMAIL_FROM);
-            InternetAddress email_to   = new InternetAddress(emailTo   );
+            InternetAddress email_to = new InternetAddress(emailTo);
             message = new MimeMessage(session);
 
             message.setFrom(email_from);
@@ -90,8 +76,7 @@ public class EmailService {
         }
     }
 
-    private boolean sendMessage (final String text)
-    {
+    private boolean sendMessage(final String text) {
         try {
 
             Multipart mmp = new MimeMultipart();
@@ -104,7 +89,7 @@ public class EmailService {
 
             Transport.send(message);
             return true;
-        } catch (MessagingException e){
+        } catch (MessagingException e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
             return false;
