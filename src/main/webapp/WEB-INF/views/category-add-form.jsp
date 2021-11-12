@@ -22,8 +22,10 @@
         </div>
 
         <div class="form-group form-group--buttons">
-            <a href="/admin/category/list" class="btn btn--without-border">Powrót</a>
-            <button class="btn" type="submit">Zapisz</button>
+            <a href="/admin/category/list" class="btn btn--without-border">
+                <spring:message code="admin-category-list.btn.return.inner-text"/> </a>
+            <button class="btn" type="submit">
+                <spring:message code="admin-category-list.btn.save.inner-text"/> </button>
         </div>
     </form:form>
 </section>
