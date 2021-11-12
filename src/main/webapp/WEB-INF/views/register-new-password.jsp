@@ -11,7 +11,7 @@
 </header>
 
 <section class="login-page">
-    <h2>Zarejestruj nowe hasło</h2>
+    <h2><spring:message code="register-new-pass.h2.inner-text"/> </h2>
     <form:form modelAttribute="user" method="post">
 
         <div class="form-group">
@@ -25,7 +25,9 @@
         </div>
 
         <div class="form-group form-group--buttons">
-            <button class="btn" type="submit">Zarejestruj hasło</button>
+            <button class="btn" type="submit">
+                <spring:message code="register-new-pass.btn-register.inner-text"/>
+            </button>
         </div>
     </form:form>
 </section>
