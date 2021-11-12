@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <jsp:include page="fragments/header.jsp" flush="true"/>
 
@@ -9,17 +10,17 @@
 </header>
 
 <section class="login-page">
-    <h2>Lista wiadomości</h2>
+    <h2><spring:message code="admin-messages-list.h2.inner-text"/> </h2>
 
     <div class="table-responsive">
         <table class="table">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>IMIĘ</th>
-                <th>NAZWISKO</th>
-                <th>WIADOMOŚĆ</th>
-                <th>AKCJE</th>
+                <th><spring:message code="admin-messages-list.th-id.inner-text"/> </th>
+                <th><spring:message code="admin-messages-list.th-name.inner-text"/> </th>
+                <th><spring:message code="admin-messages-list.th-surname.inner-text"/> </th>
+                <th><spring:message code="admin-messages-list.th-message.inner-text"/> </th>
+                <th><spring:message code="admin-messages-list.th-action.inner-text"/> </th>
             </tr>
             </thead>
             <tbody>
@@ -37,8 +38,11 @@
                     <td><c:out value="${message.surname}"/></td>
                     <td><c:out value="${message.message}"/></td>
                     <td>
-                        <button onclick="document.location='/admin/messages/view?id=${message.id}'">Czytać</button>
-                        <button onclick="document.location='/admin/messages/delete?id=${message.id}'">Usuń</button>
+                        <button onclick="document.location='/admin/messages/view?id=${message.id}'">
+                            <spring:message code="admin-messages-list.btn-read.inner-text"/> </button>
+                        <button onclick="document.location='/admin/messages/delete?id=${message.id}'">
+                            <spring:message code="admin-messages-list.btn-delete.inner-text"/>
+                        </button>
                     </td>
                 </tr>
             </c:forEach>
