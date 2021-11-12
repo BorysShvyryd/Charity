@@ -11,7 +11,7 @@
 </header>
 
 <section class="login-page">
-    <h2>Zmień hasło</h2>
+    <h2><spring:message code="change-pass.h2.inner-text"/> </h2>
     <form:form modelAttribute="user" method="post">
 
         <div class="form-group">
@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-group form-group--buttons">
-            <button class="btn" type="submit">Potwierdzam</button>
+            <button class="btn" type="submit"><spring:message code="change-pass.btn-confirm.inner-text"/> </button>
         </div>
     </form:form>
 </section>
