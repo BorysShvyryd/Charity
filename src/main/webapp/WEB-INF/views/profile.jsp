@@ -11,7 +11,7 @@
 </header>
 
 <section class="form-section">
-    <h2>Mój profil</h2>
+    <h2><spring:message code="profile.h2.inner-text"/> </h2>
     <form:form modelAttribute="user" method="post">
         <form:hidden path="id"/>
 
@@ -19,19 +19,19 @@
             <div class="form-section--column">
                 <div class="form-group form-group--inline">
                     <label>
-                        Email
+                        <spring:message code="profile.label.email.inner-text"/>
                         <form:input path="email" readonly="true"/>
                     </label>
                 </div>
                 <div class="form-group form-group--inline">
                     <label>
-                        Imie
+                        <spring:message code="profile.label.name.inner-text"/>
                         <form:input path="name"/>
                     </label>
                 </div>
                 <div class="form-group form-group--inline">
                     <label>
-                        Nazwisko
+                        <spring:message code="profile.label.surname.inner-text"/>
                         <form:input path="surname"/>
                     </label>
                 </div>
@@ -39,25 +39,25 @@
             <div class="form-section--column">
                 <div class="form-group form-group--inline">
                     <label>
-                        Ulica
+                        <spring:message code="profile.label.address.inner-text"/>
                         <form:input path="address"/>
                     </label>
                 </div>
                 <div class="form-group form-group--inline">
                     <label>
-                        Miasto
+                        <spring:message code="profile.label.city.inner-text"/>
                         <form:input path="city"/>
                     </label>
                 </div>
                 <div class="form-group form-group--inline">
                     <label>
-                        Kod pocztowy
+                        <spring:message code="profile.label.zipcode.inner-text"/>
                         <form:input path="zipcode"/>
                     </label>
                 </div>
                 <div class="form-group form-group--inline">
                     <label>
-                        Telefon
+                        <spring:message code="profile.label.phone.inner-text"/>
                         <form:input path="phone"/>
                     </label>
                 </div>
@@ -66,8 +66,11 @@
         <div class="form-group"></div>
         <div class="form-group"></div>
         <div class="form-section--columns form-group" style="margin-left: 40%">
-            <a href="/charity/change-pass" class="btn btn--without-border">Zmień hasło</a>
-            <button class="btn" type="submit">Zapisać</button>
+            <a href="/charity/change-pass" class="btn btn--without-border">
+                <spring:message code="profile.btn.change-pass.inner-text"/> </a>
+            <button class="btn" type="submit">
+                <spring:message code="profile.btn.save.inner-text"/>
+            </button>
         </div>
         <div></div>
     </form:form>
