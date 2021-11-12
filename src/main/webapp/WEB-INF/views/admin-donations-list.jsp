@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <jsp:include page="fragments/header.jsp" flush="true"/>
 
@@ -17,33 +18,33 @@
         <table class="table">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>KATEGORII</th>
-                <th>LICZBĘ WORKÓW</th>
-                <th>FUNDACJI
+                <th><spring:message code="admin-donation-list.th-id.inner-text"/></th>
+                <th><spring:message code="admin-donation-list.th-category.inner-text"/> </th>
+                <th><spring:message code="admin-donation-list.th-count.inner-text"/> </th>
+                <th><spring:message code="admin-donation-list.th-institution.inner-text"/>
                     <a href="/admin/donations/list/sort=institution_up"> ▲</a>
                     <a href="/admin/donations/list/sort=institution_down">▼</a><br>
                     <form method="post" action="/admin/donations/list/filter=institution" style="margin-top: 0">
                         <input type="text" name="querySearch" id="query-fund" placeholder="Search"/>
                     </form>
                 </th>
-                <th>ADRES
+                <th><spring:message code="admin-donation-list.th-address.inner-text"/>
                     <a href="/admin/donations/list/sort=address_up"> ▲</a>
                     <a href="/admin/donations/list/sort=address_down">▼</a><br>
                     <form method="post" action="/admin/donations/list/filter=address" style="margin-top: 0">
                         <input type="text" name="querySearch" id="query-address" placeholder="Search"/>
                     </form>
                 </th>
-                <th>UŻYTKOWNIK
+                <th><spring:message code="admin-donation-list.th-user.inner-text"/>
                     <a href="/admin/donations/list/sort=username_up"> ▲</a>
                     <a href="/admin/donations/list/sort=username_down">▼</a><br>
                     <form method="post" action="/admin/donations/list/filter=username" style="margin-top: 0">
                         <input type="text" name="querySearch" id="query-user" placeholder="Search"/>
                     </form>
                 </th>
-                <th>DATA OTRZYMANIA</th>
-                <th>DATA PRZENIESIENIA</th>
-                <th>AKCJE
+                <th><spring:message code="admin-donation-list.th-received.inner-text"/> </th>
+                <th><spring:message code="admin-donation-list.th-transfer.inner-text"/> </th>
+                <th><spring:message code="admin-donation-list.th-action.inner-text"/>
                     <a href="/admin/donations/list"> (❌ filtr)</a>
                 </th>
             </tr>
@@ -90,15 +91,17 @@
                 </td>
                 <td>
                     <c:if test="${donation.status == 2}">
-                        <c:out value="ZARCHIWIZOWANO"/>
+                        <spring:message code="admin-donation-list.td-archived.inner-text"/>
                     </c:if>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <c:if test="${donation.status == 1}">
-                            <button onclick="document.location='/admin/donations/transfer?id=${donation.id}'">ODDANY
+                            <button onclick="document.location='/admin/donations/transfer?id=${donation.id}'">
+                                <spring:message code="admin-donation-list.td-devoted.inner-text"/>
                             </button>
                         </c:if>
                         <c:if test="${donation.status < 1}">
-                            <button onclick="document.location='/admin/donations/devoted?id=${donation.id}'">ODEBRANE
+                            <button onclick="document.location='/admin/donations/devoted?id=${donation.id}'">
+                                <spring:message code="admin-donation-list.td-received.inner-text"/>
                             </button>
                         </c:if>
                     </sec:authorize>
