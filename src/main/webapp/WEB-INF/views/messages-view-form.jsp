@@ -11,7 +11,7 @@
 </header>
 
 <section class="login-page">
-    <h2>Wiadomość</h2>
+    <h2><spring:message code="message.h2.inner-text"/> </h2>
     <form:form modelAttribute="message" method="post">
 
         <div class="form-group">
@@ -24,7 +24,9 @@
         </div>
 
         <div class="form-group form-group--buttons">
-            <button class="btn" type="submit" >Powrót</button>
+            <button class="btn" type="submit" >
+                <spring:message code="message.btn.return.inner-text"/>
+            </button>
         </div>
     </form:form>
 </section>
