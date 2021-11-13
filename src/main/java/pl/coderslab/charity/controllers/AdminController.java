@@ -1,5 +1,7 @@
 package pl.coderslab.charity.controllers;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +17,14 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/admin")
+@PropertySource("classpath:messages.properties")
 public class AdminController {
 
     private final CategoryService categoryService;
@@ -31,8 +35,9 @@ public class AdminController {
     private final RoleRepository roleRepository;
     private final EmailService emailService;
     private final JwtProvider jwtProvider;
+    private final CookiesService cookiesService;
 
-    public AdminController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository, EmailService emailService, JwtProvider jwtProvider) {
+    public AdminController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository, EmailService emailService, JwtProvider jwtProvider, CookiesService cookiesService) {
         this.categoryService = categoryService;
         this.institutionService = institutionService;
         this.donationService = donationService;
@@ -41,6 +46,7 @@ public class AdminController {
         this.roleRepository = roleRepository;
         this.emailService = emailService;
         this.jwtProvider = jwtProvider;
+        this.cookiesService = cookiesService;
     }
 
     @GetMapping()
@@ -66,11 +72,17 @@ public class AdminController {
     }
 
     @GetMapping("/category/add")
-    public String categoryAddForm(Model model) {
+    public String categoryAddForm(Model model,
+                                  @Value("#{${map-admin-controller-get-category-add}}")
+                                  Map<String, String> mapStr,
+                                  HttpServletRequest request) {
 
         Category category = new Category();
         model.addAttribute("category", category);
-        model.addAttribute("title_form", "Dodaj kategorii");
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+        model.addAttribute("title_form", mapStr.get(lang));
+
         return "category-add-form";
     }
 
@@ -87,11 +99,18 @@ public class AdminController {
     }
 
     @GetMapping("/category/edit")
-    public String categoryEditForm(@RequestParam Long id, Model model) {
+    public String categoryEditForm(@RequestParam Long id,
+                                   Model model,
+                                   @Value("#{${map-admin-controller-get-category-edit}}")
+                                               Map<String, String> mapStr,
+                                   HttpServletRequest request) {
 
         Category category = categoryService.getById(id);
         model.addAttribute("category", category);
-        model.addAttribute("title_form", "Edytuj kategorii");
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+        model.addAttribute("title_form", mapStr.get(lang));
+        model.addAttribute("title_form", lang);
         return "category-add-form";
     }
 
