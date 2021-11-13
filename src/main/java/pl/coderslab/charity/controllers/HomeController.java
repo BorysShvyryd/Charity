@@ -10,6 +10,10 @@ import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.CharityMessageService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @SessionAttributes("currentUserName")
 public class HomeController {
@@ -27,11 +31,19 @@ public class HomeController {
     }
 
     @GetMapping
-    public String homeAction(Model model, @AuthenticationPrincipal CurrentUserDetails currentUser) {
+    public String homeAction(Model model,
+                             @AuthenticationPrincipal CurrentUserDetails currentUser,
+                             HttpServletRequest request,
+                             HttpServletResponse response) {
 
         if (currentUser != null) {
             User user = currentUser.getUser();
             model.addAttribute("currentUserName", user.getName());
+        }
+
+        if (request.getParameter("lang") != null) {
+            Cookie cookie = new Cookie("lang", request.getParameter("lang"));
+            response.addCookie(cookie);
         }
 
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
