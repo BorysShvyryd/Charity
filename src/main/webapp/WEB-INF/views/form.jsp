@@ -15,7 +15,7 @@
         <div class="slogan--item">
             <h1>
                 <spring:message code="form.h1.slogan.inner-text"/> <br/>
-                <span class="uppercase">potrzebującym</span>
+                <span class="uppercase"><spring:message code="form.h1.slogan.span.inner-text"/> </span>
             </h1>
 
             <div class="slogan--steps">
