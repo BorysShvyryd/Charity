@@ -1,12 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${param.lang}"/>
+<fmt:setBundle basename="messages"/>
 
 <jsp:include page="fragments/header.jsp" flush="true"/>
 
 <header class="header--main-page">
 
     <jsp:include page="fragments/header-menu.jsp" flush="true"/>
+
+    <ul>
+        <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
+        <li><a href="?lang=uk"><fmt:message key="label.lang.uk" /></a></li>
+        <li><a href="?lang=pl"><fmt:message key="label.lang.pl" /></a></li>
+    </ul>
 
     <div class="slogan container container--90">
         <div class="slogan--item">
