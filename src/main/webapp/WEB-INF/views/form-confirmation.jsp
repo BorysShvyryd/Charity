@@ -1,4 +1,8 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<fmt:setLocale value="${param.lang}"/>
+<fmt:setBundle basename="messages"/>
 
 <jsp:include page="fragments/header.jsp" flush="true"/>
 

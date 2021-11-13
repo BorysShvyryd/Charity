@@ -28,12 +28,12 @@ public class AppConfig implements WebMvcConfigurer {
         return new UserDetailsServiceImpl();
     }
 
-    @Bean(name = "localeResolver")
-    public LocaleContextResolver getLocaleContextResolver() {
-        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("pl", "PL"));
-        return localeResolver;
-    }
+//    @Bean(name = "localeResolver")
+//    public LocaleContextResolver getLocaleContextResolver() {
+//        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+//        localeResolver.setDefaultLocale(new Locale("en", "EN"));
+//        return localeResolver;
+//    }
 
     @Bean
     public MessageSource messageSource() {
