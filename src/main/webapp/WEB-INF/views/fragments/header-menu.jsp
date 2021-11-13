@@ -3,8 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%--<fmt:setLocale value="${cookie['lang'].value}"/>--%>
-<fmt:setLocale value="${param.lang}"/>
+<fmt:setLocale value="${cookie['lang'].value}"/>
+<%--<fmt:setLocale value="${param.lang}"/>--%>
 <fmt:setBundle basename="messages"/>
 
 <nav class="container container--85">
@@ -15,21 +15,21 @@
             <li></li>
             <li class="highlighted"><a href="/register"><spring:message code="header-menu.li.register.title"/></a></li>
             <li></li>
-            <li><a href="#">
-                <img src="../../../resources/images/flags/us.svg">EN
-                    <%--                <fmt:message key="label.lang.en" />--%>
+            <li><a href="?lang=en">
+                <img src="../../../resources/images/flags/us.svg" title="<fmt:message key="string.lang.en"/>">
+                <fmt:message key="label.lang.en"/>
             </a></li>
             <li><a href="?lang=uk">
-                <img src="../../../resources/images/flags/ua.svg">UA
-                    <%--                <fmt:message key="label.lang.uk" />--%>
+                <img src="../../../resources/images/flags/ua.svg" title="<fmt:message key="string.lang.uk"/>">
+                <fmt:message key="label.lang.uk"/>
             </a></li>
             <li><a href="?lang=pl">
-                <img src="../../../resources/images/flags/pl.svg">PL
-                    <%--                <fmt:message key="label.lang.pl" />--%>
+                <img src="../../../resources/images/flags/pl.svg" title="<fmt:message key="string.lang.pl"/>">
+                <fmt:message key="label.lang.pl"/>
             </a></li>
             <li><a href="#">
-                <img src="../../../resources/images/flags/ru.svg">RU
-                    <%--                <fmt:message key="label.lang.pl" />--%>
+                <img src="../../../resources/images/flags/ru.svg" title="<fmt:message key="string.lang.ru"/>">
+                <fmt:message key="label.lang.ru"/>
             </a></li>
         </ul>
     </sec:authorize>
@@ -41,21 +41,21 @@
             <li></li>
             <li class="highlighted"><a href="/logout"><spring:message code="header-menu.li.logout.title"/></a></li>
             <li></li>
-                <%--            <li><a href="?lang=en">--%>
-                <%--                <img src="../../../resources/images/flags/us.svg">EN--%>
-                <%--                    &lt;%&ndash;                <fmt:message key="label.lang.en" />&ndash;%&gt;--%>
-                <%--            </a></li>--%>
+            <li><a href="?lang=en">
+                <img src="../../../resources/images/flags/us.svg" title="<fmt:message key="string.lang.en"/>">
+                <fmt:message key="label.lang.en"/>
+            </a></li>
             <li><a href="?lang=uk">
-                <img src="../../../resources/images/flags/ua.svg">UA
-                    <%--                <fmt:message key="label.lang.uk" />--%>
+                <img src="../../../resources/images/flags/ua.svg" title="<fmt:message key="string.lang.uk"/>">
+                <fmt:message key="label.lang.uk"/>
             </a></li>
             <li><a href="?lang=pl">
-                <img src="../../../resources/images/flags/pl.svg">PL
-                    <%--                <fmt:message key="label.lang.pl" />--%>
+                <img src="../../../resources/images/flags/pl.svg" title="<fmt:message key="string.lang.pl"/>">
+                <fmt:message key="label.lang.pl"/>
             </a></li>
             <li><a href="#">
-                <img src="../../../resources/images/flags/ru.svg">RU
-                    <%--                <fmt:message key="label.lang.pl" />--%>
+                <img src="../../../resources/images/flags/ru.svg" title="<fmt:message key="string.lang.ru"/>">
+                <fmt:message key="label.lang.ru"/>
             </a></li>
         </ul>
     </sec:authorize>
