@@ -15,15 +15,15 @@
             <li></li>
             <li class="highlighted"><a><spring:message code="header-menu.li.register.title"/></a></li>
             <li></li>
-            <li><a href="?lang=en"  onclick="document.cookie = 'lang = en; path=/'">
+            <li><a href=""  onclick="document.cookie = 'lang = en; path=/'">
                 <img src="../../../resources/images/flags/us.svg" title="<fmt:message key="string.lang.en"/>">
                 <fmt:message key="label.lang.en"/>
             </a></li>
-            <li><a href="?lang=uk" onclick="document.cookie = 'lang = uk; path=/'">
+            <li><a href="" onclick="document.cookie = 'lang = uk; path=/'">
                 <img src="../../../resources/images/flags/ua.svg" title="<fmt:message key="string.lang.uk"/>">
                 <fmt:message key="label.lang.uk"/>
             </a></li>
-            <li><a href="?lang=pl" onclick="document.cookie = 'lang = pl; path=/'">
+            <li><a href="" onclick="document.cookie = 'lang = pl; path=/'">
                 <img src="../../../resources/images/flags/pl.svg" title="<fmt:message key="string.lang.pl"/>">
                 <fmt:message key="label.lang.pl"/>
             </a></li>
@@ -34,26 +34,6 @@
         </ul>
     </sec:authorize>
 
-    <script>
-        function getCookie(cname) {
-            let name = cname + "=";
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let ca = decodedCookie.split(';');
-            for(let i = 0; i <ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    console.log(c.substring(1));
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    console.log(c.substring(name.length, c.length));
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
-    </script>
-
     <sec:authorize access="isAuthenticated()">
         <ul class="nav--actions">
             <li><a href="/charity/profile"><spring:message code="header-menu.li.name.title"/>
@@ -61,15 +41,15 @@
             <li></li>
             <li class="highlighted"><a href="/logout"><spring:message code="header-menu.li.logout.title"/></a></li>
             <li></li>
-            <li><a href="?lang=en" onclick="document.cookie = 'lang = en; path=/'">
+            <li><a href="" onclick="document.cookie = 'lang = en; path=/'">
                 <img src="../../../resources/images/flags/us.svg" title="<fmt:message key="string.lang.en"/>">
                 <fmt:message key="label.lang.en"/>
             </a></li>
-            <li><a href="?lang=uk" onclick="document.cookie = 'lang = uk; path=/'">
+            <li><a href="" onclick="document.cookie = 'lang = uk; path=/'">
                 <img src="../../../resources/images/flags/ua.svg" title="<fmt:message key="string.lang.uk"/>">
                 <fmt:message key="label.lang.uk"/>
             </a></li>
-            <li><a href="?lang=pl" onclick="document.cookie = 'lang = pl; path=/'">
+            <li><a href="" onclick="document.cookie = 'lang = pl; path=/'">
                 <img src="../../../resources/images/flags/pl.svg" title="<fmt:message key="string.lang.pl"/>">
                 <fmt:message key="label.lang.pl"/>
             </a></li>

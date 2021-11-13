@@ -74,14 +74,14 @@ public class AdminController {
     @GetMapping("/category/add")
     public String categoryAddForm(Model model,
                                   @Value("#{${map-admin-controller-get-category-add}}")
-                                  Map<String, String> mapStr,
+                                  Map<String, String> mapStrByLang,
                                   HttpServletRequest request) {
 
         Category category = new Category();
         model.addAttribute("category", category);
         String lang = cookiesService.getLocationByCookie(request);
         if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", mapStr.get(lang));
+        model.addAttribute("title_form", mapStrByLang.get(lang));
 
         return "category-add-form";
     }
@@ -102,15 +102,15 @@ public class AdminController {
     public String categoryEditForm(@RequestParam Long id,
                                    Model model,
                                    @Value("#{${map-admin-controller-get-category-edit}}")
-                                               Map<String, String> mapStr,
+                                               Map<String, String> mapStrByLang,
                                    HttpServletRequest request) {
 
         Category category = categoryService.getById(id);
         model.addAttribute("category", category);
         String lang = cookiesService.getLocationByCookie(request);
         if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", mapStr.get(lang));
-        model.addAttribute("title_form", lang);
+        model.addAttribute("title_form", mapStrByLang.get(lang));
+
         return "category-add-form";
     }
 
