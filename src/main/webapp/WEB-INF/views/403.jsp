@@ -2,9 +2,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<fmt:setLocale value="${cookie['lang'].value}"/>
-<%--<fmt:setLocale value="${param.lang}"/>--%>
+<c:choose>
+    <c:when test="${cookie['lang'].value == param.lang}">
+        <fmt:setLocale value="${cookie['lang'].value}"/>
+    </c:when>
+    <c:otherwise>
+        <fmt:setLocale value="${param.lang}"/>
+    </c:otherwise>
+</c:choose>
 <fmt:setBundle basename="messages"/>
 
 <jsp:include page="fragments/header.jsp" flush="true"/>
