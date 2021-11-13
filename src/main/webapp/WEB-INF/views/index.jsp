@@ -12,12 +12,6 @@
 
     <jsp:include page="fragments/header-menu.jsp" flush="true"/>
 
-    <ul>
-        <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
-        <li><a href="?lang=uk"><fmt:message key="label.lang.uk" /></a></li>
-        <li><a href="?lang=pl"><fmt:message key="label.lang.pl" /></a></li>
-    </ul>
-
     <div class="slogan container container--90">
         <div class="slogan--item">
             <h1>
