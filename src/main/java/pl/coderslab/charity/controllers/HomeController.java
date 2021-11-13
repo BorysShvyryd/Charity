@@ -41,10 +41,10 @@ public class HomeController {
             model.addAttribute("currentUserName", user.getName());
         }
 
-        if (request.getParameter("lang") != null) {
-            Cookie cookie = new Cookie("lang", request.getParameter("lang"));
-            response.addCookie(cookie);
-        }
+//        if (request.getParameter("lang") != null) {
+//            Cookie cookie = new Cookie("lang", request.getParameter("lang"));
+//            response.addCookie(cookie);
+//        }
 
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
         model.addAttribute("allBagsReturned", donationService.sumOfAllBagsReturned());
