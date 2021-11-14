@@ -17,10 +17,12 @@
     <h2><spring:message code="login.h2.inner-text"/> </h2>
     <form method="post">
         <div class="form-group">
-            <input type="email" name="username" placeholder="Email" />
+            <input type="email" name="username"
+                   placeholder="<spring:message code="login.input.login.placeholder.inner-text"/>" />
         </div>
         <div class="form-group">
-            <input type="password" name="password" placeholder="Hasło" />
+            <input type="password" name="password"
+                   placeholder="<spring:message code="login.input.pass.placeholder.inner-text"/>" />
             <a href="/login/forgot" class="btn btn--small btn--without-border reset-password">
                 <spring:message code="login.btn.forgot-pass.inner-text"/>
             </a>

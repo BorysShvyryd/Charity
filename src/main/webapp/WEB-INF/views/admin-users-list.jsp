@@ -52,7 +52,8 @@
             <th><spring:message code="admin-users-list.th.role-inner-text"/>
                 <a href="/admin/users/list/filter=admin"> (❎</a> admin)</th>
             <th><spring:message code="admin-users-list.th.action-inner-text"/>
-                <a href="/admin/users/list"> (❌ zresetuj wszystkie filtry)</a></th>
+                <a href="/admin/users/list"> (❌ <spring:message code="admin-users-list.th-a.action-inner-text"/> </a>
+            </th>
         </tr>
         </thead>
         <tbody>
