@@ -16,12 +16,17 @@
                 <h3><spring:message code="footer.h3.message"/></h3>
                 <form class="form--contact" method="post">
                     <div class="form-group form-group--50">
-                        <input type="text" name="name" placeholder="<spring:message code="footer.placeholder.name"/>"/></div>
+                        <input type="text" name="name"
+                               placeholder="<spring:message code="footer.placeholder.name"/>"/></div>
                     <div class="form-group form-group--50">
-                        <input type="text" name="surname" placeholder="<spring:message code="footer.placeholder.surname"/>"/>
+                        <input type="text" name="surname"
+                               placeholder="<spring:message code="footer.placeholder.surname"/>"/>
                     </div>
                     <div class="form-group">
-                        <textarea name="message" placeholder="<spring:message code="footer.placeholder.message"/>" rows="1"></textarea></div>
+                        <textarea name="message"
+                                  placeholder="<spring:message code="footer.placeholder.message"/>" rows="1">
+                        </textarea>
+                    </div>
                     <button class="btn" type="submit"><spring:message code="footer.btn.submit.title"/></button>
                 </form>
             </c:if>
@@ -30,9 +35,10 @@
     <div class="bottom-line">
         <span class="bottom-line--copy">Copyright &copy; 2021</span>
         <div class="bottom-line--icons">
-            <a href="#" class="btn btn--small"><img src="<c:url value="../../../resources/images/icon-facebook.svg"/>"/></a>
-            <a href="#" class="btn btn--small"><img
-                    src="<c:url value="../../../resources/images/icon-instagram.svg"/>"/></a>
+            <a href="#" class="btn btn--small">
+                <img src="<c:url value="../../../resources/images/icon-facebook.svg"/>"/></a>
+            <a href="#" class="btn btn--small">
+                <img src="<c:url value="../../../resources/images/icon-instagram.svg"/>"/></a>
         </div>
     </div>
 </footer>
