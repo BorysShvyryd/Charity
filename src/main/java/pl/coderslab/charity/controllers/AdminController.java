@@ -514,7 +514,11 @@ public class AdminController {
     }
 
     @GetMapping("/messages/delete")
-    public String messagesDeleteForm(@RequestParam Long id, Model model) {
+    public String messagesDeleteForm(@RequestParam Long id,
+                                     Model model,
+                                     @Value("#{${map-admin-controller-get-messages-delete}}")
+                                                 Map<String, String> mapStrByLang,
+                                     HttpServletRequest request) {
 
         CharityMessage message = charityMessageService.getById(id);
 
@@ -522,26 +526,36 @@ public class AdminController {
             charityMessageService.delete(message);
             return "redirect:/admin/messages/list";
         } else {
-            model.addAttribute("textMessage", "<p>Ta wiadomość nie została jeszcze przeczytana.</p>" +
-                    "<p>Nie możesz go usunąć.</p>" +
-                    "<p><a href=\"/admin/messages/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+            String lang = cookiesService.getLocationByCookie(request);
+            if ("".equals(lang)) lang = "en";
+            model.addAttribute("textMessage",  mapStrByLang.get(lang));
+
             return "form-confirmation";
         }
     }
 
     //***************************************
     @GetMapping("/donations/list")
-    public String donationsListForm(Model model) {
+    public String donationsListForm(Model model,
+                                    @Value("#{${map-admin-controller-get-donations-list}}")
+                                            Map<String, String> mapStrByLang,
+                                    HttpServletRequest request) {
 
         List<Donation> donations = donationService.findAllSortByStatus();
         model.addAttribute("donations", donations);
-        model.addAttribute("title_page", "Lista darów");
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+        model.addAttribute("title_page", mapStrByLang.get(lang));
+
         return "admin-donations-list";
     }
 
     @GetMapping("/donations/list/{stream_change}")
     public String donationsListSort(Model model,
-                                    @PathVariable String stream_change) {
+                                    @PathVariable String stream_change,
+                                    @Value("#{${map-admin-controller-get-donations-list}}")
+                                                Map<String, String> mapStrByLang,
+                                    HttpServletRequest request) {
 
         String[] operations = stream_change.split(";");
 
@@ -583,24 +597,33 @@ public class AdminController {
         List<Donation> donations = donationsStream.collect(Collectors.toList());
 
         model.addAttribute("donations", donations);
-        model.addAttribute("title_page", "Lista darów");
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+        model.addAttribute("title_page", mapStrByLang.get(lang));
+
         return "admin-donations-list";
     }
 
     @PostMapping("/donations/list/{stream_change}")
     public String donationsListFiltr(Model model,
                                      @PathVariable String stream_change,
-                                     @RequestParam String querySearch) {
+                                     @RequestParam String querySearch,
+                                     @Value("#{${map-admin-controller-get-donations-list}}")
+                                                 Map<String, String> mapStrByLang,
+                                     HttpServletRequest request) {
 
         String[] operations = stream_change.split(";");
 
         Stream<Donation> donationsStream = donationService.findAllSortByStatus().stream();
 
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+
         if (querySearch.trim().equals("")) {
             List<Donation> donations = donationsStream.collect(Collectors.toList());
-
             model.addAttribute("donations", donations);
-            model.addAttribute("title_page", "Lista darów");
+            model.addAttribute("title_page", mapStrByLang.get(lang));
+
             return "admin-donations-list";
         }
 
@@ -629,53 +652,55 @@ public class AdminController {
         List<Donation> donations = donationsStream.collect(Collectors.toList());
 
         model.addAttribute("donations", donations);
-        model.addAttribute("title_page", "Lista darów");
+        model.addAttribute("title_page", mapStrByLang.get(lang));
         return "admin-donations-list";
     }
 
     @GetMapping("/donations/devoted")
-    public String devotedSave(@RequestParam Long id) {
+    public String devotedSave(@RequestParam Long id,
+                              HttpServletRequest request,
+                              @Value("#{${map-admin-controller-get-donations-devoted-textEmail1}}")
+                                          Map<String, String> mapStrByLang1,
+                              @Value("#{${map-admin-controller-get-donations-devoted-textEmail2}}")
+                                          Map<String, String> mapStrByLang2) {
 
         Donation donation = donationService.getById(id);
         donation.setStatus((byte) 1);
         donation.setDateTimeReceived(LocalDateTime.now());
         donationService.save(donation);
+
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+
         emailService.SendEmail(donation.getUser().getEmail(),
                 "Service CHARITY",
-                "Twój prezent został odebrany: " + donation.getDateTimeReceived()
-                        + "\nDziękuję, że nie jesteś obojętny.");
+                mapStrByLang1.get(lang) + donation.getDateTimeReceived()
+                        + mapStrByLang2.get(lang));
         return "redirect:/admin/donations/list";
     }
 
     @GetMapping("/donations/transfer")
-    public String transferSave(@RequestParam Long id) {
+    public String transferSave(@RequestParam Long id,
+                               HttpServletRequest request,
+                               @Value("#{${map-admin-controller-get-donations-transfer-textEmail1}}")
+                                           Map<String, String> mapStrByLang1,
+                               @Value("#{${map-admin-controller-get-donations-devoted-textEmail1}}")
+                                           Map<String, String> mapStrByLang2) {
 
         Donation donation = donationService.getById(id);
         donation.setStatus((byte) 2);
         donation.setDateTimeTransmitted(LocalDateTime.now());
         donationService.save(donation);
+
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+
         emailService.SendEmail(donation.getUser().getEmail(),
                 "Service CHARITY",
-                "Twój prezent został dostarczony do " + donation.getInstitution().getName()
+                mapStrByLang1.get(lang) + donation.getInstitution().getName()
                         + ": " + donation.getDateTimeTransmitted()
-                        + "\nDziękuję, że nie jesteś obojętny.");
+                        + mapStrByLang2.get(lang));
         return "redirect:/admin/donations/list";
-    }
-
-    @GetMapping("/add-user-role")
-    @ResponseBody
-    private String serv() {
-        Role userRole = new Role();
-        userRole.setName("ROLE_USER");
-        roleRepository.save(userRole);
-        return "ok";
-    }
-
-    @GetMapping("/count-user-role")
-    @ResponseBody
-    private String countRole() {
-
-        return "" + roleRepository.count();
     }
 
 }
