@@ -10,12 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import pl.coderslab.charity.service.UserDetailsServiceImpl;
-
-import java.util.Locale;
 
 @Configuration
 @ComponentScan("pl.coderslab.charity")

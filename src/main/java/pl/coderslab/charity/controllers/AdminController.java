@@ -1,5 +1,7 @@
 package pl.coderslab.charity.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,8 +26,10 @@ import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/admin")
-@PropertySource("classpath:messages.properties")
+@PropertySource(value = "classpath:messages.properties", encoding="UTF-8")
 public class AdminController {
+
+    private static final Logger log = LogManager.getLogger(AdminController.class);
 
     private final CategoryService categoryService;
     private final InstitutionService institutionService;
@@ -126,17 +130,25 @@ public class AdminController {
     }
 
     @GetMapping("/category/delete")
-    public String categoryDeleteForm(@RequestParam Long id, Model model) {
+    public String categoryDeleteForm(@RequestParam Long id,
+                                     Model model,
+                                     @Value("#{${map-admin-controller-get-category-delete}}")
+                                                 Map<String, String> mapStrByLang,
+                                     HttpServletRequest request) {
 
         Category category = categoryService.getById(id);
 
         try {
             categoryService.delete(category);
+            log.info("Category: " + category.getName() + " - deleted");
+
             return "redirect:/admin/category/list";
         } catch (RuntimeException ex) {
-            model.addAttribute("textMessage", "<p>Ta kategoria zawiera powiązane wpisy.</p>" +
-                    "<p>Można go dezaktywować.</p>" +
-                    "<p><a href=\"/admin/category/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+            String lang = cookiesService.getLocationByCookie(request);
+            if ("".equals(lang)) lang = "en";
+            model.addAttribute("textMessage",  mapStrByLang.get(lang));
+            log.error("Category: " + category.getName() + " - " + ex.getMessage());
+
             return "form-confirmation";
         }
     }
@@ -160,11 +172,17 @@ public class AdminController {
     }
 
     @GetMapping("/institution/add")
-    public String institutionAddForm(Model model) {
+    public String institutionAddForm(Model model,
+                                     @Value("#{${map-admin-controller-get-institution-add}}")
+                                             Map<String, String> mapStrByLang,
+                                     HttpServletRequest request) {
 
         Institution institution = new Institution();
         model.addAttribute("institution", institution);
-        model.addAttribute("title_form", "Dodaj fundacji");
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+        model.addAttribute("title_form", mapStrByLang.get(lang));
+
         return "institution-add-form";
     }
 
@@ -181,11 +199,18 @@ public class AdminController {
     }
 
     @GetMapping("/institution/edit")
-    public String institutionEditForm(@RequestParam Long id, Model model) {
+    public String institutionEditForm(@RequestParam Long id,
+                                      Model model,
+                                      @Value("#{${map-admin-controller-get-institution-edit}}")
+                                                  Map<String, String> mapStrByLang,
+                                      HttpServletRequest request) {
 
         Institution institution = institutionService.getById(id);
         model.addAttribute("institution", institution);
-        model.addAttribute("title_form", "Edytuj fundacji");
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+        model.addAttribute("title_form", mapStrByLang.get(lang));
+
         return "institution-add-form";
     }
 
@@ -201,17 +226,24 @@ public class AdminController {
     }
 
     @GetMapping("/institution/delete")
-    public String institutionDeleteForm(@RequestParam Long id, Model model) {
+    public String institutionDeleteForm(@RequestParam Long id,
+                                        Model model,
+                                        @Value("#{${map-admin-controller-get-institution-delete}}")
+                                                    Map<String, String> mapStrByLang,
+                                        HttpServletRequest request) {
 
         Institution institution = institutionService.getById(id);
 
         try {
             institutionService.delete(institution);
+            log.info("Institution: " + institution.getName() + " - deleted");
             return "redirect:/admin/institution/list";
         } catch (RuntimeException ex) {
-            model.addAttribute("textMessage", "<p>Ta fundacja zawiera powiązane wpisy.</p>" +
-                    "<p>Można go dezaktywować.</p>" +
-                    "<p><a href=\"/admin/institution/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+            log.info("Institution: " + institution.getName() + " - " + ex.getMessage());
+            String lang = cookiesService.getLocationByCookie(request);
+            if ("".equals(lang)) lang = "en";
+            model.addAttribute("textMessage", mapStrByLang.get(lang));
+
             return "form-confirmation";
         }
     }
@@ -331,21 +363,29 @@ public class AdminController {
     }
 
     @GetMapping("/users/status")
-    public String statusUserChange(@RequestParam Long id, @AuthenticationPrincipal CurrentUserDetails currUser, Model model) {
+    public String statusUserChange(@RequestParam Long id,
+                                   @AuthenticationPrincipal CurrentUserDetails currUser,
+                                   Model model,
+                                   @Value("#{${map-admin-controller-get-users-status}}")
+                                               Map<String, String> mapStrByLang,
+                                   HttpServletRequest request) {
 
         User user = userService.findById(id);
         User currentUser = currUser.getUser();
 
         if (user.getId().equals(currentUser.getId())) {
-            model.addAttribute("textMessage", "<p>Nie możesz zablokować swojego profilu.</p>" +
-                    "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+            String lang = cookiesService.getLocationByCookie(request);
+            if ("".equals(lang)) lang = "en";
+            model.addAttribute("textMessage", mapStrByLang.get(lang));
             return "form-confirmation";
         }
 
         if (user.getEnabled() == 1) {
             user.setEnabled(0);
+            log.info("User: " + user.getEmail() + " - unblocked");
         } else {
             user.setEnabled(1);
+            log.info("User: " + user.getEmail() + " - blocked");
         }
 
         userService.update(user);
@@ -353,48 +393,71 @@ public class AdminController {
     }
 
     @GetMapping("/users/delete")
-    public String userDeleteForm(@RequestParam Long id, Model model, @AuthenticationPrincipal CurrentUserDetails currUser) {
+    public String userDeleteForm(@RequestParam Long id,
+                                 Model model,
+                                 @AuthenticationPrincipal CurrentUserDetails currUser,
+                                 @Value("#{${map-admin-controller-get-users-delete}}")
+                                             Map<String, String> mapStrByLang,
+                                 @Value("#{${map-admin-controller-get-users-delete-catch}}")
+                                             Map<String, String> mapStrByLangCatch,
+                                 HttpServletRequest request) {
 
         User user = userService.findById(id);
         User currentUser = currUser.getUser();
 
         if (user.getId().equals(currentUser.getId())) {
-            model.addAttribute("textMessage", "<p>Nie możesz usunąć swojego profilu.</p>" +
-                    "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+            String lang = cookiesService.getLocationByCookie(request);
+            if ("".equals(lang)) lang = "en";
+            model.addAttribute("textMessage", mapStrByLang.get(lang));
+
             return "form-confirmation";
         }
 
         try {
             userService.delete(user);
+            log.info("User: " + user.getEmail() + " - deleted");
             return "redirect:/admin/users/list";
         } catch (RuntimeException ex) {
-            model.addAttribute("textMessage", "<p>Ten użytkownik ma powiązane wpisy.</p>" +
-                    "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+            log.info("User: " + user.getEmail() + " - " + ex.getMessage());
+            String lang = cookiesService.getLocationByCookie(request);
+            if ("".equals(lang)) lang = "en";
+            model.addAttribute("textMessage", mapStrByLangCatch.get(lang));
+
             return "form-confirmation";
         }
     }
 
     @GetMapping("/users/role")
-    public String changeAdminRole(@RequestParam Long id, Model model, @AuthenticationPrincipal CurrentUserDetails currUser) {
+    public String changeAdminRole(@RequestParam Long id,
+                                  Model model,
+                                  @AuthenticationPrincipal CurrentUserDetails currUser,
+                                  @Value("#{${map-admin-controller-get-users-role-confirm}}")
+                                              Map<String, String> mapStrByLang,
+                                  @Value("#{${map-admin-controller-get-users-role-emailMessage-del}}")
+                                              Map<String, String> emailMessage_del,
+                                  @Value("#{${map-admin-controller-get-users-role-emailMessage-add}}")
+                                              Map<String, String> emailMessage_add,
+                                  HttpServletRequest request) {
 
         User user = userService.findById(id);
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         Set<Role> roleSet = user.getRoleSet();
         String emailMessage = "";
 
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+
         if (roleSet.contains(adminRole)) {
             if (userService.countAdmin() <= 1) {
-                model.addAttribute("textMessage", "<p>Jesteś jedynym administratorem.</p>" +
-                        "<p>To nie jest dla Ciebie dostępne.</p>" +
-                        "<p><a href=\"/admin/users/list\" class=\"btn btn--without-border\">Powrót</a></p>");
+                model.addAttribute("textMessage", mapStrByLang.get(lang));
                 return "form-confirmation";
             } else {
                 roleSet.remove(adminRole);
-                emailMessage = "Rola administratora została dla Ciebie anulowana.";
+                emailMessage = emailMessage_del.get(lang);
             }
         } else {
             roleSet.add(adminRole);
-            emailMessage = currUser.getUsername() + " mianował Cię administratorem Charity.";
+            emailMessage = currUser.getUsername() + emailMessage_add.get(lang);
         }
 
         user.setRoleSet(roleSet);
@@ -404,13 +467,21 @@ public class AdminController {
     }
 
     @GetMapping("/users/forgot")
-    public String forgotPassSendMail(@RequestParam String email, HttpServletRequest request) {
+    public String forgotPassSendMail(@RequestParam String email,
+                                     HttpServletRequest request,
+                                     @Value("#{${map-admin-controller-get-users-forgot-topic}}")
+                                                 Map<String, String> mapStrByLangTop,
+                                     @Value("#{${map-admin-controller-get-users-forgot-textEmail}}")
+                                                 Map<String, String> mapStrByLangEmail) {
 
         String tokenEmail = jwtProvider.generateToken(email);
 
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+
         emailService.SendEmail(email,
-                "Odzyskiwanie hasła",
-                "Aby zresetować hasło, kliknij link: https://"
+                mapStrByLangTop.get(lang),
+                mapStrByLangEmail.get(lang)
                         + request.getHeader("host")
                         + "/login/forgot/"
                         + tokenEmail);
@@ -606,6 +677,5 @@ public class AdminController {
 
         return "" + roleRepository.count();
     }
-
 
 }
