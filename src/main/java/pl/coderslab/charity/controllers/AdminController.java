@@ -2,7 +2,6 @@ package pl.coderslab.charity.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,9 +81,11 @@ public class AdminController {
 
         Category category = new Category();
         model.addAttribute("category", category);
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", messages.get("map-admin-controller-get-category-add", lang));
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+//        messages.setLocale(lang);
+        setLocateByCookie(request);
+        model.addAttribute("title_form", messages.get("map-admin-controller-get-category-add"));
 
         return "category-add-form";
     }
@@ -108,9 +109,10 @@ public class AdminController {
 
         Category category = categoryService.getById(id);
         model.addAttribute("category", category);
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", messages.get("map-admin-controller-get-category-edit", lang));
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
+        model.addAttribute("title_form", messages.get("map-admin-controller-get-category-edit"));
 
         return "category-add-form";
     }
@@ -139,9 +141,10 @@ public class AdminController {
 
             return "redirect:/admin/category/list";
         } catch (RuntimeException ex) {
-            String lang = cookiesService.getLocationByCookie(request);
-            if ("".equals(lang)) lang = "en";
-            model.addAttribute("textMessage",  messages.get("map-admin-controller-get-category-delete", lang));
+//            String lang = cookiesService.getLocationByCookie(request);
+//            if ("".equals(lang)) lang = "en";
+            setLocateByCookie(request);
+            model.addAttribute("textMessage",  messages.get("map-admin-controller-get-category-delete"));
             log.error("Category: " + category.getName() + " - " + ex.getMessage());
 
             return "form-confirmation";
@@ -172,9 +175,10 @@ public class AdminController {
 
         Institution institution = new Institution();
         model.addAttribute("institution", institution);
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", messages.get("map-admin-controller-get-institution-add", lang));
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
+        model.addAttribute("title_form", messages.get("map-admin-controller-get-institution-add"));
 
         return "institution-add-form";
     }
@@ -198,9 +202,10 @@ public class AdminController {
 
         Institution institution = institutionService.getById(id);
         model.addAttribute("institution", institution);
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", messages.get("map-admin-controller-get-institution-edit", lang));
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
+        model.addAttribute("title_form", messages.get("map-admin-controller-get-institution-edit"));
 
         return "institution-add-form";
     }
@@ -229,9 +234,10 @@ public class AdminController {
             return "redirect:/admin/institution/list";
         } catch (RuntimeException ex) {
             log.info("Institution: " + institution.getName() + " - " + ex.getMessage());
-            String lang = cookiesService.getLocationByCookie(request);
-            if ("".equals(lang)) lang = "en";
-            model.addAttribute("textMessage", messages.get("map-admin-controller-get-institution-delete", lang));
+//            String lang = cookiesService.getLocationByCookie(request);
+//            if ("".equals(lang)) lang = "en";
+            setLocateByCookie(request);
+            model.addAttribute("textMessage", messages.get("map-admin-controller-get-institution-delete"));
 
             return "form-confirmation";
         }
@@ -361,8 +367,9 @@ public class AdminController {
         User currentUser = currUser.getUser();
 
         if (user.getId().equals(currentUser.getId())) {
-            String lang = cookiesService.getLocationByCookie(request);
-            if ("".equals(lang)) lang = "en";
+//            String lang = cookiesService.getLocationByCookie(request);
+//            if ("".equals(lang)) lang = "en";
+            setLocateByCookie(request);
             model.addAttribute("textMessage", messages.get("map-admin-controller-get-users-status"));
             return "form-confirmation";
         }
@@ -389,8 +396,9 @@ public class AdminController {
         User currentUser = currUser.getUser();
 
         if (user.getId().equals(currentUser.getId())) {
-            String lang = cookiesService.getLocationByCookie(request);
-            if ("".equals(lang)) lang = "en";
+//            String lang = cookiesService.getLocationByCookie(request);
+//            if ("".equals(lang)) lang = "en";
+            setLocateByCookie(request);
             model.addAttribute("textMessage", messages.get("map-admin-controller-get-users-delete"));
 
             return "form-confirmation";
@@ -402,8 +410,9 @@ public class AdminController {
             return "redirect:/admin/users/list";
         } catch (RuntimeException ex) {
             log.info("User: " + user.getEmail() + " - " + ex.getMessage());
-            String lang = cookiesService.getLocationByCookie(request);
-            if ("".equals(lang)) lang = "en";
+//            String lang = cookiesService.getLocationByCookie(request);
+//            if ("".equals(lang)) lang = "en";
+            setLocateByCookie(request);
             model.addAttribute("textMessage", messages.get("map-admin-controller-get-users-delete-catch"));
 
             return "form-confirmation";
@@ -421,8 +430,9 @@ public class AdminController {
         Set<Role> roleSet = user.getRoleSet();
         String emailMessage = "";
 
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
 
         if (roleSet.contains(adminRole)) {
             if (userService.countAdmin() <= 1) {
@@ -449,8 +459,9 @@ public class AdminController {
 
         String tokenEmail = jwtProvider.generateToken(email);
 
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
 
         emailService.SendEmail(email,
                 messages.get("map-admin-controller-get-users-forgot-topic"),
@@ -497,8 +508,9 @@ public class AdminController {
             charityMessageService.delete(message);
             return "redirect:/admin/messages/list";
         } else {
-            String lang = cookiesService.getLocationByCookie(request);
-            if ("".equals(lang)) lang = "en";
+//            String lang = cookiesService.getLocationByCookie(request);
+//            if ("".equals(lang)) lang = "en";
+            setLocateByCookie(request);
             model.addAttribute("textMessage",  messages.get("map-admin-controller-get-messages-delete"));
 
             return "form-confirmation";
@@ -512,8 +524,9 @@ public class AdminController {
 
         List<Donation> donations = donationService.findAllSortByStatus();
         model.addAttribute("donations", donations);
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
         model.addAttribute("title_page", messages.get("map-admin-controller-get-donations-list"));
 
         return "admin-donations-list";
@@ -564,8 +577,9 @@ public class AdminController {
         List<Donation> donations = donationsStream.collect(Collectors.toList());
 
         model.addAttribute("donations", donations);
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
         model.addAttribute("title_page", messages.get("map-admin-controller-get-donations-list"));
 
         return "admin-donations-list";
@@ -581,8 +595,9 @@ public class AdminController {
 
         Stream<Donation> donationsStream = donationService.findAllSortByStatus().stream();
 
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
 
         if (querySearch.trim().equals("")) {
             List<Donation> donations = donationsStream.collect(Collectors.toList());
@@ -630,8 +645,9 @@ public class AdminController {
         donation.setDateTimeReceived(LocalDateTime.now());
         donationService.save(donation);
 
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
 
         emailService.SendEmail(donation.getUser().getEmail(),
                 "Service CHARITY",
@@ -649,8 +665,9 @@ public class AdminController {
         donation.setDateTimeTransmitted(LocalDateTime.now());
         donationService.save(donation);
 
-        String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
+//        String lang = cookiesService.getLocationByCookie(request);
+//        if ("".equals(lang)) lang = "en";
+        setLocateByCookie(request);
 
         emailService.SendEmail(donation.getUser().getEmail(),
                 "Service CHARITY",
@@ -658,6 +675,12 @@ public class AdminController {
                         + ": " + donation.getDateTimeTransmitted()
                         + messages.get("map-admin-controller-get-donations-devoted-textEmail1"));
         return "redirect:/admin/donations/list";
+    }
+
+    private void setLocateByCookie(HttpServletRequest request) {
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+        messages.setLocale(lang);
     }
 
 }
