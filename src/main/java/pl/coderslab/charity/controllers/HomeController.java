@@ -4,13 +4,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.component.Messages;
 import pl.coderslab.charity.entity.CurrentUserDetails;
 import pl.coderslab.charity.entity.User;
+import pl.coderslab.charity.service.CookiesService;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.CharityMessageService;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,13 +22,17 @@ public class HomeController {
     private final InstitutionService institutionService;
     private final DonationService donationService;
     private final CharityMessageService charityMessageService;
+    private final CookiesService cookiesService;
+    private final Messages messages;
 
     public HomeController(InstitutionService institutionService,
                           DonationService donationService,
-                          CharityMessageService charityMessageService) {
+                          CharityMessageService charityMessageService, CookiesService cookiesService, Messages messages) {
         this.institutionService = institutionService;
         this.donationService = donationService;
         this.charityMessageService = charityMessageService;
+        this.cookiesService = cookiesService;
+        this.messages = messages;
     }
 
     @GetMapping
@@ -40,6 +45,10 @@ public class HomeController {
             User user = currentUser.getUser();
             model.addAttribute("currentUserName", user.getName());
         }
+
+        String lang = cookiesService.getLocationByCookie(request);
+        if ("".equals(lang)) lang = "en";
+        messages.setLocale(lang);
 
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
         model.addAttribute("allBagsReturned", donationService.sumOfAllBagsReturned());
