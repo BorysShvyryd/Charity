@@ -1,4 +1,3 @@
-<%@ page import="java.util.Locale" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -18,8 +17,3 @@
     <img src="../../../resources/images/flags/ru.svg" title="<fmt:message key="string.lang.ru"/>">
     <fmt:message key="label.lang.ru"/>
 </a></li>
-<%
-    Locale locale = request.getLocale();
-    String language = locale.getLanguage();
-    out.println("Language : " + language  + "<br />");
-%>
