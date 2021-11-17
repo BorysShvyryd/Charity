@@ -38,7 +38,7 @@ public class Messages {
     public void setLocale(String language) {
         Locale locale = Locale.getDefault();
         if (!"".equals(language)) {
-            locale = "en".equals(language) ? Locale.forLanguageTag("en") : Locale.forLanguageTag(language);
+            locale = Locale.forLanguageTag(language);
         }
 
         this.accessor = new MessageSourceAccessor(this.messageSource, locale);

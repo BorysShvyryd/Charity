@@ -10,8 +10,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.LocaleContextResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import pl.coderslab.charity.service.UserDetailsServiceImpl;
+
+import java.util.Locale;
 
 @Configuration
 @ComponentScan("pl.coderslab.charity")
@@ -24,13 +30,19 @@ public class AppConfig implements WebMvcConfigurer {
         return new UserDetailsServiceImpl();
     }
 
-//    @Bean(name = "localeResolver")
-//    public LocaleContextResolver getLocaleContextResolver() {
-//        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-////        localeResolver.setDefaultLocale(new Locale("en", "EN"));
-//        localeResolver.setDefaultLocale(Locale.US);
-//        return localeResolver;
-//    }
+    @Bean(name = "localeResolver")
+    public LocaleContextResolver getLocaleContextResolver() {
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        localeResolver.setDefaultLocale(Locale.US);
+        return localeResolver;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        lci.setParamName("lang");
+        return lci;
+    }
 
     @Bean
     public MessageSource messageSource() {
@@ -45,5 +57,11 @@ public class AppConfig implements WebMvcConfigurer {
         LocalValidatorFactoryBean lvfb = new LocalValidatorFactoryBean();
         lvfb.setValidationMessageSource(messageSource());
         return lvfb;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+//        WebMvcConfigurer.super.addInterceptors(registry);
+        registry.addInterceptor(localeChangeInterceptor());
     }
 }
