@@ -2,7 +2,6 @@ package pl.coderslab.charity.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -10,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.component.JwtProvider;
+import pl.coderslab.charity.component.Messages;
 import pl.coderslab.charity.entity.*;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.service.*;
@@ -19,14 +19,13 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/admin")
-@PropertySource(value = "classpath:messages.properties", encoding="UTF-8")
+//@PropertySource(value = "classpath:messages.properties", encoding="UTF-8")
 public class AdminController {
 
     private static final Logger log = LogManager.getLogger(AdminController.class);
@@ -40,8 +39,9 @@ public class AdminController {
     private final EmailService emailService;
     private final JwtProvider jwtProvider;
     private final CookiesService cookiesService;
+    private final Messages messages;
 
-    public AdminController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository, EmailService emailService, JwtProvider jwtProvider, CookiesService cookiesService) {
+    public AdminController(CategoryService categoryService, InstitutionService institutionService, DonationService donationService, UserService userService, CharityMessageService charityMessageService, RoleRepository roleRepository, EmailService emailService, JwtProvider jwtProvider, CookiesService cookiesService, Messages messages) {
         this.categoryService = categoryService;
         this.institutionService = institutionService;
         this.donationService = donationService;
@@ -51,6 +51,7 @@ public class AdminController {
         this.emailService = emailService;
         this.jwtProvider = jwtProvider;
         this.cookiesService = cookiesService;
+        this.messages = messages;
     }
 
     @GetMapping()
@@ -77,15 +78,13 @@ public class AdminController {
 
     @GetMapping("/category/add")
     public String categoryAddForm(Model model,
-                                  @Value("#{${map-admin-controller-get-category-add}}")
-                                  Map<String, String> mapStrByLang,
                                   HttpServletRequest request) {
 
         Category category = new Category();
         model.addAttribute("category", category);
         String lang = cookiesService.getLocationByCookie(request);
         if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", mapStrByLang.get(lang));
+        model.addAttribute("title_form", messages.get("map-admin-controller-get-category-add", lang));
 
         return "category-add-form";
     }
@@ -105,15 +104,13 @@ public class AdminController {
     @GetMapping("/category/edit")
     public String categoryEditForm(@RequestParam Long id,
                                    Model model,
-                                   @Value("#{${map-admin-controller-get-category-edit}}")
-                                               Map<String, String> mapStrByLang,
                                    HttpServletRequest request) {
 
         Category category = categoryService.getById(id);
         model.addAttribute("category", category);
         String lang = cookiesService.getLocationByCookie(request);
         if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", mapStrByLang.get(lang));
+        model.addAttribute("title_form", messages.get("map-admin-controller-get-category-edit", lang));
 
         return "category-add-form";
     }
@@ -132,8 +129,6 @@ public class AdminController {
     @GetMapping("/category/delete")
     public String categoryDeleteForm(@RequestParam Long id,
                                      Model model,
-                                     @Value("#{${map-admin-controller-get-category-delete}}")
-                                                 Map<String, String> mapStrByLang,
                                      HttpServletRequest request) {
 
         Category category = categoryService.getById(id);
@@ -146,7 +141,7 @@ public class AdminController {
         } catch (RuntimeException ex) {
             String lang = cookiesService.getLocationByCookie(request);
             if ("".equals(lang)) lang = "en";
-            model.addAttribute("textMessage",  mapStrByLang.get(lang));
+            model.addAttribute("textMessage",  messages.get("map-admin-controller-get-category-delete", lang));
             log.error("Category: " + category.getName() + " - " + ex.getMessage());
 
             return "form-confirmation";
@@ -173,15 +168,13 @@ public class AdminController {
 
     @GetMapping("/institution/add")
     public String institutionAddForm(Model model,
-                                     @Value("#{${map-admin-controller-get-institution-add}}")
-                                             Map<String, String> mapStrByLang,
                                      HttpServletRequest request) {
 
         Institution institution = new Institution();
         model.addAttribute("institution", institution);
         String lang = cookiesService.getLocationByCookie(request);
         if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", mapStrByLang.get(lang));
+        model.addAttribute("title_form", messages.get("map-admin-controller-get-institution-add", lang));
 
         return "institution-add-form";
     }
@@ -201,15 +194,13 @@ public class AdminController {
     @GetMapping("/institution/edit")
     public String institutionEditForm(@RequestParam Long id,
                                       Model model,
-                                      @Value("#{${map-admin-controller-get-institution-edit}}")
-                                                  Map<String, String> mapStrByLang,
                                       HttpServletRequest request) {
 
         Institution institution = institutionService.getById(id);
         model.addAttribute("institution", institution);
         String lang = cookiesService.getLocationByCookie(request);
         if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_form", mapStrByLang.get(lang));
+        model.addAttribute("title_form", messages.get("map-admin-controller-get-institution-edit", lang));
 
         return "institution-add-form";
     }
@@ -228,8 +219,6 @@ public class AdminController {
     @GetMapping("/institution/delete")
     public String institutionDeleteForm(@RequestParam Long id,
                                         Model model,
-                                        @Value("#{${map-admin-controller-get-institution-delete}}")
-                                                    Map<String, String> mapStrByLang,
                                         HttpServletRequest request) {
 
         Institution institution = institutionService.getById(id);
@@ -242,7 +231,7 @@ public class AdminController {
             log.info("Institution: " + institution.getName() + " - " + ex.getMessage());
             String lang = cookiesService.getLocationByCookie(request);
             if ("".equals(lang)) lang = "en";
-            model.addAttribute("textMessage", mapStrByLang.get(lang));
+            model.addAttribute("textMessage", messages.get("map-admin-controller-get-institution-delete", lang));
 
             return "form-confirmation";
         }
@@ -366,8 +355,6 @@ public class AdminController {
     public String statusUserChange(@RequestParam Long id,
                                    @AuthenticationPrincipal CurrentUserDetails currUser,
                                    Model model,
-                                   @Value("#{${map-admin-controller-get-users-status}}")
-                                               Map<String, String> mapStrByLang,
                                    HttpServletRequest request) {
 
         User user = userService.findById(id);
@@ -376,7 +363,7 @@ public class AdminController {
         if (user.getId().equals(currentUser.getId())) {
             String lang = cookiesService.getLocationByCookie(request);
             if ("".equals(lang)) lang = "en";
-            model.addAttribute("textMessage", mapStrByLang.get(lang));
+            model.addAttribute("textMessage", messages.get("map-admin-controller-get-users-status"));
             return "form-confirmation";
         }
 
@@ -396,10 +383,6 @@ public class AdminController {
     public String userDeleteForm(@RequestParam Long id,
                                  Model model,
                                  @AuthenticationPrincipal CurrentUserDetails currUser,
-                                 @Value("#{${map-admin-controller-get-users-delete}}")
-                                             Map<String, String> mapStrByLang,
-                                 @Value("#{${map-admin-controller-get-users-delete-catch}}")
-                                             Map<String, String> mapStrByLangCatch,
                                  HttpServletRequest request) {
 
         User user = userService.findById(id);
@@ -408,7 +391,7 @@ public class AdminController {
         if (user.getId().equals(currentUser.getId())) {
             String lang = cookiesService.getLocationByCookie(request);
             if ("".equals(lang)) lang = "en";
-            model.addAttribute("textMessage", mapStrByLang.get(lang));
+            model.addAttribute("textMessage", messages.get("map-admin-controller-get-users-delete"));
 
             return "form-confirmation";
         }
@@ -421,7 +404,7 @@ public class AdminController {
             log.info("User: " + user.getEmail() + " - " + ex.getMessage());
             String lang = cookiesService.getLocationByCookie(request);
             if ("".equals(lang)) lang = "en";
-            model.addAttribute("textMessage", mapStrByLangCatch.get(lang));
+            model.addAttribute("textMessage", messages.get("map-admin-controller-get-users-delete-catch"));
 
             return "form-confirmation";
         }
@@ -431,12 +414,6 @@ public class AdminController {
     public String changeAdminRole(@RequestParam Long id,
                                   Model model,
                                   @AuthenticationPrincipal CurrentUserDetails currUser,
-                                  @Value("#{${map-admin-controller-get-users-role-confirm}}")
-                                              Map<String, String> mapStrByLang,
-                                  @Value("#{${map-admin-controller-get-users-role-emailMessage-del}}")
-                                              Map<String, String> emailMessage_del,
-                                  @Value("#{${map-admin-controller-get-users-role-emailMessage-add}}")
-                                              Map<String, String> emailMessage_add,
                                   HttpServletRequest request) {
 
         User user = userService.findById(id);
@@ -449,15 +426,15 @@ public class AdminController {
 
         if (roleSet.contains(adminRole)) {
             if (userService.countAdmin() <= 1) {
-                model.addAttribute("textMessage", mapStrByLang.get(lang));
+                model.addAttribute("textMessage", messages.get("map-admin-controller-get-users-role-confirm"));
                 return "form-confirmation";
             } else {
                 roleSet.remove(adminRole);
-                emailMessage = emailMessage_del.get(lang);
+                emailMessage = messages.get("map-admin-controller-get-users-role-emailMessage-del");
             }
         } else {
             roleSet.add(adminRole);
-            emailMessage = currUser.getUsername() + emailMessage_add.get(lang);
+            emailMessage = currUser.getUsername() + messages.get("map-admin-controller-get-users-role-emailMessage-add");
         }
 
         user.setRoleSet(roleSet);
@@ -468,11 +445,7 @@ public class AdminController {
 
     @GetMapping("/users/forgot")
     public String forgotPassSendMail(@RequestParam String email,
-                                     HttpServletRequest request,
-                                     @Value("#{${map-admin-controller-get-users-forgot-topic}}")
-                                                 Map<String, String> mapStrByLangTop,
-                                     @Value("#{${map-admin-controller-get-users-forgot-textEmail}}")
-                                                 Map<String, String> mapStrByLangEmail) {
+                                     HttpServletRequest request) {
 
         String tokenEmail = jwtProvider.generateToken(email);
 
@@ -480,8 +453,8 @@ public class AdminController {
         if ("".equals(lang)) lang = "en";
 
         emailService.SendEmail(email,
-                mapStrByLangTop.get(lang),
-                mapStrByLangEmail.get(lang)
+                messages.get("map-admin-controller-get-users-forgot-topic"),
+                messages.get("map-admin-controller-get-users-forgot-textEmail")
                         + request.getHeader("host")
                         + "/login/forgot/"
                         + tokenEmail);
@@ -516,8 +489,6 @@ public class AdminController {
     @GetMapping("/messages/delete")
     public String messagesDeleteForm(@RequestParam Long id,
                                      Model model,
-                                     @Value("#{${map-admin-controller-get-messages-delete}}")
-                                                 Map<String, String> mapStrByLang,
                                      HttpServletRequest request) {
 
         CharityMessage message = charityMessageService.getById(id);
@@ -528,7 +499,7 @@ public class AdminController {
         } else {
             String lang = cookiesService.getLocationByCookie(request);
             if ("".equals(lang)) lang = "en";
-            model.addAttribute("textMessage",  mapStrByLang.get(lang));
+            model.addAttribute("textMessage",  messages.get("map-admin-controller-get-messages-delete"));
 
             return "form-confirmation";
         }
@@ -537,15 +508,13 @@ public class AdminController {
     //***************************************
     @GetMapping("/donations/list")
     public String donationsListForm(Model model,
-                                    @Value("#{${map-admin-controller-get-donations-list}}")
-                                            Map<String, String> mapStrByLang,
                                     HttpServletRequest request) {
 
         List<Donation> donations = donationService.findAllSortByStatus();
         model.addAttribute("donations", donations);
         String lang = cookiesService.getLocationByCookie(request);
         if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_page", mapStrByLang.get(lang));
+        model.addAttribute("title_page", messages.get("map-admin-controller-get-donations-list"));
 
         return "admin-donations-list";
     }
@@ -553,8 +522,6 @@ public class AdminController {
     @GetMapping("/donations/list/{stream_change}")
     public String donationsListSort(Model model,
                                     @PathVariable String stream_change,
-                                    @Value("#{${map-admin-controller-get-donations-list}}")
-                                                Map<String, String> mapStrByLang,
                                     HttpServletRequest request) {
 
         String[] operations = stream_change.split(";");
@@ -599,7 +566,7 @@ public class AdminController {
         model.addAttribute("donations", donations);
         String lang = cookiesService.getLocationByCookie(request);
         if ("".equals(lang)) lang = "en";
-        model.addAttribute("title_page", mapStrByLang.get(lang));
+        model.addAttribute("title_page", messages.get("map-admin-controller-get-donations-list"));
 
         return "admin-donations-list";
     }
@@ -608,8 +575,6 @@ public class AdminController {
     public String donationsListFiltr(Model model,
                                      @PathVariable String stream_change,
                                      @RequestParam String querySearch,
-                                     @Value("#{${map-admin-controller-get-donations-list}}")
-                                                 Map<String, String> mapStrByLang,
                                      HttpServletRequest request) {
 
         String[] operations = stream_change.split(";");
@@ -622,7 +587,7 @@ public class AdminController {
         if (querySearch.trim().equals("")) {
             List<Donation> donations = donationsStream.collect(Collectors.toList());
             model.addAttribute("donations", donations);
-            model.addAttribute("title_page", mapStrByLang.get(lang));
+            model.addAttribute("title_page", messages.get("map-admin-controller-get-donations-list"));
 
             return "admin-donations-list";
         }
@@ -652,17 +617,13 @@ public class AdminController {
         List<Donation> donations = donationsStream.collect(Collectors.toList());
 
         model.addAttribute("donations", donations);
-        model.addAttribute("title_page", mapStrByLang.get(lang));
+        model.addAttribute("title_page", messages.get("map-admin-controller-get-donations-list"));
         return "admin-donations-list";
     }
 
     @GetMapping("/donations/devoted")
     public String devotedSave(@RequestParam Long id,
-                              HttpServletRequest request,
-                              @Value("#{${map-admin-controller-get-donations-devoted-textEmail1}}")
-                                          Map<String, String> mapStrByLang1,
-                              @Value("#{${map-admin-controller-get-donations-devoted-textEmail2}}")
-                                          Map<String, String> mapStrByLang2) {
+                              HttpServletRequest request) {
 
         Donation donation = donationService.getById(id);
         donation.setStatus((byte) 1);
@@ -674,18 +635,14 @@ public class AdminController {
 
         emailService.SendEmail(donation.getUser().getEmail(),
                 "Service CHARITY",
-                mapStrByLang1.get(lang) + donation.getDateTimeReceived()
-                        + mapStrByLang2.get(lang));
+                messages.get("map-admin-controller-get-donations-devoted-textEmail1") + donation.getDateTimeReceived()
+                        + messages.get("map-admin-controller-get-donations-devoted-textEmail2"));
         return "redirect:/admin/donations/list";
     }
 
     @GetMapping("/donations/transfer")
     public String transferSave(@RequestParam Long id,
-                               HttpServletRequest request,
-                               @Value("#{${map-admin-controller-get-donations-transfer-textEmail1}}")
-                                           Map<String, String> mapStrByLang1,
-                               @Value("#{${map-admin-controller-get-donations-devoted-textEmail1}}")
-                                           Map<String, String> mapStrByLang2) {
+                               HttpServletRequest request) {
 
         Donation donation = donationService.getById(id);
         donation.setStatus((byte) 2);
@@ -697,9 +654,9 @@ public class AdminController {
 
         emailService.SendEmail(donation.getUser().getEmail(),
                 "Service CHARITY",
-                mapStrByLang1.get(lang) + donation.getInstitution().getName()
+                messages.get("map-admin-controller-get-donations-transfer-textEmail1") + donation.getInstitution().getName()
                         + ": " + donation.getDateTimeTransmitted()
-                        + mapStrByLang2.get(lang));
+                        + messages.get("map-admin-controller-get-donations-devoted-textEmail1"));
         return "redirect:/admin/donations/list";
     }
 
