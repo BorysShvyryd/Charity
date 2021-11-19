@@ -8,6 +8,7 @@ import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.repository.UserRepository;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -75,5 +76,88 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
         return userRepository.getById(id);
+    }
+
+    @Override
+    public Stream<User> usersStreemChange(String stream_change, String querySearch) {
+        String[] operations = stream_change.split(";");
+
+        Stream<User> userStream = findAll().stream();
+
+        for (String operation : operations) {
+            switch (operation.split("=")[0]) {
+                case "filter":
+                    switch (operation.split("=")[1]) {
+                        case "admin":
+                            Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
+                            userStream = userStream.filter(o -> o.getRoleSet().contains(roleAdmin));
+                            break;
+                        case "status_1":
+                            userStream = userStream.filter(o -> o.getEnabled() == 1);
+                            break;
+                        case "status_0":
+                            userStream = userStream.filter(o -> o.getEnabled() == 0);
+                            break;
+                        case "email":
+                            userStream = userStream.filter(o ->
+                                    o.getEmail().toLowerCase()
+                                            .contains(querySearch.toLowerCase()));
+                            break;
+                        case "name":
+                            userStream = userStream.filter(o -> o.getName() != null)
+                                    .filter(o ->
+                                            o.getName().toLowerCase()
+                                                    .contains(querySearch.toLowerCase()));
+                            break;
+                        case "surname":
+                            userStream = userStream.filter(o -> o.getSurname() != null)
+                                    .filter(o ->
+                                            o.getSurname().toLowerCase()
+                                                    .contains(querySearch.toLowerCase()));
+                            break;
+                    }
+                    break;
+                case "sort":
+                    switch (operation.split("=")[1]) {
+                        case "id_up":
+                            userStream = userStream.sorted((o1, o2) -> (int) (o1.getId() - o2.getId()));
+                            break;
+                        case "id_down":
+                            userStream = userStream.sorted((o1, o2) -> (int) (o2.getId() - o1.getId()));
+                            break;
+                        case "email_up":
+                            userStream = userStream.sorted((o1, o2) -> (o2.getEmail().compareTo(o1.getEmail())));
+                            break;
+                        case "email_down":
+                            userStream = userStream.sorted(Comparator.comparing(User::getEmail));
+                            break;
+                        case "name_up":
+                            userStream = userStream.sorted(Comparator.nullsLast((o1, o2) -> compareByNull(o1.getName(), o2.getName())));
+                            break;
+                        case "name_down":
+                            userStream = userStream.sorted(Comparator.nullsLast((o1, o2) -> compareByNull(o2.getName(), o1.getName())));
+                            break;
+                        case "surname_up":
+                            userStream = userStream.sorted(Comparator.nullsLast((o1, o2) -> compareByNull(o1.getSurname(), o2.getSurname())));
+                            break;
+                        case "surname_down":
+                            userStream = userStream.sorted(Comparator.nullsLast((o1, o2) -> compareByNull(o2.getSurname(), o1.getSurname())));
+                            break;
+                    }
+            }
+        }
+
+        return userStream;
+    }
+
+    public int compareByNull(String txt, String otherTxt)
+    {
+        if ( txt == null )
+            return otherTxt == null ? 0 : 1;
+
+        if ( otherTxt == null )
+            return 1;
+
+        return txt.compareToIgnoreCase(otherTxt);
     }
 }
