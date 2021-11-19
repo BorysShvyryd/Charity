@@ -25,5 +25,7 @@ public interface UserService {
 
     int countAdmin();
 
-    Stream<User> usersStreemChange(String stream_change, String querySearch);
+    Stream<User> usersStreamChange(String stream_change, String querySearch);
+
+    User reBlockedUser(User user);
 }

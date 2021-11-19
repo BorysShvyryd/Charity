@@ -58,20 +58,11 @@ public class DonationService {
         return donationRepository.getById(id);
     }
 
-    public Stream<Donation> donationsStreemChange(String stream_change, String querySearch) {
+    public Stream<Donation> donationsStreamChange(String stream_change, String querySearch) {
 
         String[] operations = stream_change.split(";");
 
-        Stream<Donation> donationsStream;
-
-        if ("".equals(stream_change))
-            return findAllSortByStatus().stream();
-
-        if (querySearch == null) {
-            donationsStream = findAll().stream();
-        } else {
-            donationsStream = findAllSortByStatus().stream();
-        }
+        Stream<Donation> donationsStream = findAllSortByStatus().stream();
 
         for (String operation : operations) {
             switch (operation.split("=")[0]) {
