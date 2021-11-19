@@ -18,8 +18,6 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,8 +25,6 @@ import java.util.stream.Stream;
 @RequestMapping("/admin")
 @Slf4j
 public class AdminController {
-
-//    private static final Logger log = LogManager.getLogger(AdminController.class);
 
     private final CategoryService categoryService;
     private final InstitutionService institutionService;
@@ -138,7 +134,7 @@ public class AdminController {
             return "redirect:/admin/category/list";
         } catch (RuntimeException ex) {
             setLocateByCookie(request);
-            model.addAttribute("textMessage",  messages.get("map-admin-controller-get-category-delete"));
+            model.addAttribute("textMessage", messages.get("map-admin-controller-get-category-delete"));
             log.error("Category: " + category.getName() + " - " + ex.getMessage());
 
             return "form-confirmation";
@@ -243,55 +239,57 @@ public class AdminController {
     @GetMapping("/users/list/{stream_change}")
     public String usersListForm(Model model, @PathVariable String stream_change) {
 
-        String[] operations = stream_change.split(";");
+//        String[] operations = stream_change.split(";");
+//
+//        Stream<User> userStream = userService.findAll().stream();
+//
+//        for (String operation : operations) {
+//            switch (operation.split("=")[0]) {
+//                case "filter":
+//                    switch (operation.split("=")[1]) {
+//                        case "admin":
+//                            Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
+//                            userStream = userStream.filter(o -> o.getRoleSet().contains(roleAdmin));
+//                            break;
+//                        case "status_1":
+//                            userStream = userStream.filter(o -> o.getEnabled() == 1);
+//                            break;
+//                        case "status_0":
+//                            userStream = userStream.filter(o -> o.getEnabled() == 0);
+//                            break;
+//                    }
+//                    break;
+//                case "sort":
+//                    switch (operation.split("=")[1]) {
+//                        case "id_up":
+//                            userStream = userStream.sorted((o1, o2) -> (int) (o1.getId() - o2.getId()));
+//                            break;
+//                        case "id_down":
+//                            userStream = userStream.sorted((o1, o2) -> (int) (o2.getId() - o1.getId()));
+//                            break;
+//                        case "email_up":
+//                            userStream = userStream.sorted((o1, o2) -> (o2.getEmail().compareTo(o1.getEmail())));
+//                            break;
+//                        case "email_down":
+//                            userStream = userStream.sorted(Comparator.comparing(User::getEmail));
+//                            break;
+//                        case "name_up":
+//                            userStream = userStream.sorted(Comparator.comparing(User::getName));
+//                            break;
+//                        case "name_down":
+//                            userStream = userStream.sorted((o1, o2) -> (o2.getName().compareTo(o1.getName())));
+//                            break;
+//                        case "surname_up":
+//                            userStream = userStream.sorted(Comparator.comparing(User::getSurname));
+//                            break;
+//                        case "surname_down":
+//                            userStream = userStream.sorted((o1, o2) -> (o2.getName().compareTo(o1.getSurname())));
+//                            break;
+//                    }
+//            }
+//        }
 
-        Stream<User> userStream = userService.findAll().stream();
-
-        for (String operation : operations) {
-            switch (operation.split("=")[0]) {
-                case "filter":
-                    switch (operation.split("=")[1]) {
-                        case "admin":
-                            Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
-                            userStream = userStream.filter(o -> o.getRoleSet().contains(roleAdmin));
-                            break;
-                        case "status_1":
-                            userStream = userStream.filter(o -> o.getEnabled() == 1);
-                            break;
-                        case "status_0":
-                            userStream = userStream.filter(o -> o.getEnabled() == 0);
-                            break;
-                    }
-                    break;
-                case "sort":
-                    switch (operation.split("=")[1]) {
-                        case "id_up":
-                            userStream = userStream.sorted((o1, o2) -> (int) (o1.getId() - o2.getId()));
-                            break;
-                        case "id_down":
-                            userStream = userStream.sorted((o1, o2) -> (int) (o2.getId() - o1.getId()));
-                            break;
-                        case "email_up":
-                            userStream = userStream.sorted((o1, o2) -> (o2.getEmail().compareTo(o1.getEmail())));
-                            break;
-                        case "email_down":
-                            userStream = userStream.sorted(Comparator.comparing(User::getEmail));
-                            break;
-                        case "name_up":
-                            userStream = userStream.sorted(Comparator.comparing(User::getName));
-                            break;
-                        case "name_down":
-                            userStream = userStream.sorted((o1, o2) -> (o2.getName().compareTo(o1.getName())));
-                            break;
-                        case "surname_up":
-                            userStream = userStream.sorted(Comparator.comparing(User::getSurname));
-                            break;
-                        case "surname_down":
-                            userStream = userStream.sorted((o1, o2) -> (o2.getName().compareTo(o1.getSurname())));
-                            break;
-                    }
-            }
-        }
+        Stream<User> userStream = userService.usersStreemChange(stream_change, null);
 
         List<User> users = userStream.collect(Collectors.toList());
 
@@ -301,10 +299,10 @@ public class AdminController {
 
     @PostMapping("/users/list/{stream_change}")
     public String usersListFiltr(Model model,
-                                     @PathVariable String stream_change,
-                                     @RequestParam String querySearch) {
+                                 @PathVariable String stream_change,
+                                 @RequestParam String querySearch) {
 
-        String[] operations = stream_change.split(";");
+//        String[] operations = stream_change.split(";");
 
         Stream<User> usersStream = userService.findAll().stream();
 
@@ -315,29 +313,31 @@ public class AdminController {
             return "admin-users-list";
         }
 
-        for (String operation : operations) {
-            if ("filter".equals(operation.split("=")[0])) {
-                switch (operation.split("=")[1]) {
-                    case "email":
-                        usersStream = usersStream.filter(o ->
-                                o.getEmail().toLowerCase()
-                                        .contains(querySearch.toLowerCase()));
-                        break;
-                    case "name":
-                        usersStream = usersStream.filter(o -> o.getName() != null)
-                                .filter(o ->
-                                o.getName().toLowerCase()
-                                        .contains(querySearch.toLowerCase()));
-                        break;
-                    case "surname":
-                        usersStream = usersStream.filter(o -> o.getSurname() != null)
-                                .filter(o ->
-                                o.getSurname().toLowerCase()
-                                        .contains(querySearch.toLowerCase()));
-                        break;
-                }
-            }
-        }
+//        for (String operation : operations) {
+//            if ("filter".equals(operation.split("=")[0])) {
+//                switch (operation.split("=")[1]) {
+//                    case "email":
+//                        usersStream = usersStream.filter(o ->
+//                                o.getEmail().toLowerCase()
+//                                        .contains(querySearch.toLowerCase()));
+//                        break;
+//                    case "name":
+//                        usersStream = usersStream.filter(o -> o.getName() != null)
+//                                .filter(o ->
+//                                        o.getName().toLowerCase()
+//                                                .contains(querySearch.toLowerCase()));
+//                        break;
+//                    case "surname":
+//                        usersStream = usersStream.filter(o -> o.getSurname() != null)
+//                                .filter(o ->
+//                                        o.getSurname().toLowerCase()
+//                                                .contains(querySearch.toLowerCase()));
+//                        break;
+//                }
+//            }
+//        }
+
+        usersStream = userService.usersStreemChange(stream_change, querySearch);
 
         List<User> users = usersStream.collect(Collectors.toList());
 
@@ -487,7 +487,7 @@ public class AdminController {
             return "redirect:/admin/messages/list";
         } else {
             setLocateByCookie(request);
-            model.addAttribute("textMessage",  messages.get("map-admin-controller-get-messages-delete"));
+            model.addAttribute("textMessage", messages.get("map-admin-controller-get-messages-delete"));
 
             return "form-confirmation";
         }
