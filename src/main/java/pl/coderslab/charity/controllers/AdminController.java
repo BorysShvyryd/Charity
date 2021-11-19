@@ -15,7 +15,6 @@ import pl.coderslab.charity.service.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -239,7 +238,7 @@ public class AdminController {
     @GetMapping("/users/list/{stream_change}")
     public String usersListForm(Model model, @PathVariable String stream_change) {
 
-        Stream<User> userStream = userService.usersStreemChange(stream_change, null);
+        Stream<User> userStream = userService.usersStreamChange(stream_change, null);
 
         List<User> users = userStream.collect(Collectors.toList());
 
@@ -261,7 +260,7 @@ public class AdminController {
             return "admin-users-list";
         }
 
-        usersStream = userService.usersStreemChange(stream_change, querySearch);
+        usersStream = userService.usersStreamChange(stream_change, querySearch);
 
         List<User> users = usersStream.collect(Collectors.toList());
 
@@ -284,15 +283,7 @@ public class AdminController {
             return "form-confirmation";
         }
 
-        if (user.getEnabled() == 1) {
-            user.setEnabled(0);
-            log.info("User: " + user.getEmail() + " - unblocked");
-        } else {
-            user.setEnabled(1);
-            log.info("User: " + user.getEmail() + " - blocked");
-        }
-
-        userService.update(user);
+        userService.update(userService.reBlockedUser(user));
         return "redirect:/admin/users/list";
     }
 
@@ -435,44 +426,7 @@ public class AdminController {
                                     @PathVariable String stream_change,
                                     HttpServletRequest request) {
 
-//        String[] operations = stream_change.split(";");
-//
-//        Stream<Donation> donationsStream = donationService.findAll().stream();
-//
-//        for (String operation : operations) {
-//            if ("sort".equals(operation.split("=")[0])) {
-//                switch (operation.split("=")[1]) {
-//                    case "institution_up":
-//                        donationsStream = donationsStream.sorted((o1, o2) ->
-//                                o1.getInstitution().getName().compareTo(o2.getInstitution().getName()));
-//                        break;
-//                    case "institution_down":
-//                        donationsStream = donationsStream.sorted((o1, o2) ->
-//                                o2.getInstitution().getName().compareTo(o1.getInstitution().getName()));
-//                        break;
-//                    case "address_up":
-//                        donationsStream = donationsStream.sorted((o1, o2) ->
-//                                o1.getStreet().compareTo(o2.getStreet()));
-//                        break;
-//                    case "address_down":
-//                        donationsStream = donationsStream.sorted((o1, o2) ->
-//                                o2.getStreet().compareTo(o1.getStreet()));
-//                        break;
-//                    case "username_up":
-//                        donationsStream = donationsStream.sorted((o1, o2) ->
-//                                (o1.getUser().getName() + o1.getUser().getSurname())
-//                                        .compareTo(o2.getUser().getName() + o2.getUser().getSurname()));
-//                        break;
-//                    case "username_down":
-//                        donationsStream = donationsStream.sorted((o1, o2) ->
-//                                (o2.getUser().getName() + o2.getUser().getSurname())
-//                                        .compareTo(o1.getUser().getName() + o1.getUser().getSurname()));
-//                        break;
-//                }
-//            }
-//        }
-
-        List<Donation> donations = donationService.donationsStreemChange(stream_change,null).collect(Collectors.toList());
+        List<Donation> donations = donationService.donationsStreamChange(stream_change,null).collect(Collectors.toList());
 
         model.addAttribute("donations", donations);
         setLocateByCookie(request);
@@ -489,7 +443,7 @@ public class AdminController {
 
         setLocateByCookie(request);
 
-        Stream<Donation> donationsStream = donationService.donationsStreemChange("", null);
+        Stream<Donation> donationsStream = donationService.donationsStreamChange("", null);
 
         if (querySearch.trim().equals("")) {
             List<Donation> donations = donationsStream.collect(Collectors.toList());
@@ -499,7 +453,7 @@ public class AdminController {
             return "admin-donations-list";
         }
 
-        List<Donation> donations = donationService.donationsStreemChange(stream_change, querySearch).collect(Collectors.toList());
+        List<Donation> donations = donationService.donationsStreamChange(stream_change, querySearch).collect(Collectors.toList());
 
         model.addAttribute("donations", donations);
         model.addAttribute("title_page", messages.get("map-admin-controller-get-donations-list"));

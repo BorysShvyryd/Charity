@@ -27,7 +27,6 @@ public class CharityMessage {
     @Column(length = 64)
     private String surname;
 
-    @NotBlank
     private String message;
 
     @NotNull

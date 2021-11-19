@@ -1,5 +1,6 @@
 package pl.coderslab.charity.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.entity.Role;
@@ -11,6 +12,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -79,7 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Stream<User> usersStreemChange(String stream_change, String querySearch) {
+    public Stream<User> usersStreamChange(String stream_change, String querySearch) {
         String[] operations = stream_change.split(";");
 
         Stream<User> userStream = findAll().stream();
@@ -160,4 +162,18 @@ public class UserServiceImpl implements UserService {
 
         return txt.compareToIgnoreCase(otherTxt);
     }
+
+    @Override
+    public User reBlockedUser(User user) {
+
+        if (user.getEnabled() == 1) {
+            user.setEnabled(0);
+            log.info("User: " + user.getEmail() + " - unblocked");
+        } else {
+            user.setEnabled(1);
+            log.info("User: " + user.getEmail() + " - blocked");
+        }
+        return user;
+    }
+
 }
