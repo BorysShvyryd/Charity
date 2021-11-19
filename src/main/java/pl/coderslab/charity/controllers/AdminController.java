@@ -239,56 +239,6 @@ public class AdminController {
     @GetMapping("/users/list/{stream_change}")
     public String usersListForm(Model model, @PathVariable String stream_change) {
 
-//        String[] operations = stream_change.split(";");
-//
-//        Stream<User> userStream = userService.findAll().stream();
-//
-//        for (String operation : operations) {
-//            switch (operation.split("=")[0]) {
-//                case "filter":
-//                    switch (operation.split("=")[1]) {
-//                        case "admin":
-//                            Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
-//                            userStream = userStream.filter(o -> o.getRoleSet().contains(roleAdmin));
-//                            break;
-//                        case "status_1":
-//                            userStream = userStream.filter(o -> o.getEnabled() == 1);
-//                            break;
-//                        case "status_0":
-//                            userStream = userStream.filter(o -> o.getEnabled() == 0);
-//                            break;
-//                    }
-//                    break;
-//                case "sort":
-//                    switch (operation.split("=")[1]) {
-//                        case "id_up":
-//                            userStream = userStream.sorted((o1, o2) -> (int) (o1.getId() - o2.getId()));
-//                            break;
-//                        case "id_down":
-//                            userStream = userStream.sorted((o1, o2) -> (int) (o2.getId() - o1.getId()));
-//                            break;
-//                        case "email_up":
-//                            userStream = userStream.sorted((o1, o2) -> (o2.getEmail().compareTo(o1.getEmail())));
-//                            break;
-//                        case "email_down":
-//                            userStream = userStream.sorted(Comparator.comparing(User::getEmail));
-//                            break;
-//                        case "name_up":
-//                            userStream = userStream.sorted(Comparator.comparing(User::getName));
-//                            break;
-//                        case "name_down":
-//                            userStream = userStream.sorted((o1, o2) -> (o2.getName().compareTo(o1.getName())));
-//                            break;
-//                        case "surname_up":
-//                            userStream = userStream.sorted(Comparator.comparing(User::getSurname));
-//                            break;
-//                        case "surname_down":
-//                            userStream = userStream.sorted((o1, o2) -> (o2.getName().compareTo(o1.getSurname())));
-//                            break;
-//                    }
-//            }
-//        }
-
         Stream<User> userStream = userService.usersStreemChange(stream_change, null);
 
         List<User> users = userStream.collect(Collectors.toList());
@@ -302,8 +252,6 @@ public class AdminController {
                                  @PathVariable String stream_change,
                                  @RequestParam String querySearch) {
 
-//        String[] operations = stream_change.split(";");
-
         Stream<User> usersStream = userService.findAll().stream();
 
         if (querySearch.trim().equals("")) {
@@ -312,30 +260,6 @@ public class AdminController {
             model.addAttribute("users", users);
             return "admin-users-list";
         }
-
-//        for (String operation : operations) {
-//            if ("filter".equals(operation.split("=")[0])) {
-//                switch (operation.split("=")[1]) {
-//                    case "email":
-//                        usersStream = usersStream.filter(o ->
-//                                o.getEmail().toLowerCase()
-//                                        .contains(querySearch.toLowerCase()));
-//                        break;
-//                    case "name":
-//                        usersStream = usersStream.filter(o -> o.getName() != null)
-//                                .filter(o ->
-//                                        o.getName().toLowerCase()
-//                                                .contains(querySearch.toLowerCase()));
-//                        break;
-//                    case "surname":
-//                        usersStream = usersStream.filter(o -> o.getSurname() != null)
-//                                .filter(o ->
-//                                        o.getSurname().toLowerCase()
-//                                                .contains(querySearch.toLowerCase()));
-//                        break;
-//                }
-//            }
-//        }
 
         usersStream = userService.usersStreemChange(stream_change, querySearch);
 
@@ -511,44 +435,44 @@ public class AdminController {
                                     @PathVariable String stream_change,
                                     HttpServletRequest request) {
 
-        String[] operations = stream_change.split(";");
+//        String[] operations = stream_change.split(";");
+//
+//        Stream<Donation> donationsStream = donationService.findAll().stream();
+//
+//        for (String operation : operations) {
+//            if ("sort".equals(operation.split("=")[0])) {
+//                switch (operation.split("=")[1]) {
+//                    case "institution_up":
+//                        donationsStream = donationsStream.sorted((o1, o2) ->
+//                                o1.getInstitution().getName().compareTo(o2.getInstitution().getName()));
+//                        break;
+//                    case "institution_down":
+//                        donationsStream = donationsStream.sorted((o1, o2) ->
+//                                o2.getInstitution().getName().compareTo(o1.getInstitution().getName()));
+//                        break;
+//                    case "address_up":
+//                        donationsStream = donationsStream.sorted((o1, o2) ->
+//                                o1.getStreet().compareTo(o2.getStreet()));
+//                        break;
+//                    case "address_down":
+//                        donationsStream = donationsStream.sorted((o1, o2) ->
+//                                o2.getStreet().compareTo(o1.getStreet()));
+//                        break;
+//                    case "username_up":
+//                        donationsStream = donationsStream.sorted((o1, o2) ->
+//                                (o1.getUser().getName() + o1.getUser().getSurname())
+//                                        .compareTo(o2.getUser().getName() + o2.getUser().getSurname()));
+//                        break;
+//                    case "username_down":
+//                        donationsStream = donationsStream.sorted((o1, o2) ->
+//                                (o2.getUser().getName() + o2.getUser().getSurname())
+//                                        .compareTo(o1.getUser().getName() + o1.getUser().getSurname()));
+//                        break;
+//                }
+//            }
+//        }
 
-        Stream<Donation> donationsStream = donationService.findAll().stream();
-
-        for (String operation : operations) {
-            if ("sort".equals(operation.split("=")[0])) {
-                switch (operation.split("=")[1]) {
-                    case "institution_up":
-                        donationsStream = donationsStream.sorted((o1, o2) ->
-                                o1.getInstitution().getName().compareTo(o2.getInstitution().getName()));
-                        break;
-                    case "institution_down":
-                        donationsStream = donationsStream.sorted((o1, o2) ->
-                                o2.getInstitution().getName().compareTo(o1.getInstitution().getName()));
-                        break;
-                    case "address_up":
-                        donationsStream = donationsStream.sorted((o1, o2) ->
-                                o1.getStreet().compareTo(o2.getStreet()));
-                        break;
-                    case "address_down":
-                        donationsStream = donationsStream.sorted((o1, o2) ->
-                                o2.getStreet().compareTo(o1.getStreet()));
-                        break;
-                    case "username_up":
-                        donationsStream = donationsStream.sorted((o1, o2) ->
-                                (o1.getUser().getName() + o1.getUser().getSurname())
-                                        .compareTo(o2.getUser().getName() + o2.getUser().getSurname()));
-                        break;
-                    case "username_down":
-                        donationsStream = donationsStream.sorted((o1, o2) ->
-                                (o2.getUser().getName() + o2.getUser().getSurname())
-                                        .compareTo(o1.getUser().getName() + o1.getUser().getSurname()));
-                        break;
-                }
-            }
-        }
-
-        List<Donation> donations = donationsStream.collect(Collectors.toList());
+        List<Donation> donations = donationService.donationsStreemChange(stream_change,null).collect(Collectors.toList());
 
         model.addAttribute("donations", donations);
         setLocateByCookie(request);
@@ -563,11 +487,9 @@ public class AdminController {
                                      @RequestParam String querySearch,
                                      HttpServletRequest request) {
 
-        String[] operations = stream_change.split(";");
-
-        Stream<Donation> donationsStream = donationService.findAllSortByStatus().stream();
-
         setLocateByCookie(request);
+
+        Stream<Donation> donationsStream = donationService.donationsStreemChange("", null);
 
         if (querySearch.trim().equals("")) {
             List<Donation> donations = donationsStream.collect(Collectors.toList());
@@ -577,29 +499,7 @@ public class AdminController {
             return "admin-donations-list";
         }
 
-        for (String operation : operations) {
-            if ("filter".equals(operation.split("=")[0])) {
-                switch (operation.split("=")[1]) {
-                    case "username":
-                        donationsStream = donationsStream.filter(o ->
-                                (o.getUser().getSurname() + o.getUser().getName()).toLowerCase()
-                                        .contains(querySearch.toLowerCase()));
-                        break;
-                    case "institution":
-                        donationsStream = donationsStream.filter(o ->
-                                o.getInstitution().getName().toLowerCase()
-                                        .contains(querySearch.toLowerCase()));
-                        break;
-                    case "address":
-                        donationsStream = donationsStream.filter(o ->
-                                o.getStreet().toLowerCase()
-                                        .contains(querySearch.toLowerCase()));
-                        break;
-                }
-            }
-        }
-
-        List<Donation> donations = donationsStream.collect(Collectors.toList());
+        List<Donation> donations = donationService.donationsStreemChange(stream_change, querySearch).collect(Collectors.toList());
 
         model.addAttribute("donations", donations);
         model.addAttribute("title_page", messages.get("map-admin-controller-get-donations-list"));
