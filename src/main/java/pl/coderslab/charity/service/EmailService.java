@@ -47,7 +47,7 @@ public class EmailService {
 
             resultSend = true;
         } else {
-            log.warn("Message not sent");
+            log.warn("Message not sent: Email = {}", userEmail);
         }
 
         return resultSend;
@@ -78,7 +78,7 @@ public class EmailService {
             log.info("Authentication SMTP-server: OK");
 
         } catch (MessagingException e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage() + " Email = {}", emailTo);
         }
     }
 

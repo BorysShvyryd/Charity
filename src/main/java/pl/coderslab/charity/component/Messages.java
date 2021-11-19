@@ -27,14 +27,6 @@ public class Messages {
         return this.accessor.getMessage(code);
     }
 
-//    public void setLocale(Language language) {
-//        Locale locale = Locale.forLanguageTag("pl");
-//        if (language != null) {
-//            locale = language == Language.EN ? Locale.forLanguageTag("en") : Locale.forLanguageTag("pl");
-//        }
-//
-//        this.accessor = new MessageSourceAccessor(this.messageSource, locale);
-//    }
     public void setLocale(String language) {
         Locale locale = Locale.getDefault();
         if (!"".equals(language)) {
