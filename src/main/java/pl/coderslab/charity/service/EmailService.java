@@ -1,6 +1,6 @@
 package pl.coderslab.charity.service;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.component.EmailAuthenticator;
@@ -14,7 +14,7 @@ import java.util.Properties;
 import java.util.UUID;
 
 @Service
-@Log
+@Slf4j
 public class EmailService {
 
     @Value("${email.smtp-server}")
@@ -47,7 +47,7 @@ public class EmailService {
 
             resultSend = true;
         } else {
-            log.severe("Message not sent");
+            log.warn("Message not sent");
         }
 
         return resultSend;
@@ -78,7 +78,7 @@ public class EmailService {
             log.info("Authentication SMTP-server: OK");
 
         } catch (MessagingException e) {
-            log.severe(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -99,7 +99,7 @@ public class EmailService {
 
             return true;
         } catch (MessagingException e) {
-            log.severe(e.getMessage());
+            log.error(e.getMessage());
             e.printStackTrace();
             return false;
         }
