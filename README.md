@@ -16,5 +16,4 @@ Project architect: [*Borys Shvyryd*](https://github.com/BorysShvyryd)
 * Hibernate
 * JavaScript
 * Lombok
-* JPA
 * ...

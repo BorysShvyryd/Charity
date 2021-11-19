@@ -1,18 +1,16 @@
 package pl.coderslab.charity;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
+@Slf4j
 public class LoggerTest {
-private final Logger logger = LogManager.getLogger();
 
     @Test
     void testLog() {
-        logger.debug("debug");
-        logger.info("info");
-        logger.warn("warn");
-        logger.error("error");
-        logger.fatal("fatal");
+        log.debug("debug");
+        log.info("info");
+        log.warn("warn");
+        log.error("error");
     }
 }

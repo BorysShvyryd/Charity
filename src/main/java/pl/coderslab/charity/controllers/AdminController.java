@@ -1,7 +1,6 @@
 package pl.coderslab.charity.controllers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +18,17 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/admin")
+@Slf4j
 public class AdminController {
 
-    private static final Logger log = LogManager.getLogger(AdminController.class);
+//    private static final Logger log = LogManager.getLogger(AdminController.class);
 
     private final CategoryService categoryService;
     private final InstitutionService institutionService;
