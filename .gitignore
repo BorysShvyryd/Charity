@@ -72,4 +72,6 @@ out/
 ## Docker
 ##############################
 Dockerfile
-111docker-compose.yml
+docker-compose.yml
+.env
+./dbdata
