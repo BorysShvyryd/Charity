@@ -11,7 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.coderslab.charity.service.UserDetailsServiceImpl;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
