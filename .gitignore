@@ -71,7 +71,5 @@ out/
 ##############################
 ## Docker
 ##############################
-Dockerfile
-docker-compose.yml
 .env
 ./dbdata
