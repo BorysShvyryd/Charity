@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
 
         Stream<User> userStream = findAll().stream();
 
+        if (querySearch != null)
         for (String operation : operations) {
             switch (operation.split("=")[0]) {
                 case "filter":

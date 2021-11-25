@@ -64,6 +64,7 @@ public class DonationService {
 
         Stream<Donation> donationsStream = findAllSortByStatus().stream();
 
+        if (querySearch != null)
         for (String operation : operations) {
             switch (operation.split("=")[0]) {
                 case "sort":
