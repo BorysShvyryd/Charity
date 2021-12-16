@@ -39,17 +39,13 @@ public class HomeController {
         }
 
         String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) {
-            lang = request.getLocale().toString();
-            cookiesService.setLocationInCookie(request.getLocale(), response);
-        }
-
+        if ("".equals(lang))
+            lang = "en";
         messages.setLocale(lang);
 
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
         model.addAttribute("allBagsReturned", donationService.sumOfAllBagsReturned());
         model.addAttribute("countDonations", donationService.count());
-
         return "index";
     }
 
