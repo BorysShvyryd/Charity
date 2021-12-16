@@ -1,5 +1,6 @@
 package pl.coderslab.charity.controllers;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@SessionAttributes("currentUserName")
+@AllArgsConstructor
 public class HomeController {
 
     private final InstitutionService institutionService;
@@ -25,15 +26,6 @@ public class HomeController {
     private final CookiesService cookiesService;
     private final Messages messages;
 
-    public HomeController(InstitutionService institutionService,
-                          DonationService donationService,
-                          CharityMessageService charityMessageService, CookiesService cookiesService, Messages messages) {
-        this.institutionService = institutionService;
-        this.donationService = donationService;
-        this.charityMessageService = charityMessageService;
-        this.cookiesService = cookiesService;
-        this.messages = messages;
-    }
 
     @GetMapping
     public String homeAction(Model model,
@@ -47,12 +39,14 @@ public class HomeController {
         }
 
         String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang)) lang = "en";
+//        if ("".equals(lang)) lang = request.getLocale().toString();
+        if ("".equals(lang)) lang = "fr";
         messages.setLocale(lang);
 
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
         model.addAttribute("allBagsReturned", donationService.sumOfAllBagsReturned());
         model.addAttribute("countDonations", donationService.count());
+
         return "index";
     }
 
