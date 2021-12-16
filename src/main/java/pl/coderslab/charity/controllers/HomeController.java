@@ -39,9 +39,11 @@ public class HomeController {
         }
 
         String lang = cookiesService.getLocationByCookie(request);
-        if ("".equals(lang))
+        if ("".equals(lang)) {
             lang = request.getLocale().toString();
+            cookiesService.setLocationInCookie(request.getLocale(), response);
 //            lang = "en";
+        }
         messages.setLocale(lang);
 
         model.addAttribute("institutions", institutionService.lastFourInstitutions());
