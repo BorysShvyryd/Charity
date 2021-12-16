@@ -9,9 +9,9 @@
 <jsp:include page="fragments/header.jsp" flush="true"/>
 
 <header class="header--main-page">
-    ${cookie['lang'].value}
-    <jsp:include page="fragments/header-menu.jsp" flush="true"/>
 
+    <jsp:include page="fragments/header-menu.jsp" flush="true"/>
+        ${cookie['lang'].value}
     <div class="slogan container container--90">
         <div class="slogan--item">
             <h1>
