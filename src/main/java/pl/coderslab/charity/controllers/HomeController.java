@@ -5,6 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import pl.coderslab.charity.component.Messages;
 import pl.coderslab.charity.entity.CurrentUserDetails;
 import pl.coderslab.charity.entity.User;
@@ -15,6 +16,7 @@ import pl.coderslab.charity.service.CharityMessageService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -41,8 +43,10 @@ public class HomeController {
         String lang = cookiesService.getLocationByCookie(request);
         if ("".equals(lang)) {
             lang = request.getLocale().toString();
+
+            Objects.requireNonNull(RequestContextUtils.getLocaleResolver(request))
+                    .setLocale(request,response, request.getLocale());
             cookiesService.setLocationInCookie(request.getLocale(), response);
-//            lang = "en";
         }
         messages.setLocale(lang);
 
