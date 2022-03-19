@@ -13,7 +13,7 @@
     <img src="../../../resources/images/flags/pl.svg" title="<fmt:message key="string.lang.pl"/>">
     <fmt:message key="label.lang.pl"/>
 </a></li>
-<li><a href="" onclick="document.cookie = 'lang = ru; path=/'">
-    <img src="../../../resources/images/flags/ru.svg" title="<fmt:message key="string.lang.ru"/>">
-    <fmt:message key="label.lang.ru"/>
-</a></li>
+<%--<li><a href="" onclick="document.cookie = 'lang = ru; path=/'">--%>
+<%--    <img src="../../../resources/images/flags/ru.svg" title="<fmt:message key="string.lang.ru"/>">--%>
+<%--    <fmt:message key="label.lang.ru"/>--%>
+<%--</a></li>--%>

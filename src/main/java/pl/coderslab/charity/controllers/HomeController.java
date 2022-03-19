@@ -66,4 +66,9 @@ public class HomeController {
         model.addAttribute("textMessage", "Twoja wiadomość została wysłana poprawnie.");
         return "form-confirmation";
     }
+
+    @GetMapping("/cv")
+    public String getCV() {
+        return "pages/cv";
+    }
 }
