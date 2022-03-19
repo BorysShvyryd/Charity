@@ -66,26 +66,27 @@
                 <div class="section-inner">
                     <h2 class="heading">About Me</h2>
                     <div class="content">
-                        <p>My acquaintance with programming began in 1990 with such simple programming
-                            languages as BASIC and Pascal. Later ASSEMBLER and C. He further studied
+                        <p>My acquaintance with programming begin in 1990 with such simple programming
+                            languages as BASIC and Pascal, later ASSEMBLER and C. I further studied
                             Visual Basic, Delphi, C ++. But after graduating from university, none
-                            of these programming languages came in handy. The work was related to other
+                            of these programming languages came in handy, the work was related to other
                             languages.
                         </p>
                         <p>From 2000 to 2017, the work was closely related to the 1C software family (1C:DRIVE,
                             1C:HANDLE).
                         </p>
                         <p>
-                            After completing the CodersLab course, I have the skills to work with:
+                            After completing the CodersLab course i have the skills to work with:
                             <ul>
                                 <li>JAVA (Spring family: Boot, Data, Security, Email ...)</li>
                                 <li>JavaScript (REACT-REDUX)</li>
-                                <li>SQL, Maven, Lombok, Json Web Token, JUnit and TDD</li>
-                                <li>also practiced with Scrum, Trello</li>
+                                <li>SQL, Maven, Lombok, Json Web Token, JUnit and TDD, Swagger ...</li>
+                                <li>Scrum, Trello</li>
+                                <li>Git, Heroku, Docker ...</li>
                             </ul>
 <!--                             and also practiced with Scrum, Trello.-->
 <!--                            <br>-->
-                            In practice I used Swagger, Git, Heroku, Docker ...
+<%--                            In practice I used Swagger, Git, Heroku, Docker ...--%>
                         </p>
                     </div><!--//content-->
                 </div><!--//section-inner-->
@@ -291,7 +292,7 @@
 
                     <p>My contributions</p>
 
-                    <div id="github-graph" class="github-graph"></div>
+                    <div id="github-graph" class="github-graph cale"></div>
 
                     <script src="https://unpkg.com/github-calendar@latest/dist/github-calendar.min.js"></script>
 
