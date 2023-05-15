@@ -42,6 +42,8 @@ hs_err_pid*
 context.xml
 
 fam/
+
+application.properties
 ##############################
 ## Maven
 ##############################
